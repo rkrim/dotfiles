@@ -1,0 +1,70 @@
+### Global Ignore File for Git
+
+
+########## OSX ##########
+#########################
+
+*.DS_Store
+.AppleDouble
+.LSOverride
+
+# Thumbnails
+._*
+
+# Root volume system files
+.DocumentRevisions-V100
+.fseventsd
+.Spotlight-V100
+.TemporaryItems
+.Trashes
+.VolumeIcon.icns
+.com.apple.timemachine.donotpresent
+
+# AFP directories
+.AppleDB
+.AppleDesktop
+Network Trash Folder
+Temporary Items
+.apdisk
+
+
+########## Linux ##########
+###########################
+*~
+
+# Linux trash folder
+.Trash-*
+
+# KDE directory preferences
+.directory
+
+# temporary files which can be created if a process still has a handle open of a deleted file
+.fuse_hidden*
+
+
+########## Windows ##########
+#############################
+
+# Recycle Bin used on file shares
+$RECYCLE.BIN/
+
+# Windows image file caches
+Thumbs.db
+ehthumbs.db
+
+# Folder config file
+Desktop.ini
+
+# Windows Installer files
+*.cab
+*.msi
+*.msm
+*.msp
+
+# Windows shortcuts
+*.lnk
+
+
+
+
+
