@@ -1,0 +1,26 @@
+# dircolors.main
+# Configuration file for dircolors, a utility to help you set the
+# LS_COLORS environment variable used by GNU ls with the --color option.
+
+### Attribute codes:
+# 00=none 01=bold 04=underscore 05=blink 07=reverse 08=concealed
+
+# Text color codes:
+# 30=black 31=red 32=green 33=yellow 34=blue 35=magenta 36=cyan 37=white
+
+# Background color codes:
+# 40=black 41=red 42=green 43=yellow 44=blue 45=magenta 46=cyan 47=white
+
+# Extra Text color codes:
+# 90=DarkGrey 91=LightRed 92=LightGreen 93=Yellow 94=LightBlue 95=LightPurple
+# 96=Turquoise 97=White
+
+# 100=DarkGrey 101=LightRed 102=LightGreen 103=Yellow 104=LightBlue
+# 105=LightPurple 106=Turquoise 107=White
+
+# TERM entries for which to enable colors
+TERM ansi
+TERM xterm*
+
+# Core
+NORMAL 0

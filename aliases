@@ -1,0 +1,66 @@
+#!/usr/bin/env bash
+
+
+# Navigation
+alias cd..="cd .."
+alias cd2='cd ../..'
+alias cd3='cd ../../..'
+alias cd4='cd ../../../..'
+
+# Display
+alias path='echo -e ${PATH//:/\\n}' # Print each PATH entry on a separate line
+alias cls='clear'
+
+# Typos
+alias gti='git'
+alias quit='exit'
+
+
+# Listing :: LS (GNU or macOS)
+LS_COLORS_SCHEME_FILE=".dircolors.main"
+if ls --color > /dev/null 2>&1; then # GNU 'ls'
+  colorflag="--color"
+
+  if [[ `command -v dircolors` && -f $LS_COLORS_SCHEME_FILE ]]; then
+    eval "$(dircolors ${LS_COLORS_SCHEME_FILE})"
+  fi
+else # macOS 'ls'
+  # See ls Man Page or macOS Man Pages (Apple developer)
+  # https://developer.apple.com/legacy/library/documentation/Darwin/Reference/ManPages/man1/ls.1.html
+  #
+  # Check this generator for a preview and fast customization result:
+  # https://geoff.greer.fm/lscolors/
+
+	colorflag="-G"
+  # export CLICOLOR=1 (ls used with the color flag instead)
+	export LSCOLORS='GxFxExDxCxegedabagaced'
+fi
+
+# -A List all entries except . & ..
+# -a Include directory entries whose names begin with a dot (.)
+# -h Use unit suffixes: Byte, Kilobyte, Megabyte, Gigabyte, Terabyte and Petabyte
+# -F Display '/' after directory, '*' after executable, '@' after symbolic link,
+# '=' after socket, '%' after whiteout, '|' after a FIFO.
+
+alias ls="ls -h ${colorflag} --group-directories-first"
+alias l="ls -lF ${colorflag}"
+alias la="ls -laF ${colorflag}"
+alias lsd="\ls -Al | grep --color=never '^d'"
+
+# Lock Session :: Away From Keyboard
+alias afk="/System/Library/CoreServices/Menu\ Extras/User.menu/Contents/Resources/CGSession -suspend"
+
+### Apps
+alias finder="open -a Finder"
+alias here="open -a Finder ."
+alias safari="open -a Safari"
+alias textedit="open -a '/Applications/TextEdit.app'"
+alias sourcetree="open -a '/Applications/SourceTree.app'"
+alias xcode="open -a '/Applications/XCode.app'"
+alias ios="open -a /Applications/Xcode.app/Contents/Developer/Applications/Simulator.app"
+alias emacs="open -a /Applications/Emacs.app"
+alias slack="open -a '/Applications/Slack.app'"
+
+
+### Web services shortcuts
+alias weather='curl wttr.in'
