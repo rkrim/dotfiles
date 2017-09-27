@@ -12,10 +12,31 @@ fi
 
 
 echo "Installing Shells"
+
+OLD_BASH=`command -v bash`
+OLD_ZSH=`command -v zsh`
+
 brew install bash
 brew install bash-completion@2
 brew install zsh
 
+NEW_BASH=`command -v bash`
+NEW_ZSH=`command -v zsh`
+
+if [[ -n $NEW_BASH && $NEW_BASH != $OLD_BASH ]]; then
+  # Add the new installed bash to chpass acceptable shells
+  echo $NEW_BASH | sudo tee -a /etc/shells
+
+  # Change the current user default shell to the new bash
+  if [ `command -v chsh` ]; then
+    chsh -s $NEW_BASH
+  fi
+fi
+
+if [[ -n $NEW_ZSH && $NEW_ZSH != $OLD_ZSH ]]; then
+  # Add the new installed zsh to chpass acceptable shells
+  echo $NEW_ZSH | sudo tee -a /etc/shells
+fi
 
 echo "Installing cli tools"
 brew install coreutils
