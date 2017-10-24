@@ -35,6 +35,7 @@ BG_COLOR_LIGHT_RED='101';BG_COLOR_LIGHT_GREEN='102';BG_COLOR_LIGHT_YELLOW='103'
 BG_COLOR_LIGHT_BLUE='104';BG_COLOR_LIGHT_MAGENTA='105';BG_COLOR_LIGHT_CYAN='106'
 BG_COLOR_WHITE='107'
 
+# Boolean vars
 TRUE=0
 FALSE=1
 
@@ -65,6 +66,16 @@ txt_attr() {
 	return $TRUE
 }
 
+#
+reset_all=$(txt_attr $ATTR_RESET_ALL)
+clear_to_eol="$ESC_SEQ[K"
+clear_line="\r$clear_to_eol"
+
+function clear_line() {
+	echo -en $clear_line
+}
+
+
 
 ### 88/256 Colors
 # The format for changing colors is “<ESC_SEQ>[38/48;5;ColorNumberm”
@@ -79,13 +90,12 @@ display_256colors() {
 		COLOR_POSITION=48
 	fi
 
-	reset=$(txt_attr $ATTR_RESET_ALL)
 	color=$(txt_attr $COLOR_POSITION 5)
 	color=${color: : -1}
 	for COLOR in {0..256}; do
-		echo -en "$color;${COLOR}m ${COLOR}\t${reset}"
-		# echo -en "\e[${COLOR_POSITION};5;${COLOR}m ${COLOR}\t${reset}"
-		#Display 10 colors per lines
+		echo -en "$color;${COLOR}m ${COLOR}\t${reset_all}"
+		# echo -en "\e[${COLOR_POSITION};5;${COLOR}m ${COLOR}\t${reset_all}"
+		# Display 10 colors per lines
 		if [ $((($COLOR + 1) % 10)) == 0 ]; then
 			echo
 		fi
@@ -93,8 +103,66 @@ display_256colors() {
 	echo
 }
 
-display_256colors
 
+# is_brew_package_installed()
+# Check if a brew package is already installed
+# brew command must be installed
+#
+# arg1: Package name
+# return: The versoin number of the package if its installed
+function is_brew_package_installed() {
+	if [[ $# != 1  || $1 == "" ]]; then
+		return $FALSE
+	fi
+
+	package_tokens=( $1 )
+	package_name=${package_tokens[0]}
+  result=`brew list --versions $package_name`
+	if [[ $? == 0 ]]; then
+    echo $result | cut -d " " -f2
+    return $TRUE
+	else
+    return $FALSE
+	fi
+}
+
+
+# brew_pkg_install()
+# Attempt to install a Brew package:
+# arg1: Package name, or package name with installtion aruments between brackets
+# Check if the package is already installed
+function brew_pkg_install() {
+	if [[ $# != 1  || $1 == "" ]]; then
+		return $FALSE
+	fi
+	package_name=$1
+	log_file="output.file"
+  txt_attr_pkg_name=$(txt_attr $FG_COLOR_LIGHT_CYAN $ATTR_BOLD)
+	txt_attr_warning=$(txt_attr $FG_COLOR_YELLOW)
+	txt_attr_success=$(txt_attr $FG_COLOR_LIGHT_GREEN)
+	txt_attr_fail=$(txt_attr $FG_COLOR_LIGHT_RED)
+
+	prefix_line="Package $txt_attr_pkg_name$package_name$reset_all"
+
+	echo -en $prefix_line" [$txt_attr_warning"" Processing $reset_all] :: Checking if already installed..."
+	package_version=`is_brew_package_installed "$package_name"`
+	package_version_status=$?
+
+	clear_line
+	if [[ $package_version_status == 0 ]]; then
+		echo -en $prefix_line" [$txt_attr_success"" Already Installed $reset_all] :: Version $package_version\n" | tee -a $log_file
+	else
+		echo -en $prefix_line" [$txt_attr_warning"" Processing $reset_all] :: Not Installed, installing..."
+		installation=`brew install $package_name > "$log_file" 2>&1`
+		installtion_status=$?
+		clear_line
+		if [[ $package_version_status == 0 ]]; then
+			echo -en $prefix_line" [$txt_attr_success"" Installation successful $reset_all]\n" | tee -a $log_file
+		else
+			echo -en $prefix_line" [$txt_attr_fail"" Installation failed $reset_all]\n" | tee -a $log_file
+		fi
+	fi
+}
 
 ### tput colors ################################################################
 tput_reset() { tput sgr0; }
