@@ -1,6 +1,12 @@
 #!/bin/sh
 
 
+
+
+
+# Include required libraries
+source ~/.pretty-print.sh
+
 echo "Install and/or update Homebrew"
 if [ -f "`which brew`" ]; then
   echo "Already installed, updating"
@@ -107,6 +113,23 @@ brew install file-formula
 brew install less
 brew install vim --override-system-vi
 brew install macvim --override-system-vim --custom-system-icons
+
+
+# UI Apps (Cask)
+brew cask install appcleaner
+brew cask install flux
+brew cask install keepingyouawake
+brew cask install macdown
+brew cask install brackets
+brew cask install imageoptim
+brew cask install lepton
+brew cask install opensim
+brew cask install iina
+brew cask install zeplin
+
+# ScreenSavers
+brew cask install aerial
+
 
 
 echo "Cleaning up Homebrew"
