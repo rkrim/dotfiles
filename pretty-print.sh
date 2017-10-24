@@ -108,8 +108,8 @@ display_256colors() {
 # Check if a brew package is already installed
 # brew command must be installed
 #
-# arg1: Package name
-# return: The versoin number of the package if its installed
+# @param Package name
+# @return: The versoin number of the package if its installed
 function is_brew_package_installed() {
 	if [[ $# != 1  || $1 == "" ]]; then
 		return $FALSE
@@ -128,9 +128,8 @@ function is_brew_package_installed() {
 
 
 # brew_pkg_install()
-# Attempt to install a Brew package:
-# arg1: Package name, or package name with installtion aruments between brackets
-# Check if the package is already installed
+# Install a Brew package after Checking if already installed
+# @param Package name, or package name with installation aruments
 function brew_pkg_install() {
 	if [[ $# != 1  || $1 == "" ]]; then
 		return $FALSE
@@ -162,6 +161,21 @@ function brew_pkg_install() {
 			echo -en $prefix_line" [$txt_attr_fail"" Installation failed $reset_all]\n" | tee -a $log_file
 		fi
 	fi
+}
+
+# brew_batch_install()
+# Install a list of Brew packages
+# @param an array of brew packages, or list of brew packages with installtion aruments
+function brew_batch_install() {
+	if [[ $# != 1 ]]; then
+		return $FALSE
+	fi
+
+	declare -a packages=("${!1}")
+
+	for package in "${packages[@]}"; do
+		brew_pkg_install $package
+	done
 }
 
 ### tput colors ################################################################
