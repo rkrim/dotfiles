@@ -1,13 +1,14 @@
-#!/bin/sh
-
-
+#!/usr/bin/env bash
 
 
 
 # Include required libraries
-source ~/.pretty-print.sh
+source ./pretty-print.sh
+source ./install_helper.sh
 
-echo "Install and/or update Homebrew"
+txt_attr_success=$(txt_attr $FG_COLOR_LIGHT_GREEN)
+echo -en $txt_attr_success"Install and/or update Homebrew$reset_all\n"
+
 if [ -f "`which brew`" ]; then
   echo "Already installed, updating"
   brew update;brew upgrade
@@ -22,9 +23,9 @@ echo "Installing Shells"
 OLD_BASH=`command -v bash`
 OLD_ZSH=`command -v zsh`
 
-brew install bash
-brew install bash-completion@2
-brew install zsh
+shells=("bash" "bash-completion@2" "zsh")
+brew_batch_install shells[@]
+exit
 
 NEW_BASH=`command -v bash`
 NEW_ZSH=`command -v zsh`
@@ -44,93 +45,84 @@ if [[ -n $NEW_ZSH && $NEW_ZSH != $OLD_ZSH ]]; then
   echo $NEW_ZSH | sudo tee -a /etc/shells
 fi
 
+
 echo "Installing cli tools"
-brew install coreutils
-
-brew install binutils
-brew install screen
-brew install gawk
-brew install gzip
-brew install rsync
-brew install openssh
-
-brew install ed --with-default-names
-brew install grep --with-default-names
-brew install findutils --with-default-names
-brew install gnu-sed --with-default-names
-brew install gnu-tar --with-default-names
-brew install gnu-which --with-default-names
-brew install gnu-indent --with-default-names
-
+cli_tools=(
+  "coreutils"
+  "binutils"
+  "screen"
+  "gawk"
+  "gzip"
+  "rsync"
+  "openssh"
+  "ed --with-default-names"
+  "grep --with-default-names"
+  "findutils --with-default-names"
+  "gnu-sed --with-default-names"
+  "gnu-tar --with-default-names"
+  "gnu-which --with-default-names"
+  "gnu-indent --with-default-names"
+)
 
 echo "Installing developer cli tools"
-brew install git --with-blk-sha1 --with-gettext --with-pcre2
-brew install git-quick-stats
-brew install python
-brew install python3
-brew install perl --with-dtrace
-brew install ocaml --with-flambda --with-x11
-brew install node
-brew install watchman
-brew install ruby
-brew install carthage
-brew install cocoapods
-brew install swiftlint
-brew install apktool
-brew install boost --c++11
-
-brew install vim --with-override-system-vi
-brew install file-formula
-brew install macvim --override-system-vim --custom-system-icons
-
-# key commands
-brew install binutils
-brew install diffutils
-brew install ed --default-names
-brew install findutils --with-default-names
-brew install gawk
-brew install gnu-indent --with-default-names
-brew install gnu-sed --with-default-names
-brew install gnu-tar --with-default-names
-brew install gnu-which --with-default-names
-brew install gnutls
-brew install grep --with-default-names
-brew install gzip
-brew install screen
-brew install watch
-brew install wdiff --with-gettext
-brew install wget
+developer_tools=(
+  "git --with-blk-sha1 --with-gettext --with-pcre2"
+  "git-quick-stats"
+  "node"
+  "python"
+  "python3"
+  "perl --with-dtrace"
+  "watchman"
+  "ruby"
+  "ocaml --with-flambda --with-x11"
+  "carthage"
+  "cocoapods"
+  "swiftlint"
+  "apktool"
+  "dex2jar"
+  "boost --c++11"
+  "file-formula"
+  "vim --with-override-system-vi"
+  "macvim --override-system-vim --custom-system-icons"
+  "diffutils"
+  "gnutls3"
+  "watch"
+  "wdiff --with-gettext"
+  "wget"
+)
 
 # Update built-in macOS tools vith the last GNU version
-brew install emacs
-brew install gpatch
-brew install m4
-brew install make
-brew install nano
+built_in=(
+  "emacs"
+  "gpatch"
+  "m4"
+  "make"
+  "nano"
+)
 
 # non-GNU tools
-brew install file-formula
-brew install less
-brew install vim --override-system-vi
-brew install macvim --override-system-vim --custom-system-icons
-
+non_gnu=(
+  "less"
+  "mplayer --with-libcaca --with-libdvdnav --with-libdvdread"
+)
 
 # UI Apps (Cask)
-brew cask install appcleaner
-brew cask install flux
-brew cask install keepingyouawake
-brew cask install macdown
-brew cask install brackets
-brew cask install imageoptim
-brew cask install lepton
-brew cask install opensim
-brew cask install iina
-brew cask install zeplin
+ui_apps=(
+  "appcleaner"
+  "flux"
+  "keepingyouawake"
+  "macdown"
+  "brackets"
+  "imageoptim"
+  "opensim"
+  "jd-gui"
+  "iina"
+  "zeplin"
+  "handbrake"
+)
 
-# ScreenSavers
-brew cask install aerial
-
-
+# ScreenSavers (Cask)
+screensavers=("aerial")
 
 echo "Cleaning up Homebrew"
 brew cleanup -s
