@@ -32,7 +32,7 @@ function is_brew_package_installed() {
 # brew_pkg_install()
 # Install a Brew package after Checking if already installed
 # @param Package name, or package name with installation aruments
-function brew_pkg_install() {
+function brew_package_install() {
 	if [[ $# != 1  || $1 == "" ]]; then
 		return $FALSE
 	fi
@@ -76,6 +76,6 @@ function brew_batch_install() {
 	declare -a packages=("${!1}")
 
 	for package in "${packages[@]}"; do
-		brew_pkg_install $package
+		brew_package_install $package
 	done
 }

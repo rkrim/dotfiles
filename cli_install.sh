@@ -1,10 +1,36 @@
 #!/usr/bin/env bash
 
-
-
 # Include required libraries
 source ./pretty-print.sh
 source ./install_helper.sh
+
+
+
+
+# add_acceptable_shell()
+# Add a shell path to acceptable login shells (chpass)
+# @param1: required, shell path
+# @param2: optional, switch parameter, if true: make shell the default one for the current user, default: false
+function add_acceptable_shell {
+  if [[ $# == 0  || $# > 2 || $1 == "" ]]; then
+		return $FALSE
+	fi
+
+  shell_path=$1
+  make_default_shell=$2
+
+  if [[ -n $shell_path && ! `cat /etc/shells | grep $shell_path` ]]; then
+    echo $shell_path | sudo tee -a /etc/shells
+
+    # Change the current user default shell to the new one
+    if [[ -n $make_default_shell && ($make_default_shell == "true" || $make_default_shell == $TRUE ) && `command -v chsh` ]]; then
+      chsh -s $shell_path
+    fi
+  fi
+}
+
+
+### INSTALL ###
 
 txt_attr_success=$(txt_attr $FG_COLOR_LIGHT_GREEN)
 echo -en $txt_attr_success"Install and/or update Homebrew$reset_all\n"
@@ -20,30 +46,14 @@ fi
 
 echo "Installing Shells"
 
-OLD_BASH=`command -v bash`
-OLD_ZSH=`command -v zsh`
-
 shells=("bash" "bash-completion@2" "zsh")
 brew_batch_install shells[@]
+
+add_acceptable_shell `command -v bash` true
+add_acceptable_shell `command -v zsh`
+
 exit
 
-NEW_BASH=`command -v bash`
-NEW_ZSH=`command -v zsh`
-
-if [[ -n $NEW_BASH && $NEW_BASH != $OLD_BASH ]]; then
-  # Add the new installed bash to chpass acceptable shells
-  echo $NEW_BASH | sudo tee -a /etc/shells
-
-  # Change the current user default shell to the new bash
-  if [ `command -v chsh` ]; then
-    chsh -s $NEW_BASH
-  fi
-fi
-
-if [[ -n $NEW_ZSH && $NEW_ZSH != $OLD_ZSH ]]; then
-  # Add the new installed zsh to chpass acceptable shells
-  echo $NEW_ZSH | sudo tee -a /etc/shells
-fi
 
 
 echo "Installing cli tools"

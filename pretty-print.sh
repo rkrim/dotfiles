@@ -1,5 +1,5 @@
 # ~/.pretty-print.sh
-# Some utilities to prettify display
+# Utilities to prettify display
 
 
 
