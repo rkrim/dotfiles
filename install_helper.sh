@@ -57,7 +57,7 @@ function brew_package_install() {
 		installation=`brew install $package_name > "$log_file" 2>&1`
 		installtion_status=$?
 		clear_line
-		if [[ $package_version_status == 0 ]]; then
+		if [[ $installtion_status == 0 ]]; then
 			echo -en $prefix_line" [$txt_attr_success"" Installation successful $reset_all]\n" | tee -a $log_file
 		else
 			echo -en $prefix_line" [$txt_attr_fail"" Installation failed $reset_all]\n" | tee -a $log_file
