@@ -86,7 +86,7 @@ function brew_batch_install {
 	declare -a packages=("${!1}")
 
 	for package in "${packages[@]}"; do
-		brew_package_install $package
+		brew_package_install "$package"
 	done
 }
 
