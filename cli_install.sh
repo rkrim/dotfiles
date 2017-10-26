@@ -5,31 +5,6 @@ source ./pretty-print.sh
 source ./install_helper.sh
 
 
-
-
-# add_acceptable_shell()
-# Add a shell path to acceptable login shells (chpass)
-# @param1: required, shell path
-# @param2: optional, switch parameter, if true: make shell the default one for the current user, default: false
-function add_acceptable_shell {
-  if [[ $# == 0  || $# > 2 || $1 == "" ]]; then
-		return $FALSE
-	fi
-
-  shell_path=$1
-  make_default_shell=$2
-
-  if [[ -n $shell_path && ! `cat /etc/shells | grep $shell_path` ]]; then
-    echo $shell_path | sudo tee -a /etc/shells
-
-    # Change the current user default shell to the new one
-    if [[ -n $make_default_shell && ($make_default_shell == "true" || $make_default_shell == $TRUE ) && `command -v chsh` ]]; then
-      chsh -s $shell_path
-    fi
-  fi
-}
-
-
 ### INSTALL ###
 
 txt_attr_success=$(txt_attr $FG_COLOR_LIGHT_GREEN)
@@ -52,9 +27,6 @@ brew_batch_install shells[@]
 add_acceptable_shell `command -v bash` true
 add_acceptable_shell `command -v zsh`
 
-exit
-
-
 
 echo "Installing cli tools"
 cli_tools=(
@@ -73,6 +45,8 @@ cli_tools=(
   "gnu-which --with-default-names"
   "gnu-indent --with-default-names"
 )
+brew_batch_install cli_tools[@]
+
 
 echo "Installing developer cli tools"
 developer_tools=(
@@ -95,26 +69,32 @@ developer_tools=(
   "vim --with-override-system-vi"
   "macvim --override-system-vim --custom-system-icons"
   "diffutils"
-  "gnutls3"
+  "gnutls"
   "watch"
   "wdiff --with-gettext"
   "wget"
 )
+brew_batch_install developer_tools[@]
+
 
 # Update built-in macOS tools vith the last GNU version
-built_in=(
+built_in_update=(
   "emacs"
   "gpatch"
   "m4"
   "make"
   "nano"
 )
+brew_batch_install built_in_update[@]
+
 
 # non-GNU tools
 non_gnu=(
   "less"
   "mplayer --with-libcaca --with-libdvdnav --with-libdvdread"
 )
+brew_batch_install non_gnu[@]
+
 
 # UI Apps (Cask)
 ui_apps=(
@@ -130,6 +110,7 @@ ui_apps=(
   "zeplin"
   "handbrake"
 )
+
 
 # ScreenSavers (Cask)
 screensavers=("aerial")

@@ -89,3 +89,26 @@ function brew_batch_install {
 		brew_package_install $package
 	done
 }
+
+
+# add_acceptable_shell()
+# Add a shell path to acceptable login shells (chpass)
+# @param1: required, shell path
+# @param2: optional, switch parameter, if true: make shell the default one for the current user, default: false
+function add_acceptable_shell {
+  if [[ $# == 0  || $# > 2 || $1 == "" ]]; then
+		return $FALSE
+	fi
+
+  shell_path=$1
+  make_default_shell=$2
+
+  if [[ -n $shell_path && ! `cat /etc/shells | grep $shell_path` ]]; then
+    echo $shell_path | sudo tee -a /etc/shells
+
+    # Change the current user default shell to the new one
+    if [[ -n $make_default_shell && ($make_default_shell == "true" || $make_default_shell == $TRUE ) && `command -v chsh` ]]; then
+      chsh -s $shell_path
+    fi
+  fi
+}
