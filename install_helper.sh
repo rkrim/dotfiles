@@ -9,10 +9,9 @@ source ./pretty-print.sh
 # is_brew_package_installed()
 # Check if a brew package is already installed
 # brew command must be installed
-#
 # @param Package name
 # @return: The versoin number of the package if its installed
-function is_brew_package_installed() {
+function is_brew_package_installed {
 	if [[ $# != 1  || $1 == "" ]]; then
 		return $FALSE
 	fi
@@ -29,10 +28,10 @@ function is_brew_package_installed() {
 }
 
 
-# brew_pkg_install()
+# brew_package_install()
 # Install a Brew package after Checking if already installed
 # @param Package name, or package name with installation aruments
-function brew_package_install() {
+function brew_package_install {
 	if [[ $# != 1  || $1 == "" ]]; then
 		return $FALSE
 	fi
@@ -54,21 +53,32 @@ function brew_package_install() {
 		echo -en $prefix_line" [$txt_attr_success"" Already Installed $reset_all] :: Version $package_version\n" | tee -a $log_file
 	else
 		echo -en $prefix_line" [$txt_attr_warning"" Processing $reset_all] :: Not Installed, installing..."
-		installation=`brew install $package_name > "$log_file" 2>&1`
+		installation=`brew install $package_name >> "$log_file" 2>&1`
 		installtion_status=$?
 		clear_line
 		if [[ $installtion_status == 0 ]]; then
-			echo -en $prefix_line" [$txt_attr_success"" Installation successful $reset_all]\n" | tee -a $log_file
+			echo -en $prefix_line" [$txt_attr_success"" Installation successful $reset_all]" | tee -a $log_file
+
+      package_version=`is_brew_package_installed "$package_name"`
+    	package_version_status=$?
+
+      if [[ $package_version_status == 0 ]]; then
+    		echo -en " :: Version $package_version\n" | tee -a $log_file
+    	else
+        echo | tee -a $log_file
+      fi
+
 		else
 			echo -en $prefix_line" [$txt_attr_fail"" Installation failed $reset_all]\n" | tee -a $log_file
 		fi
 	fi
 }
 
+
 # brew_batch_install()
 # Install a list of Brew packages
 # @param an array of brew packages, or list of brew packages with installtion aruments
-function brew_batch_install() {
+function brew_batch_install {
 	if [[ $# != 1 ]]; then
 		return $FALSE
 	fi
