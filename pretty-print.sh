@@ -75,6 +75,11 @@ function clear_line() {
 	echo -en $clear_line
 }
 
+function print_title() {
+	bullet=$(txt_attr $FG_COLOR_GREEN)
+	title=$(txt_attr $FG_COLOR_WHITE $ATTR_BOLD)
+	echo -en "$bullet###$reset_all $title$1$reset_all"
+}
 
 
 ### 88/256 Colors

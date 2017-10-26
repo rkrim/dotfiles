@@ -6,9 +6,7 @@ source ./install_helper.sh
 
 
 ### INSTALL ###
-
-txt_attr_success=$(txt_attr $FG_COLOR_LIGHT_GREEN)
-echo -en $txt_attr_success"Install and/or update Homebrew$reset_all\n"
+print_title "Install and/or update Homebrew:\n"
 
 if [ -f "`which brew`" ]; then
   echo "Already installed, updating"
@@ -18,17 +16,18 @@ else
   /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
 fi
 
-
-echo "Installing Shells"
+echo
+print_title "Install Shells:\n"
 
 shells=("bash" "bash-completion@2" "zsh")
 brew_batch_install shells[@]
 
-add_acceptable_shell `command -v bash` true
+add_acceptable_shell `command -v bash` default
 add_acceptable_shell `command -v zsh`
 
 
-echo "Installing cli tools"
+echo
+print_title "Install cli tools\n"
 cli_tools=(
   "coreutils"
   "binutils"
@@ -48,7 +47,8 @@ cli_tools=(
 brew_batch_install cli_tools[@]
 
 
-echo "Installing developer cli tools"
+echo
+print_title "Install developer cli tools\n"
 developer_tools=(
   "git --with-blk-sha1 --with-gettext --with-pcre2"
   "git-quick-stats"
@@ -77,7 +77,8 @@ developer_tools=(
 brew_batch_install developer_tools[@]
 
 
-# Update built-in macOS tools vith the last GNU version
+echo
+print_title "Update built-in macOS tools to last GNU version\n"
 built_in_update=(
   "emacs"
   "gpatch"
@@ -88,7 +89,8 @@ built_in_update=(
 brew_batch_install built_in_update[@]
 
 
-# non-GNU tools
+echo
+print_title "Update non-GNU commands\n"
 non_gnu=(
   "less"
   "mplayer --with-libcaca --with-libdvdnav --with-libdvdread"
@@ -96,7 +98,8 @@ non_gnu=(
 brew_batch_install non_gnu[@]
 
 
-# UI Apps (Cask)
+echo
+print_title "Install UI Apps (Cask)\n"
 ui_apps=(
   "appcleaner"
   "flux"
@@ -110,13 +113,19 @@ ui_apps=(
   "zeplin"
   "handbrake"
 )
+brew_batch_install ui_apps[@] cask
 
 
-# ScreenSavers (Cask)
+echo
+print_title "Install ScreenSavers (Cask)\n"
 screensavers=("aerial")
+brew_batch_install screensavers[@] cask
 
-echo "Cleaning up Homebrew"
+
+echo
+print_title "Cleaning up Homebrew\n"
 brew cleanup -s
 rm -rf $(brew --cache)
 
-echo "Installation DONE!"
+echo
+print_title "Installation DONE!\n"
