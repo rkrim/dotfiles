@@ -35,7 +35,7 @@ cli_tools=(
   "gawk"
   "gzip"
   "rsync"
-  "openssh"
+  #"openssh" does not support macOS 10.12.2+ UseKeychain option
   "ed --with-default-names"
   "grep --with-default-names"
   "findutils --with-default-names"
@@ -97,6 +97,14 @@ non_gnu=(
 )
 brew_batch_install non_gnu[@]
 
+echo
+print_title "Install Image Tools\n"
+image_tools=(
+  "fftw --with-mpi --with-openmp"
+  "imagemagick --with-fftw --with-fontconfig --with-ghostscript --with-hdri --with-liblqr --with-librsvg --with-libwmf --with-opencl --with-webp"
+  "graphicsmagick --with-ghostscript --with-webp --with-libwmf"
+)
+brew_batch_install image_tools[@]
 
 echo
 print_title "Install UI Apps (Cask)\n"
