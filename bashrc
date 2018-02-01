@@ -6,7 +6,8 @@
 
 # Compare arg1 with arg2 taking arg3 as a separator
 # return 0 if arg1 = arg2, 1 if arg1 > arg2 and 2 if arg1 < arg2
-#
+# Original from: https://stackoverflow.com/questions/4023830/how-compare-two-strings-in-dot-separated-version-format-in-bash
+# Added version trim
 version_compare () {
 
     if [[ $1 == $2 ]]; then
@@ -62,6 +63,13 @@ else
 fi
 
 
+
+# Setting language
+export LC_ALL=en_US.UTF-8
+export LANG=en_US.UTF-8
+export LANGUAGE=en_US.UTF-8
+
+
 # Source Aliases file
 if [ -f ~/.aliases ]; then
    source ~/.aliases
@@ -71,3 +79,6 @@ fi
 if [ -e "$HOME/.ssh/config" ]; then
     complete -o "default" -o "nospace" -W "$(grep "^Host" ~/.ssh/config | grep -v "[?*]" | cut -d " " -f2- | tr ' ' '\n')" scp sftp ssh;
 fi
+
+# Bash history
+export HISTCONTROL=ignoredups
