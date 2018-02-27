@@ -97,17 +97,17 @@ display_256colors() {
 
 	color=$(txt_attr $COLOR_POSITION 5)
 	color=${color: : -1}
-	for COLOR in {0..256}; do
-		echo -en "$color;${COLOR}m ${COLOR}\t${reset_all}"
-		# echo -en "\e[${COLOR_POSITION};5;${COLOR}m ${COLOR}\t${reset_all}"
-		# Display 10 colors per lines
-		if [ $((($COLOR + 1) % 10)) == 0 ]; then
+	for COLOR_SEC in {0..256}; do
+		echo -en "$color;${COLOR_SEC}m ${COLOR_SEC}\t${reset_all}"
+		# echo -en "\e[${COLOR_POSITION};5;${COLOR_SEC}m ${COLOR_SEC}\t${reset_all}"
+
+		# Display 10 colors per lines then brake
+		if [ $((($COLOR_SEC + 1) % 10)) == 0 ]; then
 			echo
 		fi
 	done
 	echo
 }
-
 
 ### tput colors ################################################################
 tput_reset() { tput sgr0; }

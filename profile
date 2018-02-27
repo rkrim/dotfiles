@@ -2,24 +2,35 @@
 # Sourced by the command interpreter for login shells.
 
 
+### Updating Path
 
-### Updating path
 # home binanries
 if [ -d "$HOME/bin" ]; then
   export PATH="$HOME/bin:$PATH"
 fi
+export PATH="/usr/local/sbin:$PATH"
 
-# coreutils
-if [ -d "$(brew --prefix coreutils)/libexec" ]; then
-  export PATH="$(brew --prefix coreutils)/libexec/gnubin:$PATH"
-  export MANPATH="$(brew --prefix coreutils)/libexec/gnuman:$MANPATH"
+# Brew packages
+BREW_PATH=`brew --prefix`
+if [ -d "$BREW_PATH" ]; then
+
+  # Coreutils
+  if [[ -d "$BREW_PATH/opt/coreutils" ]]; then
+    export PATH="$BREW_PATH/opt/coreutils/libexec/gnubin:$PATH"
+    export MANPATH="$BREW_PATH/opt/coreutils/libexec/gnuman:$MANPATH"
+  fi
+
+  # Node 8
+  if [[ -d "$BREW_PATH/opt/node@8" ]]; then
+    export PATH="$BREW_PATH/opt/node@8/bin:$PATH"
+  fi
+
 fi
 
+
 # Android development
-ANDROID_HOME=~/Developer/Library/Android/sdk
+export ANDROID_SDK_ROOT="/usr/local/share/android-sdk"
+export ANDROID_HOME=$ANDROID_SDK_ROOT
 if [ -d $ANDROID_HOME ]; then
-  ANDROID_TOOLS=$ANDROID_HOME/tools
-  ANDROID_PLATFORM_TOOLS=$ANDROID_HOME/platform-tools
-  ANDROID_NDK=$ANDROID_HOME/ndk-bundle
-  export PATH="$PATH:$ANDROID_TOOLS:$ANDROID_PLATFORM_TOOLS:$ANDROID_NDK"
+  export PATH="$PATH:$ANDROID_HOME/tools:$ANDROID_HOME/platform-tools:$ANDROID_HOME/ndk-bundle"
 fi
