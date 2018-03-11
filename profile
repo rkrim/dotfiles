@@ -44,3 +44,13 @@ export ANDROID_HOME=$ANDROID_SDK_ROOT
 if [ -d $ANDROID_HOME ]; then
   export PATH="$PATH:$ANDROID_HOME/tools:$ANDROID_HOME/platform-tools:$ANDROID_HOME/ndk-bundle"
 fi
+
+
+# Powerline
+POWERLINE_BASH="$(python -m site --user-site)/powerline/bindings/bash/powerline.sh"
+if [[ -f "$POWERLINE_BASH" ]]; then
+  powerline-daemon -q
+  POWERLINE_BASH_CONTINUATION=1
+  POWERLINE_BASH_SELECT=1
+  source $POWERLINE_BASH
+fi
