@@ -20,6 +20,16 @@ if [ -d "$BREW_PATH" ]; then
     export MANPATH="$BREW_PATH/opt/coreutils/libexec/gnuman:$MANPATH"
   fi
 
+  # Python
+  if [[ -d "$BREW_PATH/opt/python/libexec/bin" ]]; then
+    export PATH="$BREW_PATH/opt/python/libexec/bin:$PATH"
+
+    PYTHON_BASE=`python -m site --user-base`
+    if [[ -d "$PYTHON_BASE/bin" ]]; then
+      export PATH="$PATH:$PYTHON_BASE/bin"
+    fi
+  fi
+
   # Node 8
   if [[ -d "$BREW_PATH/opt/node@8" ]]; then
     export PATH="$BREW_PATH/opt/node@8/bin:$PATH"
