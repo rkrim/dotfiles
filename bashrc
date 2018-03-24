@@ -75,6 +75,11 @@ if [ -f ~/.aliases ]; then
    source ~/.aliases
 fi
 
+
+# Key binding (no need to create ~/.inputrc for the moment)
+bind '"\e[3~": delete-char' # fn+delete > delete char
+
+
 # Autocomplete SSH hostnames (no wildcards)
 if [ -e "$HOME/.ssh/config" ]; then
     complete -o "default" -o "nospace" -W "$(grep "^Host" ~/.ssh/config | grep -v "[?*]" | cut -d " " -f2- | tr ' ' '\n')" scp sftp ssh;
