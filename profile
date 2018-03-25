@@ -1,8 +1,16 @@
-# ~/.profile:
+# ~/.profile
 # Sourced by the command interpreter for login shells.
 
 
-### Updating Path
+### Setting language ###########################################################
+
+export LC_ALL=en_US.UTF-8
+export LANG=en_US.UTF-8
+export LANGUAGE=en_US.UTF-8
+
+
+
+### Updating Path ##############################################################
 
 # home binanries
 if [ -d "$HOME/bin" ]; then
@@ -46,9 +54,11 @@ if [ -d $ANDROID_HOME ]; then
 fi
 
 
+### Updating Prompt ############################################################
+
 # Powerline
 POWERLINE_BASH="$(python -m site --user-site)/powerline/bindings/bash/powerline.sh"
-if [[ -f "$POWERLINE_BASH" ]]; then
+if [[ -f $POWERLINE_BASH ]]; then
   powerline-daemon -q
   POWERLINE_BASH_CONTINUATION=1
   POWERLINE_BASH_SELECT=1

@@ -17,12 +17,12 @@ alias quit='exit'
 
 
 # Listing :: LS (GNU or macOS)
-LS_COLORS_SCHEME_FILE=".dircolors.main"
-if ls --color > /dev/null 2>&1; then # GNU 'ls'
+LS_COLORS_SCHEME_FILE_PATH=~/.dircolors.main
+if [[ $(ls --color > /dev/null 2>&1; echo $?) == 0 ]] ; then # GNU 'ls'
   colorflag="--color"
 
-  if [[ `command -v dircolors` && -f $LS_COLORS_SCHEME_FILE ]]; then
-    eval "$(dircolors ${LS_COLORS_SCHEME_FILE})"
+  if [[ `command -v dircolors` && -r $LS_COLORS_SCHEME_FILE_PATH ]]; then
+    eval "$(dircolors ${LS_COLORS_SCHEME_FILE_PATH})"
   fi
 else # macOS 'ls'
   # See ls Man Page or macOS Man Pages (Apple developer)
@@ -50,7 +50,7 @@ alias lsd="\ls -Al | grep --color=never '^d'"
 # Lock Session :: Away From Keyboard
 alias afk="/System/Library/CoreServices/Menu\ Extras/User.menu/Contents/Resources/CGSession -suspend"
 
-### Apps
+### GUI Apps
 alias finder="open -a Finder"
 alias here="open -a Finder ."
 alias safari="open -a Safari"

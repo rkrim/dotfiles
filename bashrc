@@ -63,13 +63,6 @@ else
 fi
 
 
-
-# Setting language
-export LC_ALL=en_US.UTF-8
-export LANG=en_US.UTF-8
-export LANGUAGE=en_US.UTF-8
-
-
 # Source Aliases file
 if [ -f ~/.aliases ]; then
    source ~/.aliases
