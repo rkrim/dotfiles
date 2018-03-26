@@ -1,0 +1,13 @@
+# ~/.screenrc
+
+
+
+# Disable startup message
+startup_message off
+
+# Status bar
+hardstatus on
+hardstatus alwayslastline
+
+# Make system shell as default screen shell
+shell -$SHELL

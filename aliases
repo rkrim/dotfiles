@@ -11,6 +11,10 @@ alias cd4='cd ../../../..'
 alias path='echo -e ${PATH//:/\\n}' # Print each PATH entry on a separate line
 alias cls='clear'
 
+# TERM Configuration
+alias tmux='tmux -2'
+alias screen='screen -U -T screen-256color'
+
 # Typos
 alias gti='git'
 alias quit='exit'

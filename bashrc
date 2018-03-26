@@ -1,11 +1,11 @@
-# ~/.bashrc:
+# ~/.bashrc
 # sourced by bash(1) for non-login shells.
 
 
-### Helpers ####################################################################
+### Helper functions ###########################################################
 
-# Compare arg1 with arg2 taking arg3 as a separator
-# return 0 if arg1 = arg2, 1 if arg1 > arg2 and 2 if arg1 < arg2
+# Compare arg1 with arg2 taking arg3 as a version number separator
+# return -1 if arg1 > arg2, 0 if arg1 == arg2, 1 if arg1 < arg2
 # Original from: https://stackoverflow.com/questions/4023830/how-compare-two-strings-in-dot-separated-version-format-in-bash
 # Added version trim
 version_compare () {
@@ -29,16 +29,25 @@ version_compare () {
         fi
 
         if ((10#${version1[index]%%[^0-9]*} > 10#${version2[index]%%[^0-9]*})); then
-            return 1
+            return -1
         fi
 
         if ((10#${version1[index]%%[^0-9]*} < 10#${version2[index]%%[^0-9]*})); then
-            return 2
+            return 1
         fi
     done
 
     return 0
 }
+
+
+
+### Configuration ##############################################################
+
+
+# Bash history
+export HISTCONTROL=ignoredups
+
 
 # Add Bash Completion
 COMPLETION_1_FILENAME="/usr/local/etc/bash_completion"
@@ -47,11 +56,11 @@ COMPLETION_1_MIN_VERSION="3.2"
 COMPLETION_2_MIN_VERSION="4.1"
 VERSION_SEPARATOR="."
 result_1=$(version_compare $COMPLETION_1_MIN_VERSION $BASH_VERSION $VERSION_SEPARATOR; echo $?)
-if [[ $result_1 == 0 || $result_1 == 2 ]]; then
+if [[ $result_1 == 0 || $result_1 == 1 ]]; then
   COMPLETION_FILENAME=$COMPLETION_1_FILENAME
 
   result_2=$(version_compare $COMPLETION_2_MIN_VERSION $BASH_VERSION $VERSION_SEPARATOR; echo $?)
-  if [[ $result_2 == 0 || $result_2 == 2 ]]; then
+  if [[ $result_2 == 0 || $result_2 == 1 ]]; then
     COMPLETION_FILENAME=$COMPLETION_2_FILENAME
   fi
 fi
@@ -77,6 +86,3 @@ bind '"\e[3~": delete-char' # fn+delete > delete char
 if [ -e "$HOME/.ssh/config" ]; then
     complete -o "default" -o "nospace" -W "$(grep "^Host" ~/.ssh/config | grep -v "[?*]" | cut -d " " -f2- | tr ' ' '\n')" scp sftp ssh;
 fi
-
-# Bash history
-export HISTCONTROL=ignoredups
