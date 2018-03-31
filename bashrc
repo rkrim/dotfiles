@@ -40,6 +40,22 @@ version_compare () {
     return 0
 }
 
+update_key_binding () {
+  bind '"\e[3~": delete-char' # fn+delete > delete char
+}
+
+update_term_behavior () {
+  case $TERM in
+    ansi)
+    update_key_binding
+    ;;
+
+    *)
+    ;;
+  esac
+}
+
+
 
 
 ### Configuration ##############################################################
@@ -77,12 +93,10 @@ if [ -f ~/.aliases ]; then
    source ~/.aliases
 fi
 
-
-# Key binding (no need to create ~/.inputrc for the moment)
-bind '"\e[3~": delete-char' # fn+delete > delete char
-
-
 # Autocomplete SSH hostnames (no wildcards)
 if [ -e "$HOME/.ssh/config" ]; then
     complete -o "default" -o "nospace" -W "$(grep "^Host" ~/.ssh/config | grep -v "[?*]" | cut -d " " -f2- | tr ' ' '\n')" scp sftp ssh;
 fi
+
+# Make terminal have approximately the same behavior what ever the $TERM
+update_term_behavior
