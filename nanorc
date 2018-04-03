@@ -1,0 +1,5 @@
+# ~/.nanorc
+# nano customization file
+
+
+include /usr/local/share/nano/*.nanorc
