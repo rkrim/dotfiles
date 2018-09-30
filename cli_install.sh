@@ -29,20 +29,22 @@ add_acceptable_shell `command -v zsh`
 echo
 print_title "Install cli tools\n"
 cli_tools=(
-  "coreutils"
   "binutils"
-  "screen"
-  "gawk"
-  "gzip"
-  "rsync"
-  #"openssh" does not support macOS 10.12.2+ UseKeychain option
+  "coreutils"
   "ed --with-default-names"
-  "grep --with-default-names"
   "findutils --with-default-names"
+  "gawk"
+  "gnu-indent --with-default-names"
   "gnu-sed --with-default-names"
   "gnu-tar --with-default-names"
   "gnu-which --with-default-names"
-  "gnu-indent --with-default-names"
+  "grep --with-default-names"
+  "gzip"
+  "mas"
+  #"openssh" does not support macOS 10.12.2+ UseKeychain option
+  "rsync"
+  "screen"
+  "tmux --with-utf8proc"
 )
 brew_batch_install cli_tools[@]
 
@@ -50,27 +52,31 @@ brew_batch_install cli_tools[@]
 echo
 print_title "Install developer cli tools\n"
 developer_tools=(
+  "apktool"
+  "boost --c++11"
+  "carthage"
+  "chisel"
+  "cocoapods"
+  "dex2jar"
+  "diffutils"
+  "file-formula"
   "git --with-blk-sha1 --with-gettext --with-pcre2"
   "git-quick-stats"
+  "gnutls"
+  "macvim --override-system-vim --custom-system-icons"
+  "mitmproxy"
   "node"
+  "ocaml --with-flambda --with-x11"
+  "perl --with-dtrace"
   "python"
   "python3"
-  "perl --with-dtrace"
-  "watchman"
   "ruby"
-  "ocaml --with-flambda --with-x11"
-  "carthage"
-  "cocoapods"
+  "sonar-scanner"
+  "sonarqube"
   "swiftlint"
-  "apktool"
-  "dex2jar"
-  "boost --c++11"
-  "file-formula"
   "vim --with-override-system-vi"
-  "macvim --override-system-vim --custom-system-icons"
-  "diffutils"
-  "gnutls"
   "watch"
+  "watchman"
   "wdiff --with-gettext"
   "wget"
 )
@@ -101,25 +107,32 @@ echo
 print_title "Install Image Tools\n"
 image_tools=(
   "fftw --with-mpi --with-openmp"
-  "imagemagick --with-fftw --with-fontconfig --with-ghostscript --with-hdri --with-liblqr --with-librsvg --with-libwmf --with-opencl --with-webp"
   "graphicsmagick --with-ghostscript --with-webp --with-libwmf"
+  "imagemagick --with-fftw --with-fontconfig --with-ghostscript --with-hdri --with-liblqr --with-librsvg --with-libwmf --with-opencl --with-webp"
 )
 brew_batch_install image_tools[@]
 
 echo
 print_title "Install UI Apps (Cask)\n"
 ui_apps=(
+  "android-file-transfer"
+  "android-sdk"
   "appcleaner"
+  "atom"
+  "brackets"
+  "cakebrew"
   "flux"
+  "handbrake"
+  "iina"
+  "imageoptim"
+  "jd-gui"
   "keepingyouawake"
   "macdown"
-  "brackets"
-  "imageoptim"
   "opensim"
-  "jd-gui"
-  "iina"
+  "slack"
+  "virtualbox"
+  "wwdc"
   "zeplin"
-  "handbrake"
 )
 brew_batch_install ui_apps[@] cask
 

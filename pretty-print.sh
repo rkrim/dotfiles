@@ -8,7 +8,7 @@
 
 ### Format <ESC_SEQ>[ATTR_1;ATTR_2;..m
 ### Escape sequence
-ESC_SEQ='\e'
+ESC_SEQ='\033' # More portable than '\e'
 
 ### Formatting
 ATTR_BOLD='1';ATTR_DIM='2';ATTR_UNDERLINE='4'
@@ -39,8 +39,8 @@ BG_COLOR_WHITE='107'
 TRUE=0
 FALSE=1
 
-# Check if the argument is a decimal number (currently only >= 0)
-is_decimal() {
+# Check if the argument is a positive number
+is_positive_number() {
 	if [[ $# != 1 ]]; then
 		return $FALSE
 	fi
@@ -53,7 +53,7 @@ is_decimal() {
 txt_attr() {
 	ATTR_EXP=""
 	while (( "$#" )); do
-		if ! is_decimal $1; then
+		if ! is_positive_number $1; then
 			ATTR_EXP=""
 			echo "$ATTR_EXP"
 			return $FALSE
@@ -61,8 +61,8 @@ txt_attr() {
 		ATTR_EXP="$ATTR_EXP$1;"
 	  shift
 	done
-	ATTR_EXP="$ESC_SEQ[${ATTR_EXP: : -1}m"
-	echo "$ATTR_EXP"
+	ATTR_EXP="$ESC_SEQ[${ATTR_EXP:0:${#ATTR_EXP}-1}m"
+    echo -e "$ATTR_EXP"
 	return $TRUE
 }
 
