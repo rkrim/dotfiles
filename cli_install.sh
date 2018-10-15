@@ -53,31 +53,30 @@ echo
 print_title "Install developer cli tools\n"
 developer_tools=(
   "apktool"
-  "boost --c++11"
+  "boost"
   "carthage"
   "chisel"
   "cocoapods"
   "dex2jar"
   "diffutils"
   "file-formula"
-  "git --with-blk-sha1 --with-gettext --with-pcre2"
+  "git"
   "git-quick-stats"
   "gnutls"
-  "macvim --override-system-vim --custom-system-icons"
   "mitmproxy"
   "node"
-  "ocaml --with-flambda --with-x11"
+  # "ocaml --with-flambda --with-x11" # Installation requires xquartz from cask
   "perl --with-dtrace"
   "python"
   "python3"
   "ruby"
   "sonar-scanner"
-  "sonarqube"
-  "swiftlint"
+  # "sonarqube"   # Requires Java 8+ from cask
+  # "swiftlint"   # Requires Xcode App
   "vim --with-override-system-vi"
   "watch"
   "watchman"
-  "wdiff --with-gettext"
+  "wdiff"
   "wget"
 )
 brew_batch_install developer_tools[@]
@@ -108,7 +107,7 @@ print_title "Install Image Tools\n"
 image_tools=(
   "fftw --with-mpi --with-openmp"
   "graphicsmagick --with-ghostscript --with-webp --with-libwmf"
-  "imagemagick --with-fftw --with-fontconfig --with-ghostscript --with-hdri --with-liblqr --with-librsvg --with-libwmf --with-opencl --with-webp"
+  "imagemagick --with-fftw --with-fontconfig --with-ghostscript --with-hdri --with-liblqr --with-librsvg --with-libwmf --with-webp"
 )
 brew_batch_install image_tools[@]
 
@@ -130,7 +129,7 @@ ui_apps=(
   "macdown"
   "opensim"
   "slack"
-  "virtualbox"
+  # "virtualbox" # Install fails
   "wwdc"
   "zeplin"
 )
