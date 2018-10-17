@@ -137,6 +137,18 @@ brew_batch_install ui_apps[@] cask
 
 
 echo
+print_title "Install QuickLook Plugin (Cask)\n"
+ql_plugins=(
+  "qlcolorcode"
+  "qlstephen"
+  "qlmarkdown"
+  "quicklook-json"
+  "provisionql"
+)
+brew_batch_install ql_plugins[@] cask
+
+
+echo
 print_title "Install ScreenSavers (Cask)\n"
 screensavers=("aerial")
 brew_batch_install screensavers[@] cask
