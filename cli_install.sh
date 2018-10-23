@@ -161,3 +161,7 @@ rm -rf $(brew --cache)
 
 echo
 print_title "Installation DONE!\n"
+
+echo
+print_title "Dotfiles installation\n"
+dotfiles_symlink "home_files"

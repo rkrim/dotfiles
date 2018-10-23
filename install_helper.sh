@@ -126,3 +126,69 @@ function add_acceptable_shell {
     fi
   fi
 }
+
+
+# dotfiles_symlink()
+# Create symbolic link for dotfiles found in arg 1, in home folder
+# links are prefixed with '.'
+# original files will be moved to a backup folder
+function dotfiles_symlink {
+  if [[ $# != 1 || $1 == "" ]]; then
+    echo "Bad argument: Expected non empty String"
+    return 1
+  fi
+
+  files_location=$1
+  working_directory=`pwd`
+
+  dotfiles_backup=".dotfiles.org"
+  dotfiles=($(ls $files_location 2>/dev/null))
+  files_count=${#dotfiles[*]}
+
+  if [[ $files_count -eq 0 || ($files_count -eq 1 && ${dotfiles[0]} == "") ]]; then
+    echo "No file found"
+    return 1
+  fi
+
+  # Create backup folder
+  if [ ! -d ~/$dotfiles_backup ]; then
+    mkdir ~/$dotfiles_backup 2>/dev/null
+    if [ $? != 0 ]; then
+      echo "Error: Can't create bakup folder, skipping simlink"
+      return 1
+    fi
+  fi
+
+  files_location_path=$working_directory/$files_location
+  link_count=0
+  for file in ${dotfiles[@]}; do
+    file_path=$files_location_path/$file
+    link_name=~/.$file
+
+    # Skip if the link is the same
+    if [[ -L $link_name && $(readlink $link_name) == $file_path ]]; then
+      continue
+    fi
+
+    # Try to move existing file to backup folder, skip current link if it fails
+    if [ -e $link_name ]; then
+      mv -n $link_name ~/$dotfiles_backup 2>/dev/null
+      if [ $? != 0 ]; then
+        continue
+      fi
+    fi
+
+    # echo "ln -s $file_path $link_name"
+    ln -s $file_path $link_name 2>/dev/null
+
+    if [ $? == 0 ]; then
+      link_count=$((link_count + 1))
+    fi
+  done
+
+  if [[ $link_count != $files_count ]]; then
+    echo "Warning: Created '$link_count' links, while expecting '$files_count'"
+    return 1
+  fi
+  return 0
+}

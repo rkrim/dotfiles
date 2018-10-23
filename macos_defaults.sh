@@ -22,13 +22,13 @@ function close_application() {
 # ToDo:
 # Should take application_name and config, finds the bundle_id and apply config
 # How to deal with config and global domain?
-function write_config() {
+# function write_config() {
 	# if [[ $bundle_id ]]; then
 	# 	echo "found::"$bundle_id
 	# else
 	# 	echo "BundleId for Application '$application_name' not found, skipping"
 	# fi
-}
+# }
 
 
 
