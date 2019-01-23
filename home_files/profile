@@ -9,18 +9,18 @@ export LANG=en_US.UTF-8
 export LANGUAGE=en_US.UTF-8
 
 
+### Homebrew packages path #####################################################
 
-### Updating Path ##############################################################
+brew_packages_path_export () {
 
-# home binanries
-if [ -d "$HOME/bin" ]; then
-  export PATH="$HOME/bin:$PATH"
-fi
-export PATH="/usr/local/sbin:$PATH"
+  # Check that brew exist before continue
+  command -v brew >/dev/null 2>&1 || { echo >&2 "Brew not installed. No need to process packages path."; return; }
+  BREW_PATH=`brew --prefix`
 
-# Brew packages
-BREW_PATH=`brew --prefix`
-if [ -d "$BREW_PATH" ]; then
+  # Check that Homebrew’s install path exist brefore continue
+  if [ ! -d "$BREW_PATH" ]; then
+    return
+  fi
 
   # Coreutils
   if [[ -d "$BREW_PATH/opt/coreutils" ]]; then
@@ -43,15 +43,49 @@ if [ -d "$BREW_PATH" ]; then
     export PATH="$BREW_PATH/opt/node@8/bin:$PATH"
   fi
 
-fi
+  # Ruby
+  if [[ -d "$BREW_PATH/opt/ruby/bin" ]]; then
+    export PATH="$BREW_PATH/opt/ruby/bin:$PATH"
+  fi
+
+  # Android development
+  if [[ -d "$BREW_PATH/share/android-sdk" ]]; then
+    export ANDROID_SDK_ROOT="$BREW_PATH/share/android-sdk"
+    export ANDROID_HOME=$ANDROID_SDK_ROOT
+    export PATH="$ANDROID_HOME/emulator:$ANDROID_HOME/tools:$ANDROID_HOME/platform-tools:$ANDROID_HOME/ndk-bundle:$PATH"
+  fi
+}
+
+# Java home
+java_home_export () {
+  # Using java_home to check for installed java version
+  command -v /usr/libexec/java_home >/dev/null 2>&1 || { echo >&2 "Can't process JAVA_HOME."; return; }
+
+  JAVA_HOME_8=$(/usr/libexec/java_home -Fv1.8 2>/dev/null)
+  JAVA_HOME_LATEST=$(/usr/libexec/java_home 2>/dev/null)
+
+  # prefere java 8
+  if [ "$JAVA_HOME_8" ]; then
+    export JAVA_HOME=$JAVA_HOME_8
+  elif [ "$JAVA_HOME_LATEST" ]; then
+    export JAVA_HOME=$JAVA_HOME_LATEST
+  fi
+}
 
 
-# Android development
-export ANDROID_SDK_ROOT="/usr/local/share/android-sdk"
-export ANDROID_HOME=$ANDROID_SDK_ROOT
-if [ -d $ANDROID_HOME ]; then
-  export PATH="$PATH:$ANDROID_HOME/tools:$ANDROID_HOME/platform-tools:$ANDROID_HOME/ndk-bundle"
+### Update $PATH ###############################################################
+
+# home binanries
+if [ -d "$HOME/bin" ]; then
+  export PATH="$HOME/bin:$PATH"
 fi
+export PATH="/usr/local/sbin:$PATH"
+
+# brew packages
+brew_packages_path_export
+
+# java_home
+java_home_export
 
 
 ### Updating Prompt ############################################################

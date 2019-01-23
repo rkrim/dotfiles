@@ -62,8 +62,10 @@ update_term_behavior () {
 
 
 # Bash history
-export HISTCONTROL=ignoredups
-
+# Ignore successive identical commands
+# Ignore commands starting whith space
+# Erase duplicate
+export HISTCONTROL=ignoreboth:erasedup
 
 # Add Bash Completion
 COMPLETION_1_FILENAME="/usr/local/etc/bash_completion"
@@ -81,21 +83,21 @@ if [[ $result_1 == 0 || $result_1 == 1 ]]; then
   fi
 fi
 
-if [[ -n $COMPLETION_FILENAME && -f $COMPLETION_FILENAME ]]; then
+# Auto-Complete if in interactive mode
+if [[ $- == *i* && -n $COMPLETION_FILENAME && -f $COMPLETION_FILENAME ]]; then
   source $COMPLETION_FILENAME
 else
   echo "bash_completion not installed or file location has changed"
 fi
 
+# Auto-Complete SSH hostnames (no wildcards)
+if [ -e "$HOME/.ssh/config" ]; then
+    complete -o "default" -o "nospace" -W "$(grep "^Host" ~/.ssh/config | grep -v "[?*]" | cut -d " " -f2- | tr ' ' '\n')" scp sftp ssh;
+fi
 
 # Source Aliases file
 if [ -f ~/.aliases ]; then
    source ~/.aliases
-fi
-
-# Autocomplete SSH hostnames (no wildcards)
-if [ -e "$HOME/.ssh/config" ]; then
-    complete -o "default" -o "nospace" -W "$(grep "^Host" ~/.ssh/config | grep -v "[?*]" | cut -d " " -f2- | tr ' ' '\n')" scp sftp ssh;
 fi
 
 # Make terminal have approximately the same behavior what ever the $TERM
