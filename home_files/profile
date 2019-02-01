@@ -38,9 +38,11 @@ brew_packages_path_export () {
     fi
   fi
 
-  # Node 8
-  if [[ -d "$BREW_PATH/opt/node@8" ]]; then
-    export PATH="$BREW_PATH/opt/node@8/bin:$PATH"
+  # Node 10
+  if [[ -d "$BREW_PATH/opt/node@10" ]]; then
+    NODE_BINARIES="$BREW_PATH/opt/node@10/bin"
+    export PATH="$NODE_BINARIES:$PATH"
+    export NODE_BINARY="$NODE_BINARIES/node"
   fi
 
   # Ruby
