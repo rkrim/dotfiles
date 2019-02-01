@@ -50,6 +50,12 @@ brew_packages_path_export () {
     export PATH="$BREW_PATH/opt/ruby/bin:$PATH"
   fi
 
+  # RubyGems
+  GEM_PATH=`command -v gem 2>/dev/null`
+  if [[ "$GEM_PATH" ]]; then
+    export PATH="`$GEM_PATH env gemdir`/bin:$PATH"
+  fi
+
   # Android development
   if [[ -d "$BREW_PATH/share/android-sdk" ]]; then
     export ANDROID_SDK_ROOT="$BREW_PATH/share/android-sdk"
