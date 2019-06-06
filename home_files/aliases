@@ -20,22 +20,25 @@ alias gti='git'
 alias quit='exit'
 
 
-# Listing :: LS (GNU or macOS)
+# Listing :: LS (GNU or BSD)
 LS_COLORS_SCHEME_FILE_PATH=~/.dircolors.main
-if [[ $(ls --color > /dev/null 2>&1; echo $?) == 0 ]] ; then # GNU 'ls'
-  colorflag="--color"
+if [[ $(ls --color > /dev/null 2>&1; echo $?) == 0 ]] ; then
+  # GNU
+  LS_COLOR_FLAG="--color"
+  LS_DIRECTORY_FIRST_FLAG="--group-directories-first"
 
   if [[ `command -v dircolors` && -r $LS_COLORS_SCHEME_FILE_PATH ]]; then
     eval "$(dircolors ${LS_COLORS_SCHEME_FILE_PATH})"
   fi
-else # macOS 'ls'
+else
+  # BSD
   # See ls Man Page or macOS Man Pages (Apple developer)
   # https://developer.apple.com/legacy/library/documentation/Darwin/Reference/ManPages/man1/ls.1.html
   #
   # Check this generator for a preview and fast customization result:
   # https://geoff.greer.fm/lscolors/
 
-	colorflag="-G"
+	LS_COLOR_FLAG="-G"
   # export CLICOLOR=1 (ls used with the color flag instead)
 	export LSCOLORS='GxFxExDxCxegedabagaced'
 fi
@@ -46,9 +49,9 @@ fi
 # -F Display '/' after directory, '*' after executable, '@' after symbolic link,
 # '=' after socket, '%' after whiteout, '|' after a FIFO.
 
-alias ls="ls -h ${colorflag} --group-directories-first"
-alias l="ls -lF ${colorflag}"
-alias la="ls -laF ${colorflag}"
+alias ls="ls -h ${LS_COLOR_FLAG} ${LS_DIRECTORY_FIRST_FLAG}"
+alias l="ls -lF ${LS_COLOR_FLAG}"
+alias la="ls -laF ${LS_COLOR_FLAG}"
 alias lsd="\ls -Al | grep --color=never '^d'"
 
 # Lock Session :: Away From Keyboard
