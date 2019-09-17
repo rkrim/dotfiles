@@ -38,12 +38,27 @@ brew_packages_path_export () {
     fi
   fi
 
-  # Node 10
-  if [[ -d "$BREW_PATH/opt/node@10" ]]; then
-    NODE_BINARIES="$BREW_PATH/opt/node@10/bin"
+  # Node
+  local NODE_DIRECTTORY="$BREW_PATH/opt/node"
+  if [[ -d "$NODE_DIRECTTORY" ]]; then
+    NODE_BINARIES="$NODE_DIRECTTORY/bin"
     export PATH="$NODE_BINARIES:$PATH"
     export NODE_BINARY="$NODE_BINARIES/node"
+    export LDFLAGS="-L$NODE_DIRECTTORY/lib"
+    export CPPFLAGS="-I$NODE_DIRECTTORY/include"
   fi
+
+  # Node version manager (nvm)
+  nvm_load () {
+    if [[ -e "$BREW_PATH/opt/nvm" && -d "$HOME/.nvm" ]]; then
+      export NVM_DIR="$HOME/.nvm"
+      [ -s "$BREW_PATH/opt/nvm/nvm.sh" ] && source "$BREW_PATH/opt/nvm/nvm.sh"
+      [ -s "$BREW_PATH/opt/nvm/etc/bash_completion" ] && source "$BREW_PATH/opt/nvm/etc/bash_completion"
+      [ -s "$BREW_PATH/opt/nvm/etc/bash_completion.d/nvm" ] && source "$BREW_PATH/opt/nvm/etc/bash_completion.d/nvm"
+    else
+      echo "Can't find nvm in brew packages, you can install it using 'brew install nvm'"
+    fi
+  }
 
   # Ruby
   if [[ -d "$BREW_PATH/opt/ruby/bin" ]]; then
