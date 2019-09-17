@@ -23,7 +23,7 @@ brew_packages_path_export () {
   fi
 
   # Coreutils
-  if [[ -d "$BREW_PATH/opt/coreutils" ]]; then
+  if [[ -d "$BREW_PATH/opt/coreutils/libexec" ]]; then
     export PATH="$BREW_PATH/opt/coreutils/libexec/gnubin:$PATH"
     export MANPATH="$BREW_PATH/opt/coreutils/libexec/gnuman:$MANPATH"
   fi
@@ -31,10 +31,11 @@ brew_packages_path_export () {
   # Python
   if [[ -d "$BREW_PATH/opt/python/libexec/bin" ]]; then
     export PATH="$BREW_PATH/opt/python/libexec/bin:$PATH"
+    export PYTHON_USER_BASE=`python -m site --user-base`
+    export PYTHON_USER_SITE=`python -m site --user-site`
 
-    PYTHON_BASE=`python -m site --user-base`
-    if [[ -d "$PYTHON_BASE/bin" ]]; then
-      export PATH="$PATH:$PYTHON_BASE/bin"
+    if [[ -d "$PYTHON_USER_BASE/bin" ]]; then
+      export PATH="$PYTHON_USER_BASE/bin:$PATH"
     fi
   fi
 
@@ -65,6 +66,7 @@ brew_packages_path_export () {
     export PATH="$BREW_PATH/opt/ruby/bin:$PATH"
     export LDFLAGS="-L$BREW_PATH/opt/ruby/lib"
     export CPPFLAGS="-I$BREW_PATH/opt/ruby/include"
+    export PKG_CONFIG_PATH="$BREW_PATH/opt/ruby/lib/pkgconfig:$PKG_CONFIG_PATH"
   fi
 
   # RubyGems
@@ -81,11 +83,11 @@ brew_packages_path_export () {
   fi
 
   # SQLite
-  if [[ -d "$BREW_PATH/opt/sqlite/bin" ]]; then
+  if [[ -d "$BREW_PATH/opt/sqlite" ]]; then
     export PATH="$BREW_PATH/opt/sqlite/bin:$PATH"
     export LDFLAGS="-L$BREW_PATH/opt/sqlite/lib $LDFLAGS"
     export CPPFLAGS="-I$BREW_PATH/opt/sqlite/include $CPPFLAGS"
-    export PKG_CONFIG_PATH="$BREW_PATH/opt/sqlite/lib/pkgconfig"
+    export PKG_CONFIG_PATH="$BREW_PATH/opt/sqlite/lib/pkgconfig:$PKG_CONFIG_PATH"
   fi
 }
 
@@ -108,11 +110,8 @@ java_home_export () {
 
 ### Update $PATH ###############################################################
 
-# home binanries
-if [ -d "$HOME/bin" ]; then
-  export PATH="$HOME/bin:$PATH"
-fi
-export PATH="/usr/local/sbin:$PATH"
+[ -d "/usr/local/sbin" ] && export PATH="/usr/local/sbin:$PATH"
+[ -d "$HOME/bin" ] && export PATH="$HOME/bin:$PATH"
 
 # brew packages
 brew_packages_path_export
