@@ -64,6 +64,14 @@ brew_packages_path_export () {
     export ANDROID_HOME=$ANDROID_SDK_ROOT
     export PATH="$ANDROID_HOME/emulator:$ANDROID_HOME/tools:$ANDROID_HOME/platform-tools:$ANDROID_HOME/ndk-bundle:$PATH"
   fi
+
+  # SQLite
+  if [[ -d "$BREW_PATH/opt/sqlite/bin" ]]; then
+    export PATH="$BREW_PATH/opt/sqlite/bin:$PATH"
+    export LDFLAGS="-L$BREW_PATH/opt/sqlite/lib $LDFLAGS"
+    export CPPFLAGS="-I$BREW_PATH/opt/sqlite/include $CPPFLAGS"
+    export PKG_CONFIG_PATH="$BREW_PATH/opt/sqlite/lib/pkgconfig"
+  fi
 }
 
 # Java home
