@@ -38,9 +38,9 @@ else
   # Check this generator for a preview and fast customization result:
   # https://geoff.greer.fm/lscolors/
 
-	LS_COLOR_FLAG="-G"
+  LS_COLOR_FLAG="-G"
   # export CLICOLOR=1 (ls used with the color flag instead)
-	export LSCOLORS='GxFxExDxCxegedabagaced'
+  export LSCOLORS='GxFxExDxCxegedabagaced'
 fi
 
 # -A List all entries except . & ..

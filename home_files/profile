@@ -11,13 +11,13 @@ export LANGUAGE=en_US.UTF-8
 
 ### Homebrew packages path #####################################################
 
-brew_packages_path_export () {
+brew_packages_variables_export () {
 
   # Check that brew exist before continue
-  command -v brew >/dev/null 2>&1 || { echo >&2 "Brew not installed. No need to process packages path."; return; }
+  command -v brew >/dev/null 2>&1 || { echo >&2 "Brew not installed. no package variable to export."; return; }
   BREW_PATH=`brew --prefix`
 
-  # Check that Homebrew’s install path exist brefore continue
+  # Check that Homebrew’s install path exist before continue
   if [ ! -d "$BREW_PATH" ]; then
     return
   fi
@@ -70,8 +70,9 @@ brew_packages_path_export () {
   fi
 
   # RubyGems
-  GEM_PATH=`command -v gem 2>/dev/null`
+  export GEM_PATH=`command -v gem 2>/dev/null`
   if [[ "$GEM_PATH" ]]; then
+    # Default installation folder for binaries installed with gem
     export PATH="`$GEM_PATH env gemdir`/bin:$PATH"
   fi
 
@@ -114,7 +115,7 @@ java_home_export () {
 [ -d "$HOME/bin" ] && export PATH="$HOME/bin:$PATH"
 
 # brew packages
-brew_packages_path_export
+brew_packages_variables_export
 
 # java_home
 java_home_export
@@ -123,8 +124,8 @@ java_home_export
 ### Updating Prompt ############################################################
 
 # Powerline
-POWERLINE_BASH="$(python -m site --user-site)/powerline/bindings/bash/powerline.sh"
-if [[ -f $POWERLINE_BASH ]]; then
+POWERLINE_BASH="$PYTHON_USER_SITE/powerline/bindings/bash/powerline.sh"
+if [[ -s $POWERLINE_BASH ]]; then
   powerline-daemon -q
   POWERLINE_BASH_CONTINUATION=1
   POWERLINE_BASH_SELECT=1

@@ -10,41 +10,41 @@
 # Added version trim
 version_compare () {
 
-    if [[ $1 == $2 ]]; then
-        return 0
+  if [[ $1 == $2 ]]; then
+    return 0
+  fi
+
+  local IFS=$3
+  local index version1=($1) version2=($2)
+
+  # fill empty fields in version1 with zeros
+  for ((index=${#version1[@]}; index<${#version2[@]}; index++)); do
+    version1[index]=0
+  done
+
+  for ((index=0; index<${#version1[@]}; index++)); do
+    if [[ -z ${version2[i]} ]]; then
+      # fill empty fields in ver2 with zeros
+      version2[index]=0
     fi
 
-    local IFS=$3
-    local index version1=($1) version2=($2)
+    if ((10#${version1[index]%%[^0-9]*} > 10#${version2[index]%%[^0-9]*})); then
+      return -1
+    fi
 
-    # fill empty fields in version1 with zeros
-    for ((index=${#version1[@]}; index<${#version2[@]}; index++)); do
-        version1[index]=0
-    done
+    if ((10#${version1[index]%%[^0-9]*} < 10#${version2[index]%%[^0-9]*})); then
+      return 1
+    fi
+  done
 
-    for ((index=0; index<${#version1[@]}; index++)); do
-        if [[ -z ${version2[i]} ]]; then
-            # fill empty fields in ver2 with zeros
-            version2[index]=0
-        fi
-
-        if ((10#${version1[index]%%[^0-9]*} > 10#${version2[index]%%[^0-9]*})); then
-            return -1
-        fi
-
-        if ((10#${version1[index]%%[^0-9]*} < 10#${version2[index]%%[^0-9]*})); then
-            return 1
-        fi
-    done
-
-    return 0
+  return 0
 }
 
 update_key_binding () {
   bind '"\e[3~": delete-char' # fn+delete > delete char
 }
 
-update_term_behavior () {
+update_terminal_behavior () {
   case $TERM in
     ansi)
     update_key_binding
@@ -56,10 +56,7 @@ update_term_behavior () {
 }
 
 
-
-
 ### Configuration ##############################################################
-
 
 # Bash history
 # Ignore successive identical commands
@@ -92,13 +89,13 @@ fi
 
 # Auto-Complete SSH hostnames (no wildcards)
 if [ -e "$HOME/.ssh/config" ]; then
-    complete -o "default" -o "nospace" -W "$(grep "^Host" ~/.ssh/config | grep -v "[?*]" | cut -d " " -f2- | tr ' ' '\n')" scp sftp ssh;
+  complete -o "default" -o "nospace" -W "$(grep "^Host" ~/.ssh/config | grep -v "[?*]" | cut -d " " -f2- | tr ' ' '\n')" scp sftp ssh;
 fi
 
 # Source Aliases file
 if [ -f ~/.aliases ]; then
-   source ~/.aliases
+  source ~/.aliases
 fi
 
 # Make terminal have approximately the same behavior what ever the $TERM
-update_term_behavior
+update_terminal_behavior

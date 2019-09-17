@@ -7,27 +7,27 @@
 
 # Get bundle id from App Name
 function bundle_id() {
-	bundle_id=`osascript -e "id of app \"$1\"" 2>/dev/null`
-	return_status=$?
-	echo $bundle_id
-	return $return_status
+  bundle_id=`osascript -e "id of app \"$1\"" 2>/dev/null`
+  return_status=$?
+  echo $bundle_id
+  return $return_status
 }
 
 # Close Application by name
 function close_application() {
-	osascript -e "tell application \"$1\" to quit"
-	return $?
+  osascript -e "tell application \"$1\" to quit"
+  return $?
 }
 
 # ToDo:
 # Should take application_name and config, finds the bundle_id and apply config
 # How to deal with config and global domain?
 # function write_config() {
-	# if [[ $bundle_id ]]; then
-	# 	echo "found::"$bundle_id
-	# else
-	# 	echo "BundleId for Application '$application_name' not found, skipping"
-	# fi
+  # if [[ $bundle_id ]]; then
+  # 	echo "found::"$bundle_id
+  # else
+  # 	echo "BundleId for Application '$application_name' not found, skipping"
+  # fi
 # }
 
 

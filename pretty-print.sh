@@ -41,29 +41,29 @@ FALSE=1
 
 # Check if the argument is a positive number
 is_positive_number() {
-	if [[ $# != 1 ]]; then
-		return $FALSE
-	fi
-	decimal_regexp='^[0-9]+$'
-	[[ $1 =~ $decimal_regexp ]]
+  if [[ $# != 1 ]]; then
+    return $FALSE
+  fi
+  decimal_regexp='^[0-9]+$'
+  [[ $1 =~ $decimal_regexp ]]
 }
 
 # Create an echo parsable expression from arguments for setting text attributes
 # and colors
 txt_attr() {
-	ATTR_EXP=""
-	while (( "$#" )); do
-		if ! is_positive_number $1; then
-			ATTR_EXP=""
-			echo "$ATTR_EXP"
-			return $FALSE
-		fi
-		ATTR_EXP="$ATTR_EXP$1;"
-	  shift
-	done
-	ATTR_EXP="$ESC_SEQ[${ATTR_EXP:0:${#ATTR_EXP}-1}m"
-    echo -e "$ATTR_EXP"
-	return $TRUE
+  ATTR_EXP=""
+  while (( "$#" )); do
+    if ! is_positive_number $1; then
+      ATTR_EXP=""
+      echo "$ATTR_EXP"
+      return $FALSE
+    fi
+    ATTR_EXP="$ATTR_EXP$1;"
+    shift
+  done
+  ATTR_EXP="$ESC_SEQ[${ATTR_EXP:0:${#ATTR_EXP}-1}m"
+  echo -e "$ATTR_EXP"
+  return $TRUE
 }
 
 #
@@ -72,13 +72,13 @@ clear_to_eol="$ESC_SEQ[K"
 clear_line="\r$clear_to_eol"
 
 function clear_line() {
-	echo -en $clear_line
+  echo -en $clear_line
 }
 
 function print_title() {
-	bullet=$(txt_attr $FG_COLOR_GREEN)
-	title=$(txt_attr $FG_COLOR_WHITE $ATTR_BOLD)
-	echo -en "$bullet###$reset_all $title$1$reset_all"
+  bullet=$(txt_attr $FG_COLOR_GREEN)
+  title=$(txt_attr $FG_COLOR_WHITE $ATTR_BOLD)
+  echo -en "$bullet###$reset_all $title$1$reset_all"
 }
 
 
@@ -88,25 +88,25 @@ function print_title() {
 
 # By default displays colors in background, pass fg as unique argument to switch
 display_256colors() {
-	# Foreground=38 Background=48
-	if [[ $1 == "fg" ]]; then
-		COLOR_POSITION=38
-	else
-		COLOR_POSITION=48
-	fi
+  # Foreground=38 Background=48
+  if [[ $1 == "fg" ]]; then
+    COLOR_POSITION=38
+  else
+    COLOR_POSITION=48
+  fi
 
-	color=$(txt_attr $COLOR_POSITION 5)
-	color=${color: : -1}
-	for COLOR_SEC in {0..256}; do
-		echo -en "$color;${COLOR_SEC}m ${COLOR_SEC}\t${reset_all}"
-		# echo -en "\e[${COLOR_POSITION};5;${COLOR_SEC}m ${COLOR_SEC}\t${reset_all}"
+  color=$(txt_attr $COLOR_POSITION 5)
+  color=${color: : -1}
+  for COLOR_SEC in {0..256}; do
+    echo -en "$color;${COLOR_SEC}m ${COLOR_SEC}\t${reset_all}"
+    # echo -en "\e[${COLOR_POSITION};5;${COLOR_SEC}m ${COLOR_SEC}\t${reset_all}"
 
-		# Display 10 colors per lines then brake
-		if [ $((($COLOR_SEC + 1) % 10)) == 0 ]; then
-			echo
-		fi
-	done
-	echo
+    # Display 10 colors per lines then brake
+    if [ $((($COLOR_SEC + 1) % 10)) == 0 ]; then
+      echo
+    fi
+  done
+  echo
 }
 
 ### tput colors ################################################################

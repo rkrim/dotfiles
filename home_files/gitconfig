@@ -2,18 +2,18 @@
 # Add personal global config to ~/.gitconfig.user
 
 [core]
-	editor = atom --wait
+  editor = atom --wait
 
   # Convert line endings to CRLF on checkout (useful only under windows)
   # Change this in ~/.gitconfig.user or per repository if needed
-	autocrlf = false
+  autocrlf = false
 
   # Don't consider changes on trailing space (EOL, EOF) as conflicts
-	whitespace = -trailing-space
+  whitespace = -trailing-space
 
 [color]
   # enable colors for supporting terminals
-	ui = auto
+  ui = auto
 
 [color "decorate"]
   HEAD = red bold
@@ -28,69 +28,68 @@
   remote = magenta
 
 [difftool "sourcetree"]
-	cmd = opendiff \"$LOCAL\" \"$REMOTE\"
-	path =
+  cmd = opendiff \"$LOCAL\" \"$REMOTE\"
+  path = 
 
 [mergetool "sourcetree"]
-	cmd = /Applications/Sourcetree.app/Contents/Resources/opendiff-w.sh \"$LOCAL\" \"$REMOTE\" -ancestor \"$BASE\" -merge \"$MERGED\"
-	trustExitCode = true
+  cmd = /Applications/Sourcetree.app/Contents/Resources/opendiff-w.sh \"$LOCAL\" \"$REMOTE\" -ancestor \"$BASE\" -merge \"$MERGED\"
+  trustExitCode = true
 
 [commit]
-	template = ~/.stCommitMsg
+  template = ~/.stCommitMsg
 
 [alias]
+  # checkout
+  co = checkout                       # checkout
+  cob = checkout -back                # checkout to new branch
 
-	# checkout
-	co = checkout                     # checkout
-	cob = checkout -b									# checkout to new branch
+  # branch
+  b = branch                          # branch
+  br = branch                         # branch
+  bv = branch -v                      # branch (verbose)
 
-	# branch
-	b = branch                    		# branch
-	br = branch                    		# branch
-	bv = branch -v                    # branch (verbose)
+  # commit
+  ci = commit                         # commit
+  cm = commit -m                      # commit with message
+  amend = commit --amend              # amend last commit
 
-	# commit
-	ci = commit                       # commit
-	cm = commit -m                    # commit with message
-	amend = commit --amend            # amend last commit
+  # status
+  s = status                          # status
+  st = status                         # status
 
-	# status
-  s = status                        # status
-	st = status                       # status
+  # rebase
+  rc = rebase --continue              # continue rebase
+  rs = rebase --skip                  # skip rebase
+  ra = rebase --abort                 # abort rebase
+  rcontinue = rebase --continue       # continue rebase
+  rskip = rebase --skip               # skip rebase
+  rabort = rebase --abort             # abort rebase
 
-	# rebase
-	rc = rebase --continue						# continue rebase
-	rs = rebase --skip             		# skip rebase
-	ra = rebase --abort           		# abort rebase
-	rcontinue = rebase --continue			# continue rebase
-	rskip = rebase --skip             # skip rebase
-	rabort = rebase --abort           # abort rebase
-
-	# cherry-pick
-	cp = cherry-pick -x               # play a commit on top of current branch
-	cpick = cherry-pick -x            # play a commit on top of current branch
+  # cherry-pick
+  cp = cherry-pick -x                 # play a commit on top of current branch
+  cpick = cherry-pick -x              # play a commit on top of current branch
 
   # stash
-  sh = stash                        # stash changes
-	shlist = stash list               # list stashes
-	shapply = stash apply             # apply stash (restore changes)
-	shdrop = stash drop               # drop stashes (destory changes)
+  sh = stash                          # stash changes
+  shlist = stash list                 # list stashes
+  shapply = stash apply               # apply stash (restore changes)
+  shdrop = stash drop                 # drop stashes (destory changes)
 
   # log
   lg = log --graph --decorate --pretty=format:'%C(yellow)%h%C(white) -%C(auto)%d%C(reset) %s %C(green)(%cr) %C(cyan)<%an>%C(reset)'
-	oneline = log --graph --decorate --pretty=oneline --abbrev-commit
+  oneline = log --graph --decorate --pretty=oneline --abbrev-commit
   changes = log --pretty=format:'%C(yellow)%h%C(reset) %cr by %C(cyan)%cn%C(reset): %C(green)%s%C(reset)' --name-status
   short = log --pretty=format:'%C(yellow)%h%C(reset) - %C(green)%cd%C(reset) - %C(cyan)%cn%C(reset) :: %C(reset)%s%C(reset)' --date=short
   shortnocolor = log --pretty=format:'%h - %cd - %cn :: %s' --date=short
 
   # history / reset
-  last = log -1 HEAD                # print last commit
-  uncommit = reset --soft HEAD^     # go back before last commit, with files in uncommitted state
-  undo = !git uncommit              # same as uncommit
-  unstage = reset HEAD              # remove files from index (tracking)
+  last = log -1 HEAD                  # print last commit
+  uncommit = reset --soft HEAD^       # go back before last commit, with files in uncommitted state
+  undo = !git uncommit                # same as uncommit
+  unstage = reset HEAD                # remove files from index (tracking)
 
   # remote
-  rv = remote -v                    # show remotes (verbose)
+  rv = remote -v                      # show remotes (verbose)
 
   # tags
   prunetags = !git tag -l | xargs git tag -d && git fetch -t
@@ -100,18 +99,18 @@
 
 
 [filter "lfs"]
-	clean = git-lfs clean -- %f
-	smudge = git-lfs smudge -- %f
-	process = git-lfs filter-process
-	required = true
+  clean = git-lfs clean -- %f
+  smudge = git-lfs smudge -- %f
+  process = git-lfs filter-process
+  required = true
 
 [pull]
   # preserve merge commits on pull
-	rebase = preserve
+  rebase = preserve
 
 [push]
-  	# push should only carry the current branch when pushing to target
-  	default = upstream
+  # push should only carry the current branch when pushing to target
+  default = upstream
 
 [rerere]
   # Reuse Recorded Resolution
@@ -122,4 +121,4 @@
   sort = version:refname
 
 [include]
-	path = ~/.gitconfig.user
+  path = ~/.gitconfig.user
