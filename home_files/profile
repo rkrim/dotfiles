@@ -48,6 +48,8 @@ brew_packages_path_export () {
   # Ruby
   if [[ -d "$BREW_PATH/opt/ruby/bin" ]]; then
     export PATH="$BREW_PATH/opt/ruby/bin:$PATH"
+    export LDFLAGS="-L$BREW_PATH/opt/ruby/lib"
+    export CPPFLAGS="-I$BREW_PATH/opt/ruby/include"
   fi
 
   # RubyGems
