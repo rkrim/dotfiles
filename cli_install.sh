@@ -31,20 +31,20 @@ print_title "Install cli tools\n"
 cli_tools=(
   "binutils"
   "coreutils"
-  "ed --with-default-names"
-  "findutils --with-default-names"
+  "ed"
+  "findutils"
   "gawk"
-  "gnu-indent --with-default-names"
-  "gnu-sed --with-default-names"
-  "gnu-tar --with-default-names"
-  "gnu-which --with-default-names"
-  "grep --with-default-names"
+  "gnu-indent"
+  "gnu-sed"
+  "gnu-tar"
+  "gnu-which"
+  "grep"
   "gzip"
   "mas"
   #"openssh" does not support macOS 10.12.2+ UseKeychain option
   "rsync"
   "screen"
-  "tmux --with-utf8proc"
+  "tmux"
 )
 brew_batch_install cli_tools[@]
 
@@ -65,15 +65,15 @@ developer_tools=(
   "gnutls"
   "mitmproxy"
   "node"
-  # "ocaml --with-flambda --with-x11" # Installation requires xquartz from cask
-  "perl --with-dtrace"
+  "ocaml"
+  "perl"
   "python"
   "python3"
   "ruby"
   "sonar-scanner"
   # "sonarqube"   # Requires Java 8+ from cask
   # "swiftlint"   # Requires Xcode App
-  "vim --with-override-system-vi"
+  "vim"
   "watch"
   "watchman"
   "wdiff"
@@ -98,16 +98,16 @@ echo
 print_title "Update non-GNU commands\n"
 non_gnu=(
   "less"
-  "mplayer --with-libcaca --with-libdvdnav --with-libdvdread"
+  "mplayer"
 )
 brew_batch_install non_gnu[@]
 
 echo
 print_title "Install Image Tools\n"
 image_tools=(
-  "fftw --with-mpi --with-openmp"
-  "graphicsmagick --with-ghostscript --with-webp --with-libwmf"
-  "imagemagick --with-fftw --with-fontconfig --with-ghostscript --with-hdri --with-liblqr --with-librsvg --with-libwmf --with-webp"
+  "fftw"
+  "graphicsmagick"
+  "imagemagick"
 )
 brew_batch_install image_tools[@]
 
