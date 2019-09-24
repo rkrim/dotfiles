@@ -8,12 +8,17 @@ source ./install_helper.sh
 ### INSTALL ###
 print_title "Install and/or update Homebrew:\n"
 
-if [ -f "`which brew`" ]; then
+if [ `command -v brew` ]; then
   echo "Already installed, updating"
   brew update;brew upgrade
 else
   echo "Not installed, installing"
   /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
+
+  if [ ! `command -v brew` ]; then
+    echo "Brew not installed, aborting."
+    exit 1
+  fi
 fi
 
 echo

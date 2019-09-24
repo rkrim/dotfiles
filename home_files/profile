@@ -14,7 +14,7 @@ export LANGUAGE=en_US.UTF-8
 brew_packages_variables_export () {
 
   # Check that brew exist before continue
-  command -v brew >/dev/null 2>&1 || { echo >&2 "Brew not installed. no package variable to export."; return; }
+  command -v brew > /dev/null 2>&1 || { echo >&2 "Brew not installed. no package variable to export."; return; }
   BREW_PATH=`brew --prefix`
 
   # Check that Homebrew’s install path exist before continue
@@ -70,7 +70,7 @@ brew_packages_variables_export () {
   fi
 
   # RubyGems
-  export GEM_PATH=`command -v gem 2>/dev/null`
+  export GEM_PATH=`command -v gem 2> /dev/null`
   if [[ "$GEM_PATH" ]]; then
     # Default installation folder for binaries installed with gem
     export PATH="`$GEM_PATH env gemdir`/bin:$PATH"
@@ -95,10 +95,10 @@ brew_packages_variables_export () {
 # Java home
 java_home_export () {
   # Using java_home to check for installed java version
-  command -v /usr/libexec/java_home >/dev/null 2>&1 || { echo >&2 "Can't process JAVA_HOME."; return; }
+  command -v /usr/libexec/java_home > /dev/null 2>&1 || { echo >&2 "Can't process JAVA_HOME."; return; }
 
-  JAVA_HOME_8=$(/usr/libexec/java_home -Fv1.8 2>/dev/null)
-  JAVA_HOME_LATEST=$(/usr/libexec/java_home 2>/dev/null)
+  JAVA_HOME_8=$(/usr/libexec/java_home -Fv1.8 2> /dev/null)
+  JAVA_HOME_LATEST=$(/usr/libexec/java_home 2> /dev/null)
 
   # prefere java 8
   if [ "$JAVA_HOME_8" ]; then

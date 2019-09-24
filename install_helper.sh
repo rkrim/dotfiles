@@ -24,7 +24,7 @@ function is_brew_package_installed {
     brew_command="brew cask"
   fi
 
-  result=`$brew_command list --versions $package_name`
+  result=`$brew_command list --versions $package_name 2> /dev/null`
   if [[ $? == 0 ]]; then
     echo $result | cut -d " " -f2
     return $TRUE
@@ -58,7 +58,7 @@ function brew_package_install {
   prefix_line="Package $txt_attr_pkg_name$package_name$reset_all"
 
   echo -en $prefix_line" [$txt_attr_warning"" Processing $reset_all] :: Checking if already installed..."
-  package_version=`is_brew_package_installed "$package_name" $2`
+  package_version=`is_brew_package_installed "$package_name" $2 2> /dev/null`
   package_version_status=$?
 
   clear_line
@@ -72,7 +72,7 @@ function brew_package_install {
     if [[ $installtion_status == 0 ]]; then
       echo -en $prefix_line" [$txt_attr_success"" Installation successful $reset_all]" | tee -a $log_file
 
-      package_version=`is_brew_package_installed "$package_name" $2`
+      package_version=`is_brew_package_installed "$package_name" $2 2> /dev/null`
       package_version_status=$?
 
       if [[ $package_version_status == 0 ]]; then
@@ -142,7 +142,7 @@ function dotfiles_symlink {
   working_directory=`pwd`
 
   dotfiles_backup=".dotfiles.org"
-  dotfiles=($(ls $files_location 2>/dev/null))
+  dotfiles=($(ls $files_location 2> /dev/null))
   files_count=${#dotfiles[*]}
 
   if [[ $files_count -eq 0 || ($files_count -eq 1 && ${dotfiles[0]} == "") ]]; then
@@ -152,7 +152,7 @@ function dotfiles_symlink {
 
   # Create backup folder
   if [ ! -d ~/$dotfiles_backup ]; then
-    mkdir ~/$dotfiles_backup 2>/dev/null
+    mkdir ~/$dotfiles_backup 2> /dev/null
     if [ $? != 0 ]; then
       echo "Error: Can't create bakup folder, skipping simlink"
       return 1
@@ -172,14 +172,14 @@ function dotfiles_symlink {
 
     # Try to move existing file to backup folder, skip current link if it fails
     if [ -e $link_name ]; then
-      mv -n $link_name ~/$dotfiles_backup 2>/dev/null
+      mv -n $link_name ~/$dotfiles_backup 2> /dev/null
       if [ $? != 0 ]; then
         continue
       fi
     fi
 
     # echo "ln -s $file_path $link_name"
-    ln -s $file_path $link_name 2>/dev/null
+    ln -s $file_path $link_name 2> /dev/null
 
     if [ $? == 0 ]; then
       link_count=$((link_count + 1))
