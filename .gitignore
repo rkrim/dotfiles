@@ -68,3 +68,9 @@ Desktop.ini
 ######## Atom Editor ########
 #############################
 .atom/.apm*
+
+
+######## Config Files #######
+#############################
+home_files/android/*
+!home_files/android/repositories.cfg
