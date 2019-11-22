@@ -69,6 +69,7 @@ developer_tools=(
   "diffutils"
   "file-formula"
   "git"
+  "git-lfs"
   "git-quick-stats"
   "gnutls"
   "mitmproxy"
@@ -86,6 +87,7 @@ developer_tools=(
   "watchman"
   "wdiff"
   "wget"
+  "yarn"
 )
 brew_batch_install developer_tools[@]
 
@@ -187,6 +189,7 @@ echo
 print_title "Install Fonts (Cask)\n"
 fonts=(
   "homebrew/cask-fonts/font-menlo-for-powerline"
+  "homebrew/cask-fonts/font-roboto-mono-for-powerline"
 )
 brew_batch_install fonts[@] cask
 
