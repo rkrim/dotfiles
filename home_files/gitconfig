@@ -2,7 +2,7 @@
 # Add personal global config to ~/.gitconfig.user
 
 [core]
-  editor = atom --wait
+  editor = code --wait
 
   # Convert line endings to CRLF on checkout (useful only under windows)
   # Change this in ~/.gitconfig.user or per repository if needed
@@ -10,6 +10,7 @@
 
   # Don't consider changes on trailing space (EOL, EOF) as conflicts
   whitespace = -trailing-space
+	excludesfile = ~/.gitignore_global
 
 [color]
   # enable colors for supporting terminals
