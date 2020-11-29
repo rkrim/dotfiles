@@ -13,7 +13,7 @@ if [ `command -v brew` ]; then
   brew update;brew upgrade
 else
   echo "Not installed, installing"
-  /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
+  /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install.sh)"
 
   if [ ! `command -v brew` ]; then
     echo "Brew not installed, aborting."
@@ -46,12 +46,15 @@ cli_tools=(
   "gnu-which"
   "grep"
   "gzip"
+  "librsvg"
   "mas"
-  #"openssh" does not support macOS 10.12.2+ UseKeychain option
   "rsync"
   "screen"
   "tmux"
   "vitorgalvao/tiny-scripts/cask-repair"
+# OpenSSH does not support 'UseKeychain' option introduced in macOS 10.12.2+
+# To use this version, add "IgnoreUnknown UseKeychain" in config file before using it.
+# "openssh"
 )
 brew_batch_install cli_tools[@]
 
@@ -65,6 +68,7 @@ developer_tools=(
   "carthage"
   "chisel"
   "cocoapods"
+  "composer"
   "dex2jar"
   "diffutils"
   "file-formula"
@@ -76,11 +80,17 @@ developer_tools=(
   "node"
   "nvm"
   "ocaml"
+  "openjdk"
+  "openjdk@8"
+  "openjdk@11"
+  "gradle"  # Requires Java
   "perl"
   "python"
   "ruby"
+  "sonarqube" # Requires Java
   "sonar-scanner"
   "sonar-completion"
+  "svn"
   "tig"
   "vim"
   "watch"
@@ -130,14 +140,12 @@ ui_apps=(
   "android-studio"
   "appcleaner"
   "asset-catalog-tinkerer"
-  "atom"
-  "brackets"
   "charles"
   "cakebrew"
   "dbeaver-community"
   "deezer"
   "firefox"
-  "flux"
+  "fork"
   "google-chrome"
   "handbrake"
   "iina"
@@ -150,6 +158,8 @@ ui_apps=(
   "openemu"
   "opensim"
   "pusher"
+  "react-native-debugger"
+  "rectangle"
   "sequel-pro"
   "slack"
   "sourcetree"
@@ -160,6 +170,11 @@ ui_apps=(
   "vlc"
   "wwdc"
   "zeplin"
+# "atom"
+# "brackets"
+# "flux"
+# "vagrant"
+# "vagrant-manager"
 )
 brew_batch_install ui_apps[@] cask
 
@@ -202,23 +217,19 @@ unidentified=(
   "balenaetcher"
   "jd-gui"
   "oclint"
-  "realm-studio"
-  # "tftpserver"
+# "realm-studio"
+# "tftpserver"
 )
 brew_batch_install unidentified[@] cask
-
 
 echo
 print_title "Install Cask packages with user action required\n"
 action_required=(
-  "java"                                # Requires Password
-  "AdoptOpenJDK/openjdk/adoptopenjdk8"  # Requires Password
-  "virtualbox"                          # Requires Password
+  "virtualbox"                  # Requires Password
   "virtualbox-extension-pack"
-  "sonarqube"                           # Requires Java 11+
-  "swiftlint"                           # Requires Xcode App
+  #"swiftlint"                  # Requires Xcode App
 )
-brew_batch_install action_required[@] cask
+brew_batch_install action_required[@]
 
 
 echo
@@ -252,5 +263,9 @@ dotfiles_symlink "home_files"
 
 echo
 print_title "Bash Powerline installation\n"
+# Zsh is default shell in macOS 10.15+
+# Needs bash_profile under bash
+bash;source ~/.bash_profile
 pip install --user powerline-gitstatus
 pip install --user powerline-status
+exit
