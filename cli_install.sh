@@ -35,6 +35,7 @@ brew_batch_install shells[@]
 echo
 print_title "Install cli tools\n"
 cli_tools=(
+  "autoconf"
   "binutils"
   "coreutils"
   "ed"
@@ -241,7 +242,28 @@ brew_batch_install drivers[@] cask
 
 
 echo
-print_title "Cleaning up Homebrew\n"
+print_title "Brew post-install & clean\n"
+
+# Java registration
+JAVA_BREW=$(brew --prefix openjdk 2> /dev/null)
+JAVA_BREW_11=$(brew --prefix openjdk@11 2> /dev/null)
+JAVA_BREW_8=$(brew --prefix openjdk@8 2> /dev/null)
+JDK_NAME="openjdk.jdk"
+JVM_HOME="/Library/Java/JavaVirtualMachines"
+
+if [ "$JAVA_BREW" ]; then
+  sudo ln -sfn "$JAVA_BREW/libexec/$JDK_NAME" "$JVM_HOME/$JDK_NAME"
+fi
+
+if [ "$JAVA_BREW_11" ]; then
+  sudo ln -sfn "$JAVA_BREW_11/libexec/$JDK_NAME" "$JVM_HOME/openjdk-11.jdk"
+fi
+
+if [ "$JAVA_BREW_8" ]; then
+  sudo ln -sfn "$JAVA_BREW_8/libexec/$JDK_NAME" "$JVM_HOME/openjdk-8.jdk"
+fi
+
+# Cleanup
 brew cleanup -s
 rm -rf $(brew --cache)
 

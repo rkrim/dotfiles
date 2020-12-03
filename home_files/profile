@@ -94,15 +94,18 @@ brew_packages_variables_export () {
 
 # Java home
 java_home_export () {
-  # Using java_home to check for installed java version
+  # Using java_home to check for installed java version, 'java_home -V' to list all installed version
   command -v /usr/libexec/java_home > /dev/null 2>&1 || { echo >&2 "Can't process JAVA_HOME."; return; }
 
-  JAVA_HOME_8=$(/usr/libexec/java_home -Fv1.8 2> /dev/null)
-  JAVA_HOME_LATEST=$(/usr/libexec/java_home 2> /dev/null)
+  JAVA_HOME_LTS_8=$(/usr/libexec/java_home -v1.8 2> /dev/null)
+  JAVA_HOME_LTS_11=$(/usr/libexec/java_home -v11 2> /dev/null)
+  JAVA_HOME_LATEST=$( /usr/libexec/java_home 2> /dev/null)
 
-  # prefere java 8
-  if [ "$JAVA_HOME_8" ]; then
-    export JAVA_HOME=$JAVA_HOME_8
+  # Prefere Java 8, then latest LTS, then latest version
+  if [ "$JAVA_HOME_LTS_8" ]; then
+    export JAVA_HOME=$JAVA_HOME_LTS_8
+  elif [ "$JAVA_HOME_LTS_11" ]; then
+    export JAVA_HOME=$JAVA_HOME_LTS_11
   elif [ "$JAVA_HOME_LATEST" ]; then
     export JAVA_HOME=$JAVA_HOME_LATEST
   fi
