@@ -57,7 +57,7 @@ brew_packages_variables_export () {
       [ -s "$BREW_PATH/opt/nvm/etc/bash_completion" ] && source "$BREW_PATH/opt/nvm/etc/bash_completion"
       [ -s "$BREW_PATH/opt/nvm/etc/bash_completion.d/nvm" ] && source "$BREW_PATH/opt/nvm/etc/bash_completion.d/nvm"
     else
-      echo "Can't find nvm in brew packages, you can install it using 'brew install nvm'"
+      echo "'nvm' not installed or '~/.nvm' directory missing. Install it using 'brew install nvm'"
     fi
   }
 
