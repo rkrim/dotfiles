@@ -134,19 +134,19 @@ function add_acceptable_shell {
 # original files will be moved to a backup folder
 function dotfiles_symlink {
   if [[ $# != 1 || $1 == "" ]]; then
-    echo "Bad argument: Expected non empty String"
+    echo "Bad argument: Expected dotfiles location"
     return 1
   fi
 
   files_location=$1
   working_directory=`pwd`
 
-  dotfiles_backup=".dotfiles.org"
+  dotfiles_backup=".dotfiles.old"
   dotfiles=($(ls $files_location 2> /dev/null))
   files_count=${#dotfiles[*]}
 
   if [[ $files_count -eq 0 || ($files_count -eq 1 && ${dotfiles[0]} == "") ]]; then
-    echo "No file found"
+    echo >&2 "No file found in provided dotfiles folder"
     return 1
   fi
 
@@ -154,7 +154,7 @@ function dotfiles_symlink {
   if [ ! -d ~/$dotfiles_backup ]; then
     mkdir ~/$dotfiles_backup 2> /dev/null
     if [ $? != 0 ]; then
-      echo "Error: Can't create bakup folder, skipping simlink"
+      echo >&2 "Error: Can't create bakup folder, skipping simlink"
       return 1
     fi
   fi
@@ -186,9 +186,15 @@ function dotfiles_symlink {
     fi
   done
 
+  # Remove backup folder if empty
+  if [ -z "$(ls -A ~/$dotfiles_backup 2> /dev/null)" ]; then
+    rm -rf ~/$dotfiles_backup
+  fi
+
   if [[ $link_count != $files_count ]]; then
-    echo "Warning: Created '$link_count' links, while expecting '$files_count'"
+    echo >&2 "Warning: Created '$link_count' links, while expecting '$files_count'"
     return 1
   fi
+
   return 0
 }
