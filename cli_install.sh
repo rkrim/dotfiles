@@ -290,4 +290,10 @@ print_title "Bash Powerline installation\n"
 bash;source ~/.bash_profile
 pip install --user powerline-gitstatus
 pip install --user powerline-status
+
+
+echo
+print_title "Install Mac AppStore Apps\n"
+./mas_installer.sh
+
 exit

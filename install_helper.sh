@@ -104,6 +104,20 @@ function brew_batch_install {
   done
 }
 
+# mas_batch_install()
+# Install a list of mas applications
+# @param1 required, an array of mas app identifiers
+function mas_batch_install {
+  if [[ $# != 1 || $1 == "" ]]; then
+    return $FALSE
+  fi
+
+  declare -a packages=("${!1}")
+
+  for package in "${packages[@]}"; do
+    mas install $package
+  done
+}
 
 # add_acceptable_shell()
 # Add a shell path to acceptable login shells (chpass)
