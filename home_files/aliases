@@ -19,7 +19,6 @@ alias screen="screen -U -T screen-256color"
 alias gti="git"
 alias quit="exit"
 
-
 # Listing :: LS (GNU or BSD)
 LS_COLORS_SCHEME_FILE_PATH=~/.dircolors.main
 if [[ $(ls --color > /dev/null 2>&1; echo $?) == 0 ]] ; then
@@ -48,25 +47,24 @@ fi
 # -h Use unit suffixes: Byte, Kilobyte, Megabyte, Gigabyte, Terabyte and Petabyte
 # -F Display '/' after directory, '*' after executable, '@' after symbolic link,
 # '=' after socket, '%' after whiteout, '|' after a FIFO.
-
 alias ls="ls -h ${LS_COLOR_FLAG} ${LS_DIRECTORY_FIRST_FLAG}"
 alias l="ls -lF ${LS_COLOR_FLAG}"
 alias la="ls -laF ${LS_COLOR_FLAG}"
 alias lsd="\ls -Al | grep --color=never '^d'"
 
-# Lock Session :: Away From Keyboard
-alias afk="/System/Library/CoreServices/Menu\ Extras/User.menu/Contents/Resources/CGSession -suspend"
-
 ### GUI Apps
 alias finder="open -a Finder"
 alias here="open -a Finder ."
 alias safari="open -a Safari"
-alias textedit="open -a '/Applications/TextEdit.app'"
+alias textedit="open -a '/System/Applications/TextEdit.app'"
 alias sourcetree="open -a '/Applications/SourceTree.app'"
 alias xcode="open -a '/Applications/XCode.app'"
 alias ios="open -a /Applications/Xcode.app/Contents/Developer/Applications/Simulator.app"
 alias emacs="open -a /Applications/Emacs.app"
 alias slack="open -a '/Applications/Slack.app'"
+
+### Homebrew
+alias brew_upgrade_cask="brew update;brew upgrade $(brew outdated --greedy --verbose | grep -v '(latest)' | cut -d' ' -f1)"
 
 ### Web services shortcuts
 alias weather="curl wttr.in"
