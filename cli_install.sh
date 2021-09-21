@@ -186,7 +186,7 @@ ui_apps=(
 # "vagrant"
 # "vagrant-manager"
 )
-brew_batch_install ui_apps[@] cask
+brew_batch_install ui_apps[@]
 
 
 echo
@@ -199,7 +199,7 @@ ql_plugins=(
   "provisionql"
   "quicklookapk"
 )
-brew_batch_install ql_plugins[@] cask
+brew_batch_install ql_plugins[@]
 
 
 echo
@@ -207,7 +207,7 @@ print_title "Install ScreenSavers (Cask)\n"
 screensavers=(
   "aerial"
 )
-brew_batch_install screensavers[@] cask
+brew_batch_install screensavers[@]
 
 
 echo
@@ -216,7 +216,7 @@ fonts=(
   "homebrew/cask-fonts/font-menlo-for-powerline"
   "homebrew/cask-fonts/font-roboto-mono-for-powerline"
 )
-brew_batch_install fonts[@] cask
+brew_batch_install fonts[@]
 
 
 echo
@@ -230,7 +230,7 @@ unidentified=(
 # "realm-studio"
 # "tftpserver"
 )
-brew_batch_install unidentified[@] cask
+brew_batch_install unidentified[@]
 
 echo
 print_title "Install Cask packages with user action required\n"
@@ -247,7 +247,7 @@ print_title "Drivers and other Hardware apps (Cask)\n"
 drivers=(
   "homebrew/cask-drivers/logitech-options"
 )
-brew_batch_install drivers[@] cask
+brew_batch_install drivers[@]
 
 
 echo
