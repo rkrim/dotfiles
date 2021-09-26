@@ -74,7 +74,9 @@ rosetta_apps=(
 )
 
 if [ "$ARCH_NAME" == "$ARCH_X86_64" ]; then
-  echo
-  print_title "Install Rosetta Apps\n"
+  # If arch is emulated
+  if [ "$(sysctl -in sysctl.proc_translated)" = "1" ]; then
+    print_title "Install Rosetta Apps\n"
+  fi
   mas_batch_install rosetta_apps[@]
 fi

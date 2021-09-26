@@ -169,7 +169,6 @@ ui_apps=(
   "iterm2"
   "keepingyouawake"
   "notion"
-  "microsoft-edge"
   "maciasl"
   "monitorcontrol"
   "opera"
@@ -231,8 +230,7 @@ brew_batch_install unidentified[@]
 echo
 print_title "Install Cask packages with user action required\n"
 action_required=(
-  "virtualbox"                  # Requires Password
-  "virtualbox-extension-pack"
+  "microsoft-edge"              # Requires Password
 )
 brew_batch_install action_required[@]
 
@@ -265,14 +263,20 @@ arch_rosetta=(
   "dbeaver-community"
   "deezer"
   "imageoptim"
+  "virtualbox"                  # Requires Password
+  "virtualbox-extension-pack"
 )
 
 if [ "$ARCH_NAME" == "$ARCH_X86_64" ]; then
   echo
   print_title "Install x86_64 arch tools & apps:\n"
   brew_batch_install arch_x86_64[@]
-  echo
-  print_title "Install Rosetta apps:\n"
+
+  # If arch is emulated
+  if [ "$(sysctl -in sysctl.proc_translated)" = "1" ]; then
+    echo
+    print_title "Install Rosetta apps:\n"
+  fi
   brew_batch_install arch_rosetta[@]
 fi
 
