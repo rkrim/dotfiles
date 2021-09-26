@@ -65,21 +65,7 @@ update_terminal_behavior () {
 export HISTCONTROL=ignoreboth:erasedup
 
 # Add Bash Completion
-COMPLETION_1_FILENAME="/usr/local/etc/bash_completion"
-COMPLETION_2_FILENAME="/usr/local/share/bash-completion/bash_completion"
-COMPLETION_1_MIN_VERSION="3.2"
-COMPLETION_2_MIN_VERSION="4.1"
-VERSION_SEPARATOR="."
-result_1=$(version_compare $COMPLETION_1_MIN_VERSION $BASH_VERSION $VERSION_SEPARATOR; echo $?)
-if [[ $result_1 == 0 || $result_1 == 1 ]]; then
-  COMPLETION_FILENAME=$COMPLETION_1_FILENAME
-
-  result_2=$(version_compare $COMPLETION_2_MIN_VERSION $BASH_VERSION $VERSION_SEPARATOR; echo $?)
-  if [[ $result_2 == 0 || $result_2 == 1 ]]; then
-    COMPLETION_FILENAME=$COMPLETION_2_FILENAME
-  fi
-fi
-
+COMPLETION_FILENAME="/usr/local/etc/profile.d/bash_completion.sh"
 # Auto-Complete if in interactive mode
 if [[ $- == *i* && -n $COMPLETION_FILENAME && -f $COMPLETION_FILENAME ]]; then
   source $COMPLETION_FILENAME
