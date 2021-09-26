@@ -9,14 +9,16 @@ source ./install_helper.sh
 print_title "Check Installer:"
 
 if [ -z `command -v mas` ]; then
-  echo "\nRequired installer not found"
-  exit 1
+  echo -e "\nRequired installer not found"
+  exit $EXIT_FAILURE
 fi
 
 result=`mas account 2> /dev/null`
 if [ $? -ne 0 ]; then
-  echo "\nAccount issue, please make sure you're connected to Mac AppStore" >&2
-  exit 1
+  echo -e "\nAccount issue, please make sure you're connected to the 'App Store'" >&2
+  echo -e "To restart from this stage, you can launch '`basename "$0"`'"
+  open -a "App Store"
+  exit $EXIT_FAILURE
 fi
 
 
