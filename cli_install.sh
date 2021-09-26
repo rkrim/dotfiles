@@ -22,6 +22,22 @@ else
 fi
 
 
+### NOGO APPS/TOOLS & WHY ###
+# "atom"              // Now using VSCode
+# "brackets"          // Now using VSCode
+# "flux"              // Now using macOS Night Shift
+# "slack"             // Installed via mas
+# "openssh"           // OpenSSH does not support 'UseKeychain' option introduced in macOS 10.12.2+
+#                     // To use this version, add "IgnoreUnknown UseKeychain" in config file before using it.
+# "swiftlint"         // Requires Xcode App
+# "angry-ip-scanner"  // Unidentified developer (signature), no permission
+# "jd-gui"            // Unidentified developer (signature), no permission
+# "realm-studio"      // Deprecated legacy software since acquisition by MongoDB
+# "tftpserver"        // No more exists in repo
+# "vagrant"           // On demand
+# "vagrant-manager"   // Runs with Vagrant
+
+
 echo
 print_title "Install Shells:\n"
 shells=(
@@ -53,9 +69,6 @@ cli_tools=(
   "screen"
   "tmux"
   "vitorgalvao/tiny-scripts/cask-repair"
-# OpenSSH does not support 'UseKeychain' option introduced in macOS 10.12.2+
-# To use this version, add "IgnoreUnknown UseKeychain" in config file before using it.
-# "openssh"
 )
 brew_batch_install cli_tools[@]
 
@@ -84,7 +97,7 @@ developer_tools=(
   "openjdk"
   "openjdk@8"
   "openjdk@11"
-  "gradle"  # Requires Java
+  "gradle"      # Requires Java11
   "perl"
   "python"
   "ruby"
@@ -142,6 +155,7 @@ ui_apps=(
   "anydesk"
   "appcleaner"
   "asset-catalog-tinkerer"
+  "brave-browser"
   "charles"
   "cakebrew"
   "dash3"
@@ -150,7 +164,6 @@ ui_apps=(
   "firefox"
   "fork"
   "google-chrome"
-  "brave-browser"
   "handbrake"
   "iina"
   "intellij-idea-ce"
@@ -159,6 +172,8 @@ ui_apps=(
   "iterm2"
   "keepingyouawake"
   "macdown"
+  "notion"
+  "microsoft-edge"
   "maciasl"
   "monitorcontrol"
   "opera"
@@ -179,12 +194,6 @@ ui_apps=(
   "vlc"
   "wwdc"
   "zeplin"
-# "atom"
-# "brackets"
-# "flux"
-# "slack" # Installed via mas
-# "vagrant"
-# "vagrant-manager"
 )
 brew_batch_install ui_apps[@]
 
@@ -223,21 +232,17 @@ echo
 print_title "Install packages from 'Unidentified Developer' (Cask)\n"
 echo "Requires open authorization in 'System Preferences > Security & Privacy > General'"
 unidentified=(
-  "angry-ip-scanner"
   "balenaetcher"
-  "jd-gui"
   "oclint"
-# "realm-studio"
-# "tftpserver"
 )
 brew_batch_install unidentified[@]
+
 
 echo
 print_title "Install Cask packages with user action required\n"
 action_required=(
   "virtualbox"                  # Requires Password
   "virtualbox-extension-pack"
-  #"swiftlint"                  # Requires Xcode App
 )
 brew_batch_install action_required[@]
 
