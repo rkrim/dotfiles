@@ -1,11 +1,18 @@
 #!/usr/bin/env bash
 
 # Include required libraries
+source ./std.sh
 source ./pretty-print.sh
 source ./install_helper.sh
 
 
+### ARCHITECTURE DETECTION ###
+txt_attr_name=$(txt_attr $FG_COLOR_LIGHT_GREEN)
+print_title "Detected architecture: $txt_attr_name""$ARCH_NAME""$reset_all\n"
+
+
 ### INSTALL ###
+echo
 print_title "Install and/or update Homebrew:\n"
 
 if [ `command -v brew` ]; then
@@ -25,6 +32,7 @@ fi
 ### NOGO APPS/TOOLS & WHY ###
 # "atom"              // Now using VSCode
 # "brackets"          // Now using VSCode
+# "dash3"             // No more available in repo
 # "flux"              // Now using macOS Night Shift
 # "slack"             // Installed via mas
 # "openssh"           // OpenSSH does not support 'UseKeychain' option introduced in macOS 10.12.2+
@@ -33,7 +41,7 @@ fi
 # "angry-ip-scanner"  // Unidentified developer (signature), no permission
 # "jd-gui"            // Unidentified developer (signature), no permission
 # "realm-studio"      // Deprecated legacy software since acquisition by MongoDB
-# "tftpserver"        // No more exists in repo
+# "tftpserver"        // No more available in repo
 # "vagrant"           // On demand
 # "vagrant-manager"   // Runs with Vagrant
 
@@ -72,12 +80,10 @@ cli_tools=(
 )
 brew_batch_install cli_tools[@]
 
-
 echo
 print_title "Install developer cli tools\n"
 developer_tools=(
   "ack"
-  "apktool"
   "boost"
   "carthage"
   "chisel"
@@ -95,15 +101,11 @@ developer_tools=(
   "nvm"
   "ocaml"
   "openjdk"
-  "openjdk@8"
   "openjdk@11"
   "gradle"      # Requires Java11
   "perl"
   "python"
   "ruby"
-  "sonarqube" # Requires Java
-  "sonar-scanner"
-  "sonar-completion"
   "svn"
   "tig"
   "vim"
@@ -158,35 +160,23 @@ ui_apps=(
   "brave-browser"
   "charles"
   "cakebrew"
-  "dash3"
-  "dbeaver-community"
-  "deezer"
   "firefox"
   "fork"
   "google-chrome"
   "handbrake"
   "iina"
   "intellij-idea-ce"
-  "imageoptim"
-  "impactor"
   "iterm2"
   "keepingyouawake"
-  "macdown"
   "notion"
   "microsoft-edge"
   "maciasl"
   "monitorcontrol"
   "opera"
-  "openemu"
-  "opensim"
   "paw"
-  "pusher"
   "react-native-debugger"
   "rectangle"
-  "sequel-pro"
   "silentknight"
-  "sketch-toolbox"
-  "sourcetree"
   "spotify"
   "transmission"
   "typora"
@@ -253,6 +243,38 @@ drivers=(
   "homebrew/cask-drivers/logitech-options"
 )
 brew_batch_install drivers[@]
+
+
+### ARCH TARGET APPS/TOOLS ###
+arch_x86_64=(
+  "apktool"
+  "openjdk@8"
+  "sonarqube"         # Requires Java11
+  "sonar-scanner"     # Runs with sonarqube
+  "sonar-completion"  # Runs with sonarqube
+  "impactor"
+  "macdown"
+  "openemu"
+  "opensim"
+  "pusher"
+  "sequel-pro"
+  "sketch-toolbox"
+  "sourcetree"
+)
+arch_rosetta=(
+  "dbeaver-community"
+  "deezer"
+  "imageoptim"
+)
+
+if [ "$ARCH_NAME" == "$ARCH_X86_64" ]; then
+  echo
+  print_title "Install x86_64 arch tools & apps:\n"
+  brew_batch_install arch_x86_64[@]
+  echo
+  print_title "Install Rosetta apps:\n"
+  brew_batch_install arch_rosetta[@]
+fi
 
 
 echo

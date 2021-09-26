@@ -6,6 +6,10 @@
 EXIT_SUCCESS=0
 EXIT_FAILURE=1
 
+# Architecture detection
+ARCH_X86_64="x86_64"
+ARCH_ARM64="arm64"
+ARCH_NAME="$(uname -m)"
 
 # Check if the argument is a positive number
 is_positive_number() {

@@ -29,7 +29,6 @@ mas_apps=(
   "1333542190"  # 1Password 7 - Password Manager
   "425424353"   # The Unarchiver
   "1116599239"  # NordVPN-IKE-Unlimited-VPN
-  "935235287"   # Encrypto-Secure-Your-Files
 
   # Developer
   "497799835"   # Xcode
@@ -41,33 +40,41 @@ mas_apps=(
   "409203825"   # Numbers
   "409201541"   # Pages
   "409183694"   # Keynote
-  "1274495053"  # Microsoft-To-Do
-  "1278508951"  # Trello
 
   # Reference
   "430255202"   # MacTracker
-  "568494494"   # Pocket
 
   # Communication
   "1176895641"  # Spark – Email App by Readdle
   "803453959"   # Slack
   "1482454543"  # Twitter
-  "1480068668"  # Messenger
-  "1147396723"  # WhatsApp Desktop
-
-  # Media
-  "461369673"   # Vox-Mp3-Flac-Music-Player
 
   # Media Editor
-  "407963104"   # Pixelmator-Classic
   "408981434"   # iMovie
-
-  # Games
-  "512204619"   # Radiant Defense
 
   # Safari Extensions
   "1440147259"  # AdGuard-For-Safari
+
+  # Customization
+  "1284863847"  # Unsplash Wallpapers
 )
 mas_batch_install mas_apps[@]
 
 
+rosetta_apps=(
+  "935235287"   # Encrypto-Secure-Your-Files (rosetta)
+  "1274495053"  # Microsoft-To-Do (rosetta)
+  "1278508951"  # Trello (rosetta)
+  "568494494"   # Pocket (rosetta)
+  "1480068668"  # Messenger (rosetta)
+  "1147396723"  # WhatsApp Desktop (rosetta)
+  "461369673"   # Vox-Mp3-Flac-Music-Player (rosetta)
+  "407963104"   # Pixelmator-Classic (rosetta)
+  "512204619"   # Radiant Defense (rosetta)
+)
+
+if [ "$ARCH_NAME" == "$ARCH_X86_64" ]; then
+  echo
+  print_title "Install Rosetta Apps\n"
+  mas_batch_install rosetta_apps[@]
+fi
