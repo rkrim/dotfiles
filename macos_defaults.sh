@@ -8,9 +8,9 @@
 # Get bundle id from App Name
 function bundle_id() {
   bundle_id=`osascript -e "id of app \"$1\"" 2> /dev/null`
-  return_status=$?
+  function_return_status=$?
   echo $bundle_id
-  return $return_status
+  return $function_return_status
 }
 
 # Close Application by name

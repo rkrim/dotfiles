@@ -3,6 +3,7 @@
 
 
 # Include required libraries
+source ./std.sh
 source ./pretty-print.sh
 
 
@@ -13,7 +14,9 @@ source ./pretty-print.sh
 # @return: The versoin number of the package if its installed
 function is_brew_package_installed {
   if [[ $# == 0  || $# > 1 || $1 == "" ]]; then
-    return $FALSE
+    echo "${FUNCNAME[0]}() :: bad_arguments"
+    false
+    return $EXIT_FAILURE
   fi
 
   package_tokens=( $1 )
@@ -23,9 +26,9 @@ function is_brew_package_installed {
   result=`$brew_command list --versions $package_name 2> /dev/null`
   if [[ $? == 0 ]]; then
     echo $result | cut -d " " -f2
-    return $TRUE
+    true
   else
-    return $FALSE
+    false
   fi
 }
 
@@ -35,7 +38,8 @@ function is_brew_package_installed {
 # @param1 required, Package name, or package name with installation aruments
 function brew_package_install {
   if [[ $# == 0  || $# > 1 || $1 == "" ]]; then
-    return $FALSE
+    echo "${FUNCNAME[0]}() :: bad_arguments"
+    return $EXIT_FAILURE
   fi
 
   brew_command="brew"
@@ -84,7 +88,8 @@ function brew_package_install {
 # @param1 required, an array of brew packages, or list of brew packages with installtion aruments
 function brew_batch_install {
   if [[ $# == 0  || $# > 1 || $1 == "" ]]; then
-    return $FALSE
+    echo "${FUNCNAME[0]}() :: bad_arguments"
+    return $EXIT_FAILURE
   fi
 
   declare -a packages=("${!1}")
@@ -99,7 +104,8 @@ function brew_batch_install {
 # @param1 required, an array of mas app identifiers
 function mas_batch_install {
   if [[ $# != 1 || $1 == "" ]]; then
-    return $FALSE
+    echo "${FUNCNAME[0]}() :: bad_arguments"
+    return $EXIT_FAILURE
   fi
 
   declare -a packages=("${!1}")
@@ -115,17 +121,21 @@ function mas_batch_install {
 # @param2: optional, switch parameter, if true: make shell the default one for the current user, default: false
 function add_acceptable_shell {
   if [[ $# == 0  || $# > 2 || $1 == "" ]]; then
-    return $FALSE
+    echo "${FUNCNAME[0]}() :: bad_arguments"
+    return $EXIT_FAILURE
   fi
 
   shell_path=$1
-  make_default_shell=$2
+  make_default_shell=false
+  if [[ -n $2 && ($2 == "default" || $2 == "true") ]]; then
+    make_default_shell=true
+  fi
 
   if [[ -n $shell_path && ! `cat /etc/shells | grep $shell_path` ]]; then
     echo $shell_path | sudo tee -a /etc/shells
 
     # Change the current user default shell to the new one
-    if [[ -n $make_default_shell && ($make_default_shell == "default" || $make_default_shell == "true" || $make_default_shell == $TRUE ) && `command -v chsh` ]]; then
+    if [[ $make_default_shell && `command -v chsh` ]]; then
       chsh -s $shell_path
     fi
   fi
@@ -138,8 +148,8 @@ function add_acceptable_shell {
 # original files will be moved to a backup folder
 function dotfiles_symlink {
   if [[ $# != 1 || $1 == "" ]]; then
-    echo "Bad argument: Expected dotfiles location"
-    return 1
+    echo "${FUNCNAME[0]}() :: bad_arguments"
+    return $EXIT_FAILURE
   fi
 
   files_location=$1
@@ -150,16 +160,16 @@ function dotfiles_symlink {
   files_count=${#dotfiles[*]}
 
   if [[ $files_count -eq 0 || ($files_count -eq 1 && ${dotfiles[0]} == "") ]]; then
-    echo >&2 "No file found in provided dotfiles folder"
-    return 1
+    echo >&2 "${FUNCNAME[0]}() :: No file found in provided dotfiles folder"
+    return $EXIT_FAILURE
   fi
 
   # Create backup folder
   if [ ! -d ~/$dotfiles_backup ]; then
     mkdir ~/$dotfiles_backup 2> /dev/null
     if [ $? != 0 ]; then
-      echo >&2 "Error: Can't create bakup folder, skipping simlink"
-      return 1
+    echo >&2 "${FUNCNAME[0]}() :: Error: Can't create bakup folder, skipping simlink"
+    return $EXIT_FAILURE
     fi
   fi
 
@@ -196,9 +206,9 @@ function dotfiles_symlink {
   fi
 
   if [[ $link_count != $files_count ]]; then
-    echo >&2 "Warning: Created '$link_count' links, while expecting '$files_count'"
-    return 1
+    echo >&2 "${FUNCNAME[0]}() :: Warning: Created '$link_count' links, while expecting '$files_count'"
+    return $EXIT_FAILURE
   fi
 
-  return 0
+  return $EXIT_SUCCESS
 }

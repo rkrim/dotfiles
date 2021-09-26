@@ -1,10 +1,11 @@
 # ~/.pretty-print.sh
 # Utilities to prettify display
 
+# Include required libraries
+source ./std.sh
 
 
 ### Echo Formatting and Colors #################################################
-
 
 ### Format <ESC_SEQ>[ATTR_1;ATTR_2;..m
 ### Escape sequence
@@ -35,18 +36,6 @@ BG_COLOR_LIGHT_RED='101';BG_COLOR_LIGHT_GREEN='102';BG_COLOR_LIGHT_YELLOW='103'
 BG_COLOR_LIGHT_BLUE='104';BG_COLOR_LIGHT_MAGENTA='105';BG_COLOR_LIGHT_CYAN='106'
 BG_COLOR_WHITE='107'
 
-# Boolean vars
-TRUE=0
-FALSE=1
-
-# Check if the argument is a positive number
-is_positive_number() {
-  if [[ $# != 1 ]]; then
-    return $FALSE
-  fi
-  decimal_regexp='^[0-9]+$'
-  [[ $1 =~ $decimal_regexp ]]
-}
 
 # Create an echo parsable expression from arguments for setting text attributes
 # and colors
@@ -56,14 +45,12 @@ txt_attr() {
     if ! is_positive_number $1; then
       ATTR_EXP=""
       echo "$ATTR_EXP"
-      return $FALSE
     fi
     ATTR_EXP="$ATTR_EXP$1;"
     shift
   done
   ATTR_EXP="$ESC_SEQ[${ATTR_EXP:0:${#ATTR_EXP}-1}m"
   echo -e "$ATTR_EXP"
-  return $TRUE
 }
 
 #
