@@ -65,7 +65,7 @@ update_terminal_behavior () {
 export HISTCONTROL=ignoreboth:erasedup
 
 # Add Bash Completion
-COMPLETION_FILENAME="/usr/local/etc/profile.d/bash_completion.sh"
+COMPLETION_FILENAME="$HOMEBREW_PREFIX/etc/profile.d/bash_completion.sh"
 # Auto-Complete if in interactive mode
 if [[ $- == *i* && -n $COMPLETION_FILENAME && -f $COMPLETION_FILENAME ]]; then
   source $COMPLETION_FILENAME

@@ -13,24 +13,27 @@ export LANGUAGE=en_US.UTF-8
 
 brew_packages_variables_export () {
 
-  # Check that brew exist before continue
-  command -v brew > /dev/null 2>&1 || { echo >&2 "Brew not installed. no package variable to export."; return; }
-  BREW_PATH=`brew --prefix`
+  # Check that brew exist in preferred location before continue
+  BREW_PATH="/usr/local/bin/brew"
+  command -v $BREW_PATH > /dev/null 2>&1 || BREW_PATH="/opt/homebrew/bin/brew"
+  command -v $BREW_PATH > /dev/null 2>&1 || {
+    echo >&2 "Brew not found in preferred location, please check: https://docs.brew.sh/Installation";
+    echo >&2 "No package variable to export.";
+    return;
+  }
 
-  # Check that Homebrew’s install path exist before continue
-  if [ ! -d "$BREW_PATH" ]; then
-    return
-  fi
+  # Export brew environment paths
+  eval $($BREW_PATH shellenv)
 
   # Coreutils
-  if [[ -d "$BREW_PATH/opt/coreutils/libexec" ]]; then
-    export PATH="$BREW_PATH/opt/coreutils/libexec/gnubin:$PATH"
-    export MANPATH="$BREW_PATH/opt/coreutils/libexec/gnuman:$MANPATH"
+  if [[ -d "$HOMEBREW_PREFIX/opt/coreutils/libexec" ]]; then
+    export PATH="$HOMEBREW_PREFIX/opt/coreutils/libexec/gnubin:$PATH"
+    export MANPATH="$HOMEBREW_PREFIX/opt/coreutils/libexec/gnuman:$MANPATH"
   fi
 
   # Python
-  if [[ -d "$BREW_PATH/opt/python/libexec/bin" ]]; then
-    export PATH="$BREW_PATH/opt/python/libexec/bin:$PATH"
+  if [[ -d "$HOMEBREW_PREFIX/opt/python/libexec/bin" ]]; then
+    export PATH="$HOMEBREW_PREFIX/opt/python/libexec/bin:$PATH"
     export PYTHON_USER_BASE=`python -m site --user-base`
     export PYTHON_USER_SITE=`python -m site --user-site`
 
@@ -40,7 +43,7 @@ brew_packages_variables_export () {
   fi
 
   # Node
-  local NODE_DIRECTTORY="$BREW_PATH/opt/node"
+  local NODE_DIRECTTORY="$HOMEBREW_PREFIX/opt/node"
   if [[ -d "$NODE_DIRECTTORY" ]]; then
     NODE_BINARIES="$NODE_DIRECTTORY/bin"
     export PATH="$NODE_BINARIES:$PATH"
@@ -51,22 +54,22 @@ brew_packages_variables_export () {
 
   # Node version manager (nvm)
   nvm_load () {
-    if [[ -e "$BREW_PATH/opt/nvm" && -d "$HOME/.nvm" ]]; then
+    if [[ -e "$HOMEBREW_PREFIX/opt/nvm" && -d "$HOME/.nvm" ]]; then
       export NVM_DIR="$HOME/.nvm"
-      [ -s "$BREW_PATH/opt/nvm/nvm.sh" ] && source "$BREW_PATH/opt/nvm/nvm.sh"
-      [ -s "$BREW_PATH/opt/nvm/etc/bash_completion" ] && source "$BREW_PATH/opt/nvm/etc/bash_completion"
-      [ -s "$BREW_PATH/opt/nvm/etc/bash_completion.d/nvm" ] && source "$BREW_PATH/opt/nvm/etc/bash_completion.d/nvm"
+      [ -s "$HOMEBREW_PREFIX/opt/nvm/nvm.sh" ] && source "$HOMEBREW_PREFIX/opt/nvm/nvm.sh"
+      [ -s "$HOMEBREW_PREFIX/opt/nvm/etc/bash_completion" ] && source "$HOMEBREW_PREFIX/opt/nvm/etc/bash_completion"
+      [ -s "$HOMEBREW_PREFIX/opt/nvm/etc/bash_completion.d/nvm" ] && source "$HOMEBREW_PREFIX/opt/nvm/etc/bash_completion.d/nvm"
     else
       echo "'nvm' not installed or '~/.nvm' directory missing. Install it using 'brew install nvm'"
     fi
   }
 
   # Ruby
-  if [[ -d "$BREW_PATH/opt/ruby/bin" ]]; then
-    export PATH="$BREW_PATH/opt/ruby/bin:$PATH"
-    export LDFLAGS="-L$BREW_PATH/opt/ruby/lib"
-    export CPPFLAGS="-I$BREW_PATH/opt/ruby/include"
-    export PKG_CONFIG_PATH="$BREW_PATH/opt/ruby/lib/pkgconfig:$PKG_CONFIG_PATH"
+  if [[ -d "$HOMEBREW_PREFIX/opt/ruby/bin" ]]; then
+    export PATH="$HOMEBREW_PREFIX/opt/ruby/bin:$PATH"
+    export LDFLAGS="-L$HOMEBREW_PREFIX/opt/ruby/lib"
+    export CPPFLAGS="-I$HOMEBREW_PREFIX/opt/ruby/include"
+    export PKG_CONFIG_PATH="$HOMEBREW_PREFIX/opt/ruby/lib/pkgconfig:$PKG_CONFIG_PATH"
   fi
 
   # RubyGems
@@ -77,18 +80,18 @@ brew_packages_variables_export () {
   fi
 
   # Android development
-  if [[ -d "$BREW_PATH/share/android-sdk" ]]; then
-    export ANDROID_SDK_ROOT="$BREW_PATH/share/android-sdk"
+  if [[ -d "$HOMEBREW_PREFIX/share/android-sdk" ]]; then
+    export ANDROID_SDK_ROOT="$HOMEBREW_PREFIX/share/android-sdk"
     export ANDROID_HOME=$ANDROID_SDK_ROOT
     export PATH="$ANDROID_HOME/emulator:$ANDROID_HOME/tools:$ANDROID_HOME/tools/bin:$ANDROID_HOME/platform-tools:$ANDROID_HOME/ndk-bundle:$PATH"
   fi
 
   # SQLite
-  if [[ -d "$BREW_PATH/opt/sqlite" ]]; then
-    export PATH="$BREW_PATH/opt/sqlite/bin:$PATH"
-    export LDFLAGS="-L$BREW_PATH/opt/sqlite/lib $LDFLAGS"
-    export CPPFLAGS="-I$BREW_PATH/opt/sqlite/include $CPPFLAGS"
-    export PKG_CONFIG_PATH="$BREW_PATH/opt/sqlite/lib/pkgconfig:$PKG_CONFIG_PATH"
+  if [[ -d "$HOMEBREW_PREFIX/opt/sqlite" ]]; then
+    export PATH="$HOMEBREW_PREFIX/opt/sqlite/bin:$PATH"
+    export LDFLAGS="-L$HOMEBREW_PREFIX/opt/sqlite/lib $LDFLAGS"
+    export CPPFLAGS="-I$HOMEBREW_PREFIX/opt/sqlite/include $CPPFLAGS"
+    export PKG_CONFIG_PATH="$HOMEBREW_PREFIX/opt/sqlite/lib/pkgconfig:$PKG_CONFIG_PATH"
   fi
 }
 
