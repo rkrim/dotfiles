@@ -237,9 +237,7 @@ brew_batch_install action_required[@]
 
 echo
 print_title "Drivers and other Hardware apps (Cask)\n"
-drivers=(
-  "homebrew/cask-drivers/logitech-options"
-)
+drivers=()
 brew_batch_install drivers[@]
 
 
@@ -263,6 +261,7 @@ arch_rosetta=(
   "dbeaver-community"
   "deezer"
   "imageoptim"
+  "homebrew/cask-drivers/logitech-options"
   "virtualbox"                  # Requires Password
   "virtualbox-extension-pack"
 )
