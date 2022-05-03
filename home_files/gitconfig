@@ -1,5 +1,5 @@
 # ~/.gitconfig
-# Add personal global config to ~/.gitconfig.user
+# Add any personal global config to ~/.gitconfig.user
 
 [core]
   editor = code --wait

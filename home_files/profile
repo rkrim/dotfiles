@@ -26,10 +26,9 @@ brew_packages_variables_export () {
   eval $($BREW_PATH shellenv)
 
   # Coreutils
-  if [[ -d "$HOMEBREW_PREFIX/opt/coreutils/libexec" ]]; then
-    export PATH="$HOMEBREW_PREFIX/opt/coreutils/libexec/gnubin:$PATH"
-    export MANPATH="$HOMEBREW_PREFIX/opt/coreutils/libexec/gnuman:$MANPATH"
-  fi
+  local COREUTILS_PREFIX="$HOMEBREW_PREFIX/opt/coreutils"
+  [[ -d "$COREUTILS_PREFIX/libexec/gnubin" ]] && export PATH="$COREUTILS_PREFIX/libexec/gnubin:$PATH"
+  [[ -d "$COREUTILS_PREFIX/libexec/gnuman" ]] && export MANPATH="$COREUTILS_PREFIX/libexec/gnuman:$MANPATH"
 
   # Python
   if [[ -d "$HOMEBREW_PREFIX/opt/python/libexec/bin" ]]; then
@@ -43,34 +42,33 @@ brew_packages_variables_export () {
   fi
 
   # Node
-  local NODE_DIRECTTORY="$HOMEBREW_PREFIX/opt/node"
-  if [[ -d "$NODE_DIRECTTORY" ]]; then
-    NODE_BINARIES="$NODE_DIRECTTORY/bin"
-    export PATH="$NODE_BINARIES:$PATH"
-    export NODE_BINARY="$NODE_BINARIES/node"
-    export LDFLAGS="-L$NODE_DIRECTTORY/lib"
-    export CPPFLAGS="-I$NODE_DIRECTTORY/include"
+  local NODE_PREFIX="$HOMEBREW_PREFIX/opt/node"
+  if [[ -d "$NODE_PREFIX" ]]; then
+    export PATH="$NODE_PREFIX/bin:$PATH"
+    export NODE_BINARY="$NODE_PREFIX/bin/node"
+    export LDFLAGS="-L$NODE_PREFIX/lib"
+    export CPPFLAGS="-I$NODE_PREFIX/include"
   fi
 
   # Node version manager (nvm)
   nvm_load () {
-    if [[ -e "$HOMEBREW_PREFIX/opt/nvm" && -d "$HOME/.nvm" ]]; then
+    local NVM_PREFIX="$HOMEBREW_PREFIX/opt/nvm"
+    if [[ -e "$NVM_PREFIX" && -d "$HOME/.nvm" ]]; then
       export NVM_DIR="$HOME/.nvm"
-      [ -s "$HOMEBREW_PREFIX/opt/nvm/nvm.sh" ] && source "$HOMEBREW_PREFIX/opt/nvm/nvm.sh"
-      [ -s "$HOMEBREW_PREFIX/opt/nvm/etc/bash_completion" ] && source "$HOMEBREW_PREFIX/opt/nvm/etc/bash_completion"
-      [ -s "$HOMEBREW_PREFIX/opt/nvm/etc/bash_completion.d/nvm" ] && source "$HOMEBREW_PREFIX/opt/nvm/etc/bash_completion.d/nvm"
+      [ -s "$NVM_PREFIX/nvm.sh" ] && source "$NVM_PREFIX/nvm.sh"
+      [ -s "$NVM_PREFIX/etc/bash_completion" ] && source "$NVM_PREFIX/etc/bash_completion"
+      [ -s "$NVM_PREFIX/etc/bash_completion.d/nvm" ] && source "$NVM_PREFIX/etc/bash_completion.d/nvm"
     else
       echo "'nvm' not installed or '~/.nvm' directory missing. Install it using 'brew install nvm'"
     fi
   }
 
   # Ruby
-  if [[ -d "$HOMEBREW_PREFIX/opt/ruby/bin" ]]; then
-    export PATH="$HOMEBREW_PREFIX/opt/ruby/bin:$PATH"
-    export LDFLAGS="-L$HOMEBREW_PREFIX/opt/ruby/lib"
-    export CPPFLAGS="-I$HOMEBREW_PREFIX/opt/ruby/include"
-    export PKG_CONFIG_PATH="$HOMEBREW_PREFIX/opt/ruby/lib/pkgconfig:$PKG_CONFIG_PATH"
-  fi
+  local RUBY_PREFIX="$HOMEBREW_PREFIX/opt/ruby"
+  [[ -d "$RUBY_PREFIX/bin" ]] && export PATH="$RUBY_PREFIX/bin:$PATH"
+  [[ -d "$RUBY_PREFIX/lib" ]] && export LDFLAGS="-L$RUBY_PREFIX/lib"
+  [[ -d "$RUBY_PREFIX/include" ]] && export CPPFLAGS="-I$RUBY_PREFIX/include"
+  [[ -d "$RUBY_PREFIX/lib/pkgconfig" ]] && export PKG_CONFIG_PATH="$RUBY_PREFIX/lib/pkgconfig:$PKG_CONFIG_PATH"
 
   # RubyGems
   export GEM_PATH=`command -v gem 2> /dev/null`
@@ -87,12 +85,11 @@ brew_packages_variables_export () {
   fi
 
   # SQLite
-  if [[ -d "$HOMEBREW_PREFIX/opt/sqlite" ]]; then
-    export PATH="$HOMEBREW_PREFIX/opt/sqlite/bin:$PATH"
-    export LDFLAGS="-L$HOMEBREW_PREFIX/opt/sqlite/lib $LDFLAGS"
-    export CPPFLAGS="-I$HOMEBREW_PREFIX/opt/sqlite/include $CPPFLAGS"
-    export PKG_CONFIG_PATH="$HOMEBREW_PREFIX/opt/sqlite/lib/pkgconfig:$PKG_CONFIG_PATH"
-  fi
+  local SQLITE_PREFIX="$HOMEBREW_PREFIX/opt/sqlite"
+  [[ -d "$SQLITE_PREFIX/bin" ]] && export PATH="$SQLITE_PREFIX/bin:$PATH"
+  [[ -d "$SQLITE_PREFIX/lib" ]] && export LDFLAGS="-L$SQLITE_PREFIX/lib $LDFLAGS"
+  [[ -d "$SQLITE_PREFIX/include" ]] && export CPPFLAGS="-I$SQLITE_PREFIX/include $CPPFLAGS"
+  [[ -d "$SQLITE_PREFIX/lib/pkgconfig" ]] && export PKG_CONFIG_PATH="$SQLITE_PREFIX/lib/pkgconfig:$PKG_CONFIG_PATH"
 }
 
 # Java home
