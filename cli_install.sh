@@ -91,6 +91,7 @@ echo
 print_title "Install developer cli tools\n"
 developer_tools=(
   "ack"
+  "android-commandlinetools"
   "boost"
   "carthage"
   "chisel"
@@ -160,7 +161,6 @@ print_title "Install Applications (Cask)\n"
 ui_apps=(
   "alt-tab"
   "android-file-transfer"
-  "android-sdk"
   "android-studio"
   "anydesk"
   "appcleaner"
