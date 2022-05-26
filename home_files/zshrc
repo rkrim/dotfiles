@@ -1,0 +1,19 @@
+# ~/.zshrc
+# sourced by zsh(1) for interactive shells, 
+
+
+# Lines configured by zsh-newuser-install
+HISTFILE=~/.histfile
+HISTSIZE=1000
+SAVEHIST=1000
+setopt beep extendedglob nomatch notify
+unsetopt autocd
+bindkey -e
+
+# End of lines configured by zsh-newuser-install
+# The following lines were added by compinstall
+zstyle :compinstall filename '~/.zshrc'
+
+autoload -Uz compinit
+compinit
+# End of lines added by compinstall

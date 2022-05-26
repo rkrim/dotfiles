@@ -1,0 +1,2 @@
+# ~/.zshenv
+# sourced by zsh(1) always at first, used to exporte environment variables.
