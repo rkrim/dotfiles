@@ -192,7 +192,6 @@ ui_apps=(
   "react-native-debugger"
   "rectangle"
   "signal"
-  "sdformatter"
   "sequel-pro"
   "silentknight"
   "spotify"
@@ -250,6 +249,7 @@ echo
 print_title "Install Cask packages with user action required\n"
 action_required=(
   "microsoft-edge"              # Requires Password
+  "sdformatter"                 # Requires Password
 )
 brew_batch_install action_required[@]
 
