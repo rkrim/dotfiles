@@ -117,6 +117,7 @@ developer_tools=(
   "svn"
   "tig"
   "vim"
+  "volta"
   "watch"
   "watchman"
   "wdiff"

@@ -67,6 +67,12 @@ brew_packages_variables_export () {
     fi
   }
 
+  # JavaScript Tool Manager (volta)
+  if [[ -d "$HOMEBREW_PREFIX/opt/volta" ]]; then
+    export VOLTA_HOME="$HOME/.volta"
+    export PATH="$VOLTA_HOME/bin:$PATH"
+  fi
+
   # Ruby
   local RUBY_PREFIX="$HOMEBREW_PREFIX/opt/ruby"
   [[ -d "$RUBY_PREFIX/bin" ]] && export PATH="$RUBY_PREFIX/bin:$PATH"
