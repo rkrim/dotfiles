@@ -68,3 +68,9 @@ alias brew_upgrade_cask="brew update;brew upgrade \$(brew outdated --greedy --ve
 
 ### Web services shortcuts
 alias weather="curl wttr.in"
+
+### Java version quick select (using javahome function from profile)
+if `command -v /usr/libexec/java_home > /dev/null`; then
+  alias java_11='javahome 11'
+  alias java_17='javahome 17'
+fi

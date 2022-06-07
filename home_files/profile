@@ -54,19 +54,6 @@ brew_packages_variables_export () {
     export CPPFLAGS="-I$NODE_PREFIX/include"
   fi
 
-  # Node version manager (nvm)
-  nvm_load () {
-    local NVM_PREFIX="$HOMEBREW_PREFIX/opt/nvm"
-    if [[ -e "$NVM_PREFIX" && -d "$HOME/.nvm" ]]; then
-      export NVM_DIR="$HOME/.nvm"
-      [ -s "$NVM_PREFIX/nvm.sh" ] && source "$NVM_PREFIX/nvm.sh"
-      [ -s "$NVM_PREFIX/etc/bash_completion" ] && source "$NVM_PREFIX/etc/bash_completion"
-      [ -s "$NVM_PREFIX/etc/bash_completion.d/nvm" ] && source "$NVM_PREFIX/etc/bash_completion.d/nvm"
-    else
-      echo "'nvm' not installed or '~/.nvm' directory missing. Install it using 'brew install nvm'"
-    fi
-  }
-
   # JavaScript Tool Manager (volta)
   if [[ -d "$HOMEBREW_PREFIX/opt/volta" ]]; then
     export VOLTA_HOME="$HOME/.volta"
@@ -101,25 +88,56 @@ brew_packages_variables_export () {
   [[ -d "$SQLITE_PREFIX/lib/pkgconfig" ]] && export PKG_CONFIG_PATH="$SQLITE_PREFIX/lib/pkgconfig:$PKG_CONFIG_PATH"
 }
 
+# Node version manager (nvm)
+nvm_load () {
+  local NVM_PREFIX="$HOMEBREW_PREFIX/opt/nvm"
+  if [[ -e "$NVM_PREFIX" && -d "$HOME/.nvm" ]]; then
+    export NVM_DIR="$HOME/.nvm"
+    [ -s "$NVM_PREFIX/nvm.sh" ] && source "$NVM_PREFIX/nvm.sh"
+    [ -s "$NVM_PREFIX/etc/bash_completion" ] && source "$NVM_PREFIX/etc/bash_completion"
+    [ -s "$NVM_PREFIX/etc/bash_completion.d/nvm" ] && source "$NVM_PREFIX/etc/bash_completion.d/nvm"
+  else
+    echo "'nvm' not installed or '~/.nvm' directory missing. Install it using 'brew install nvm'"
+  fi
+}
+
+# Software Development Kit Manager (SDKMan)
+sdkman_load () {
+  [[ -d "$HOME/.sdkman" ]] && export SDKMAN_DIR="$HOME/.sdkman"
+  [[ -s "$HOME/.sdkman/bin/sdkman-init.sh" ]] && source "$HOME/.sdkman/bin/sdkman-init.sh"
+}
+
+# Java Environment Management (jEnv)
+jenv_load () {
+  if [ -d "$HOME/.jenv" ] && command -v jenv > /dev/null; then
+    export PATH="$HOME/.jenv/bin:$PATH"
+    eval "$(jenv init -)"
+  fi
+}
+
 # Java home
+javahome() {
+  unset JAVA_HOME
+  export JAVA_HOME=$(/usr/libexec/java_home -failfast -v "$1")
+  java --version
+}
+
 java_home_export () {
   # Using java_home to check for installed java version, 'java_home -V' to list all installed version
   command -v /usr/libexec/java_home > /dev/null 2>&1 || { echo >&2 "Can't process JAVA_HOME."; return; }
 
-  JAVA_HOME_LTS_8=$(/usr/libexec/java_home -v1.8 2> /dev/null)
-  JAVA_HOME_LTS_11=$(/usr/libexec/java_home -v11 2> /dev/null)
-  JAVA_HOME_LATEST=$( /usr/libexec/java_home 2> /dev/null)
+  JAVA_HOME_11=$(/usr/libexec/java_home -failfast -v "11" 2> /dev/null)
+  JAVA_HOME_17=$(/usr/libexec/java_home -failfast -v "17" 2> /dev/null)
+  JAVA_HOME_LATEST=$(/usr/libexec/java_home 2> /dev/null)
 
-  # Prefere Java 8, then latest LTS, then latest version
-  if [ "$JAVA_HOME_LTS_8" ]; then
-    export JAVA_HOME=$JAVA_HOME_LTS_8
-  elif [ "$JAVA_HOME_LTS_11" ]; then
-    export JAVA_HOME=$JAVA_HOME_LTS_11
+  if [ "$JAVA_HOME_17" ]; then
+    export JAVA_HOME=$JAVA_HOME_17
+  elif [ "$JAVA_HOME_11" ]; then
+    export JAVA_HOME=$JAVA_HOME_11
   elif [ "$JAVA_HOME_LATEST" ]; then
     export JAVA_HOME=$JAVA_HOME_LATEST
   fi
 }
-
 
 ### Update $PATH ###############################################################
 

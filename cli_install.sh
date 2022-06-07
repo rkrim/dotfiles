@@ -110,7 +110,8 @@ developer_tools=(
   "ocaml"
   "openjdk"
   "openjdk@11"
-  "gradle"      # Requires Java11
+  "openjdk@17"
+  "gradle"
   "perl"
   "python"
   "ruby"
@@ -266,8 +267,7 @@ echo
 print_title "Install x86_64 arch tools & apps:\n"
 arch_x86_64=(
   "apktool"
-  "openjdk@8"
-  "sonarqube"         # Requires Java11
+  "sonarqube"         # Requires Java
   "sonar-scanner"     # Runs with sonarqube
   "sonar-completion"  # Runs with sonarqube
   "impactor"
@@ -302,41 +302,26 @@ if [ "$arch_name" == "$arch_x86_64" ]; then
 fi
 
 
+# Registering different Java versions, v18 available but not yet supported by some tools like Gradle
 echo
-print_title "Brew post-install & clean\n"
-
-# Java registration
-JAVA_BREW=$(brew --prefix openjdk 2> /dev/null)
-JAVA_BREW_11=$(brew --prefix openjdk@11 2> /dev/null)
-JAVA_BREW_8=$(brew --prefix openjdk@8 2> /dev/null)
-JDK_NAME="openjdk.jdk"
+print_title "Java Virtual Machines registration (Version 11, 17)\n"
+JAVA_PATH_11=$(brew --prefix openjdk@11 2> /dev/null)
+JAVA_PATH_17=$(brew --prefix openjdk@17 2> /dev/null)
 JVM_HOME="/Library/Java/JavaVirtualMachines"
+JDK_NAME="openjdk.jdk"
 
-if [ "$JAVA_BREW" ]; then
-  sudo ln -sfn "$JAVA_BREW/libexec/$JDK_NAME" "$JVM_HOME/$JDK_NAME"
-fi
+[[ -d "$JAVA_PATH_11" ]] && sudo ln -sfn "$JAVA_PATH_11/libexec/$JDK_NAME" "$JVM_HOME/openjdk@11.jdk"
+[[ -d "$JAVA_PATH_17" ]] && sudo ln -sfn "$JAVA_PATH_17/libexec/$JDK_NAME" "$JVM_HOME/openjdk@17.jdk"
 
-if [ "$JAVA_BREW_11" ]; then
-  sudo ln -sfn "$JAVA_BREW_11/libexec/$JDK_NAME" "$JVM_HOME/openjdk-11.jdk"
-fi
 
-if [ "$JAVA_BREW_8" ]; then
-  sudo ln -sfn "$JAVA_BREW_8/libexec/$JDK_NAME" "$JVM_HOME/openjdk-8.jdk"
-fi
-
-# Cleanup
+echo
+print_title "Cleanup\n"
 brew cleanup -s
 rm -rf $(brew --cache)
 
 
 echo
 print_title "Brew packages installation DONE!\n"
-
-
-echo
-print_title "Update user default Shell (Requires Password):\n"
-add_acceptable_shell `command -v bash` default
-add_acceptable_shell `command -v zsh`
 
 
 echo
@@ -351,6 +336,12 @@ print_title "Bash Powerline installation\n"
 bash;source ~/.bash_profile
 pip install --user powerline-gitstatus
 pip install --user powerline-status
+
+
+echo
+print_title "Update user default Shell (Requires Password):\n"
+add_acceptable_shell `command -v bash` default
+add_acceptable_shell `command -v zsh`
 
 
 echo
