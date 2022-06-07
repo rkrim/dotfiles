@@ -166,8 +166,7 @@ function dotfiles_symlink {
 
   # Create backup folder
   if [ ! -d ~/$dotfiles_backup ]; then
-    mkdir ~/$dotfiles_backup 2> /dev/null
-    if [ $? != 0 ]; then
+    if ! mkdir ~/$dotfiles_backup &> /dev/null; then
     echo >&2 "${FUNCNAME[0]}() :: Error: Can't create bakup folder, skipping simlink"
     return $EXIT_FAILURE
     fi
@@ -186,16 +185,13 @@ function dotfiles_symlink {
 
     # Try to move existing file to backup folder, skip current link if it fails
     if [ -e $link_name ]; then
-      mv -n $link_name ~/$dotfiles_backup 2> /dev/null
-      if [ $? != 0 ]; then
+      if ! mv -n $link_name ~/$dotfiles_backup &> /dev/null; then
         continue
       fi
     fi
 
     # echo "ln -s $file_path $link_name"
-    ln -s $file_path $link_name 2> /dev/null
-
-    if [ $? == 0 ]; then
+    if ln -s $file_path $link_name &> /dev/null; then
       link_count=$((link_count + 1))
     fi
   done

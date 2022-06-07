@@ -21,7 +21,7 @@ alias quit="exit"
 
 # Listing :: LS (GNU or BSD)
 LS_COLORS_SCHEME_FILE_PATH=~/.dircolors.main
-if [[ $(ls --color > /dev/null 2>&1; echo $?) == 0 ]] ; then
+if ls --color &> /dev/null; then
   # GNU
   LS_COLOR_FLAG="--color"
   LS_DIRECTORY_FIRST_FLAG="--group-directories-first"

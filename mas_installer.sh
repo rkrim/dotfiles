@@ -13,8 +13,7 @@ if [ -z `command -v mas` ]; then
   exit $EXIT_FAILURE
 fi
 
-result=`mas account 2> /dev/null`
-if [ $? -ne 0 ]; then
+if ! mas account &> /dev/null; then
   echo -e "\nAccount issue, please make sure you're connected to the 'App Store'" >&2
   echo -e "To restart from this stage, you can launch '`basename "$0"`'"
   open -a "App Store"
