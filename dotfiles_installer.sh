@@ -12,27 +12,27 @@
 # -r:         backslash is considered to be part of the line.
 
 
-
 DOTFILES_SOURCE_REPO=https://github.com/rkrim/dotfiles.git
 DOTFILES_DEFAULT_DESTINATION=~/Developer/dotfiles
+EXIT_FAILURE=1
 
 
 # Check Shell 
 if [ ! -n "$BASH" ]; then
   echo "Please use bash to run this script"
-  exit 1
+  exit $EXIT_FAILURE
 fi
 
 # Check Args 
 if [ "$#" -gt 1 ]; then
   echo "This script handles a maximum of 1 argument"
-  exit 1
+  exit $EXIT_FAILURE
 fi
 
 # Check Git
 if [ ! `command -v git` ]; then
   echo "You must first install git to use this script"
-  exit 1
+  exit $EXIT_FAILURE
 fi
 
 # Check Command Line Tools under macOS
@@ -42,7 +42,7 @@ if [[ $(uname -s) =~ "Darwin" && `command -v xcode-select` ]]; then
     read -rn 1 -p "Install? (Y or y to confirm, any other key to exit) "
     echo
     if [[ ! $REPLY =~ ^[Yy]$ ]]; then
-      exit 1
+      exit $EXIT_FAILURE
     fi
     xcode-select --install
     read -rn 1 -p "After installation completion, press any key to continue "
@@ -61,14 +61,14 @@ echo "This script will attempt to clone the remote repository to '$DOTFILES_DEST
 read -rn 1 -p "Continue? (Y or y to confirm, any other key to exit) "
 echo
 if [[ ! $REPLY =~ ^[Yy]$ ]]; then
-    exit 1
+    exit $EXIT_FAILURE
 fi
 
 git clone $DOTFILES_SOURCE_REPO $DOTFILES_DESTINATION
 GIT_EXIT=$?
 if [[ $GIT_EXIT -ne 0 ]]; then
   echo "Git clone failed with exit status: $GIT_EXIT"
-  exit 1
+  exit $EXIT_FAILURE
 fi
 
 

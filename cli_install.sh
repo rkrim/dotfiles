@@ -26,7 +26,7 @@ else
 
   if brew_export_shell_environment && ! command -v brew &> /dev/null; then
     echo "Brew not installed, aborting."
-    exit 1
+    exit $EXIT_FAILURE
   fi
 fi
 
