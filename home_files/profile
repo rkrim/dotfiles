@@ -11,22 +11,31 @@ export LANGUAGE=en_US.UTF-8
 
 ### Homebrew packages path #####################################################
 
-brew_packages_variables_export () {
-
+# brew_shell_environment_export ()
+#
+# This will attept to detect homebrew, then, export and/or update 
+# HOMEBREW_PREFIX, HOMEBREW_CELLAR, HOMEBREW_REPOSITORY, PATH, MANPATH, INFOPATH
+#
+brew_export_shell_environment () {
   # Brew is installed on different path following architecture
   # Check that brew exist in preferred location
   local BREW_CMD_x86_64="/usr/local/bin/brew"
   local BREW_CMD_arm64="/opt/homebrew/bin/brew"
   local BREW_CMD_PATH=$BREW_CMD_x86_64
-  command -v $BREW_CMD_PATH > /dev/null 2>&1 || BREW_CMD_PATH=$BREW_CMD_arm64
-  command -v $BREW_CMD_PATH > /dev/null 2>&1 || {
+  command -v $BREW_CMD_PATH &> /dev/null || BREW_CMD_PATH=$BREW_CMD_arm64
+  command -v $BREW_CMD_PATH &> /dev/null || {
     echo >&2 "Brew not found in preferred location, please check: https://docs.brew.sh/Installation";
     echo >&2 "No brew environment variable to export.";
-    return;
+    return -1;
   }
 
   # Export brew environment paths
   eval $($BREW_CMD_PATH shellenv)
+}
+
+
+brew_packages_variables_export () {
+  brew_export_shell_environment
   export HOMEBREW_NO_INSTALL_CLEANUP=TRUE
 
   # Coreutils

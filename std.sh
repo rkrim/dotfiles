@@ -6,10 +6,13 @@
 EXIT_SUCCESS=0
 EXIT_FAILURE=1
 
-# Architecture detection
-ARCH_X86_64="x86_64"
-ARCH_ARM64="arm64"
-ARCH_NAME="$(uname -m)"
+### Environment detection ###
+osName="$(sw_vers -productName)"
+osVersion="$(sw_vers -productVersion)"
+osBuildVersion="$(sw_vers -buildVersion)"
+arch_name="$(uname -m)"
+arch_x86_64="x86_64"
+arch_arm64="arm64"
 
 # Check if the argument is a positive number
 is_positive_number() {

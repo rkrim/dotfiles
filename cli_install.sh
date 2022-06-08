@@ -7,29 +7,24 @@ source ./install_helper.sh
 
 
 ### ENVIRONMENT DETECTION ###
-productName="$(sw_vers -productName)"
-productVersion="$(sw_vers -productVersion)"
-buildVersion="$(sw_vers -buildVersion)"
-arch_name="$(uname -m)"
-arch_x86_64="x86_64"
-arch_arm64="arm64"
 txt_attr_name=$(txt_attr $FG_COLOR_LIGHT_GREEN)
-
-print_title "Environment: $txt_attr_name $productName $productVersion ($buildVersion) | $arch_name""$reset_all\n"
+print_title "Environment: $txt_attr_name $osName $osVersion ($osBuildVersion) | $arch_name""$reset_all\n"
 
 
 ### INSTALL ###
 echo
 print_title "Install and/or update Homebrew:\n"
 
-if [ `command -v brew` ]; then
+brew_export_shell_environment
+
+if command -v brew &> /dev/null; then
   echo "Already installed, updating"
   brew update;brew upgrade
 else
   echo "Not installed, installing"
   /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install.sh)"
 
-  if [ ! `command -v brew` ]; then
+  if brew_export_shell_environment && ! command -v brew &> /dev/null; then
     echo "Brew not installed, aborting."
     exit 1
   fi
