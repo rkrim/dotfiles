@@ -152,7 +152,7 @@ function add_acceptable_shell {
     echo $shell_path | sudo tee -a /etc/shells
 
     # Change the current user default shell to the new one
-    if [[ $make_default_shell && `command -v chsh` ]]; then
+    if $make_default_shell && command -v chsh &> /dev/null; then
       chsh -s $shell_path
     fi
   fi
