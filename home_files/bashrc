@@ -64,6 +64,9 @@ update_terminal_behavior () {
 # Erase duplicate
 export HISTCONTROL=ignoreboth:erasedup
 
+# Remove deprecation warning when using macOS prebuilt bash
+export BASH_SILENCE_DEPRECATION_WARNING=1
+
 # Add Bash Completion
 COMPLETION_FILENAME="$HOMEBREW_PREFIX/etc/profile.d/bash_completion.sh"
 # Auto-Complete if in interactive mode
