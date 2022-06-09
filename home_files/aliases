@@ -20,13 +20,13 @@ alias gti="git"
 alias quit="exit"
 
 # Listing :: LS (GNU or BSD)
-LS_COLORS_SCHEME_FILE_PATH=~/.dircolors.main
 if ls --color &> /dev/null; then
   # GNU
-  LS_COLOR_FLAG="--color"
+  LS_COLOR_FLAG="--color=auto"
   LS_DIRECTORY_FIRST_FLAG="--group-directories-first"
 
-  if [[ `command -v dircolors` && -r $LS_COLORS_SCHEME_FILE_PATH ]]; then
+  LS_COLORS_SCHEME_FILE_PATH=~/.shellcolors
+  if [[ -n $LS_COLORS_SCHEME_FILE_PATH ]] && command -v dircolors &> /dev/null; then
     eval "$(dircolors ${LS_COLORS_SCHEME_FILE_PATH})"
   fi
 else
