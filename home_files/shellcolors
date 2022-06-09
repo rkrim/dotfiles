@@ -1,26 +1,199 @@
-# dircolors.main
+# shellcolors
 # Configuration file for dircolors, a utility to help you set the
 # LS_COLORS environment variable used by GNU ls with the --color option.
-
-### Attribute codes:
+#
+# One can use codes for 256 or more colors supported by modern terminals.
+# The default color codes use the capabilities of an 8 color terminal
+#
+# Attribute codes:
 # 00=none 01=bold 04=underscore 05=blink 07=reverse 08=concealed
-
+#
 # Text color codes:
 # 30=black 31=red 32=green 33=yellow 34=blue 35=magenta 36=cyan 37=white
-
+#
 # Background color codes:
 # 40=black 41=red 42=green 43=yellow 44=blue 45=magenta 46=cyan 47=white
-
+#
 # Extra Text color codes:
 # 90=DarkGrey 91=LightRed 92=LightGreen 93=Yellow 94=LightBlue 95=LightPurple
 # 96=Turquoise 97=White
-
+#
 # 100=DarkGrey 101=LightRed 102=LightGreen 103=Yellow 104=LightBlue
 # 105=LightPurple 106=Turquoise 107=White
+#
+#
+# TERM or COLORTERM entries, which can be glob patterns, which
+# restrict following config to systems with matching environment variables.
 
-# TERM entries for which to enable colors
+COLORTERM ?*
+TERM Eterm
 TERM ansi
-TERM xterm*
+TERM *color*
+TERM con[0-9]*x[0-9]*
+TERM cons25
+TERM console
+TERM cygwin
+TERM *direct*
+TERM dtterm
+TERM gnome
+TERM hurd
+TERM jfbterm
+TERM konsole
+TERM kterm
+TERM linux
+TERM linux-c
+TERM mlterm
+TERM putty
+TERM rxvt*
+TERM screen*
+TERM st
+TERM terminator
+TERM tmux*
+TERM vt100
+TERM xterm\*
 
-# Core
-NORMAL 0
+### Colors by type
+
+NORMAL 00                       # No color
+FILE 00                         # Regular file
+MULTIHARDLINK 00                # Regular file, with more than one link
+RESET 0                         # Reset to "normal" color
+DIR 0;38;5;81                   # Directory
+LINK 0;38;5;203                 # Symbolic link (set 'target' to have the color of file pointed to)
+ORPHAN 01;38;5;203              # Symlink to nonexistent file, or non-stat'able file ...
+EXEC 0;38;5;84                  # Executable file
+FIFO 40;33                      # Pipe
+SOCK 00;95                      # Socket
+DOOR 00;95                      # Door
+BLK 40;33;01                    # Block device driver
+CHR 40;33;01                    # Character device driver
+MISSING 00                      # ... and the files they point to
+SETUID 37;41                    # File that is setuid (u+s)
+SETGID 30;43                    # File that is setgid (g+s)
+CAPABILITY 00                   # File with capability (very expensive to lookup)
+STICKY_OTHER_WRITABLE 30;42     # Dir that is sticky and other-writable (+t,o+w)
+OTHER_WRITABLE 34;42            # Dir that is other-writable (o+w) and not sticky
+STICKY 37;44                    # Dir with the sticky bit set (+t) and not other-writable
+
+
+
+### Colors by file extension
+
+# Image & Video formats
+.avif 00;95
+.jpg 00;95
+.jpeg 00;95
+.mjpg 00;95
+.mjpeg 00;95
+.gif 00;95
+.bmp 00;95
+.pbm 00;95
+.pgm 00;95
+.ppm 00;95
+.tga 00;95
+.xbm 00;95
+.xpm 00;95
+.tif 00;95
+.tiff 00;95
+.png 00;95
+.svg 00;95
+.svgz 00;95
+.mng 00;95
+.pcx 00;95
+.mov 00;95
+.mpg 00;95
+.mpeg 00;95
+.m2v 00;95
+.mkv 00;95
+.webm 00;95
+.webp 00;95
+.ogm 00;95
+.mp4 00;95
+.m4v 00;95
+.mp4v 00;95
+.vob 00;95
+.qt 00;95
+.nuv 00;95
+.wmv 00;95
+.asf 00;95
+.rm 00;95
+.rmvb 00;95
+.flc 00;95
+.avi 00;95
+.fli 00;95
+.flv 00;95
+.gl 00;95
+.dl 00;95
+.xcf 00;95
+.xwd 00;95
+.yuv 00;95
+.cgm 00;95
+.emf 00;95
+.ogv 00;95
+.ogx 00;95
+
+# Audio formats
+.aac 00;36
+.au 00;36
+.flac 00;36
+.m4a 00;36
+.mid 00;36
+.midi 00;36
+.mka 00;36
+.mp3 00;36
+.mpc 00;36
+.ogg 00;36
+.ra 00;36
+.wav 00;36
+.oga 00;36
+.opus 00;36
+.spx 00;36
+.xspf 00;36
+
+# Archives or compressed (bright red)
+.tar 4;93;5;203
+.tgz 4;93;5;203
+.arc 4;93;5;203
+.arj 4;93;5;203
+.taz 4;93;5;203
+.lha 4;93;5;203
+.lz4 4;93;5;203
+.lzh 4;93;5;203
+.lzma 4;93;5;203
+.tlz 4;93;5;203
+.txz 4;93;5;203
+.tzo 4;93;5;203
+.t7z 4;93;5;203
+.zip 4;93;5;203
+.z 4;93;5;203
+.dz 4;93;5;203
+.gz 4;93;5;203
+.lrz 4;93;5;203
+.lz 4;93;5;203
+.lzo 4;93;5;203
+.xz 4;93;5;203
+.zst 4;93;5;203
+.tzst 4;93;5;203
+.bz2 4;93;5;203
+.bz 4;93;5;203
+.tbz 4;93;5;203
+.tbz2 4;93;5;203
+.tz 4;93;5;203
+.deb 4;93;5;203
+.rpm 4;93;5;203
+.jar 4;93;5;203
+.war 4;93;5;203
+.ear 4;93;5;203
+.sar 4;93;5;203
+.rar 4;93;5;203
+.alz 4;93;5;203
+.ace 4;93;5;203
+.zoo 4;93;5;203
+.cpio 4;93;5;203
+.7z 4;93;5;203
+.rz 4;93;5;203
+.cab 4;93;5;203
+.wim 4;93;5;203
+.swm 4;93;5;203
+.dwm 4;93;5;203
+.esd 4;93;5;203
