@@ -1,0 +1,198 @@
+# ~/.shellenv
+# Shell common environment
+
+
+### Language setting
+_export_language () {
+  export LC_ALL=en_US.UTF-8
+  export LANG=en_US.UTF-8
+  export LANGUAGE=en_US.UTF-8
+}
+
+### Homebrew command path
+_brew_command_path () {
+  # Brew is installed on different path following architecture
+  # Check that brew exist in preferred location
+  local BREW_CMD_x86_64="/usr/local/bin/brew"
+  local BREW_CMD_arm64="/opt/homebrew/bin/brew"
+
+  (command -v $BREW_CMD_x86_64 &> /dev/null && echo $BREW_CMD_x86_64) || (command -v $BREW_CMD_arm64 &> /dev/null && echo $BREW_CMD_arm64) || return -1
+}
+
+# Export Homebrew Shell Environment
+# HOMEBREW_PREFIX, HOMEBREW_CELLAR, HOMEBREW_REPOSITORY, PATH, MANPATH, INFOPATH
+_export_brew_shell_environment () {
+  BREW_CMD_PATH=$(_brew_command_path)
+  if [[ -z $BREW_CMD_PATH ]]; then
+    echo >&2 "Brew not found in preferred location, please check: https://docs.brew.sh/Installation";
+    echo >&2 "No brew environment variable to export.";
+    return -1;
+  else
+    # Export brew environment paths
+    eval $($BREW_CMD_PATH shellenv)
+    export HOMEBREW_NO_INSTALL_CLEANUP=TRUE
+  fi
+}
+
+# Export Homebrew Packages Environment
+# Needs Homebrew shell environment to be exposed
+_export_brew_packages_environment () {
+  # Coreutils
+  local COREUTILS_PREFIX="$HOMEBREW_PREFIX/opt/coreutils"
+  [[ -d "$COREUTILS_PREFIX/libexec/gnubin" ]] && export PATH="$COREUTILS_PREFIX/libexec/gnubin:$PATH"
+  [[ -d "$COREUTILS_PREFIX/libexec/gnuman" ]] && export MANPATH="$COREUTILS_PREFIX/libexec/gnuman:$MANPATH"
+
+  # Python
+  if [[ -d "$HOMEBREW_PREFIX/opt/python/libexec/bin" ]]; then
+    export PATH="$HOMEBREW_PREFIX/opt/python/libexec/bin:$PATH"
+    export PYTHON_USER_BASE=`python -m site --user-base`
+    export PYTHON_USER_SITE=`python -m site --user-site`
+
+    if [[ -d "$PYTHON_USER_BASE/bin" ]]; then
+      export PATH="$PYTHON_USER_BASE/bin:$PATH"
+    fi
+  fi
+
+  # Node
+  local NODE_PREFIX="$HOMEBREW_PREFIX/opt/node"
+  if [[ -d "$NODE_PREFIX" ]]; then
+    export PATH="$NODE_PREFIX/bin:$PATH"
+    export NODE_BINARY="$NODE_PREFIX/bin/node"
+    export LDFLAGS="-L$NODE_PREFIX/lib"
+    export CPPFLAGS="-I$NODE_PREFIX/include"
+  fi
+
+  # JavaScript Tool Manager (volta)
+  if [[ -d "$HOMEBREW_PREFIX/opt/volta" ]]; then
+    export VOLTA_HOME="$HOME/.volta"
+    export PATH="$VOLTA_HOME/bin:$PATH"
+  fi
+
+  # Ruby
+  local RUBY_PREFIX="$HOMEBREW_PREFIX/opt/ruby"
+  [[ -d "$RUBY_PREFIX/bin" ]] && export PATH="$RUBY_PREFIX/bin:$PATH"
+  [[ -d "$RUBY_PREFIX/lib" ]] && export LDFLAGS="-L$RUBY_PREFIX/lib"
+  [[ -d "$RUBY_PREFIX/include" ]] && export CPPFLAGS="-I$RUBY_PREFIX/include"
+  [[ -d "$RUBY_PREFIX/lib/pkgconfig" ]] && export PKG_CONFIG_PATH="$RUBY_PREFIX/lib/pkgconfig:$PKG_CONFIG_PATH"
+
+  # RubyGems
+  export GEM_PATH=`command -v gem 2> /dev/null`
+  if [[ "$GEM_PATH" ]]; then
+    # Default installation folder for binaries installed with gem
+    export PATH="`$GEM_PATH env gemdir`/bin:$PATH"
+  fi
+
+  # Android development
+  if [[ -d "$HOMEBREW_PREFIX/share/android-commandlinetools" ]]; then
+    export ANDROID_SDK_ROOT="$HOMEBREW_PREFIX/share/android-commandlinetools"
+    export PATH="$ANDROID_SDK_ROOT/emulator:$ANDROID_SDK_ROOT/tools:$ANDROID_SDK_ROOT/tools/bin:$ANDROID_SDK_ROOT/platform-tools:$ANDROID_SDK_ROOT/ndk-bundle:$PATH"
+  fi
+
+  # SQLite
+  local SQLITE_PREFIX="$HOMEBREW_PREFIX/opt/sqlite"
+  [[ -d "$SQLITE_PREFIX/bin" ]] && export PATH="$SQLITE_PREFIX/bin:$PATH"
+  [[ -d "$SQLITE_PREFIX/lib" ]] && export LDFLAGS="-L$SQLITE_PREFIX/lib $LDFLAGS"
+  [[ -d "$SQLITE_PREFIX/include" ]] && export CPPFLAGS="-I$SQLITE_PREFIX/include $CPPFLAGS"
+  [[ -d "$SQLITE_PREFIX/lib/pkgconfig" ]] && export PKG_CONFIG_PATH="$SQLITE_PREFIX/lib/pkgconfig:$PKG_CONFIG_PATH"
+}
+
+# Export JAVA_HOME (default to JDK 17)
+_export_java_home () {
+  # Using java_home to check for installed java version, 'java_home -V' to list all installed version
+  command -v /usr/libexec/java_home > /dev/null 2>&1 || { echo >&2 "Can't process JAVA_HOME."; return; }
+
+  JAVA_HOME_11=$(/usr/libexec/java_home -failfast -v "11" 2> /dev/null)
+  JAVA_HOME_17=$(/usr/libexec/java_home -failfast -v "17" 2> /dev/null)
+  JAVA_HOME_LATEST=$(/usr/libexec/java_home 2> /dev/null)
+
+  if [ "$JAVA_HOME_17" ]; then
+    export JAVA_HOME=$JAVA_HOME_17
+  elif [ "$JAVA_HOME_11" ]; then
+    export JAVA_HOME=$JAVA_HOME_11
+  elif [ "$JAVA_HOME_LATEST" ]; then
+    export JAVA_HOME=$JAVA_HOME_LATEST
+  fi
+}
+
+# Node version manager (nvm)
+load_nvm () {
+  local NVM_PREFIX="$HOMEBREW_PREFIX/opt/nvm"
+  if [[ -e "$NVM_PREFIX" && -d "$HOME/.nvm" ]]; then
+    export NVM_DIR="$HOME/.nvm"
+    [ -s "$NVM_PREFIX/nvm.sh" ] && source "$NVM_PREFIX/nvm.sh"
+    [ -s "$NVM_PREFIX/etc/bash_completion" ] && source "$NVM_PREFIX/etc/bash_completion"
+    [ -s "$NVM_PREFIX/etc/bash_completion.d/nvm" ] && source "$NVM_PREFIX/etc/bash_completion.d/nvm"
+  else
+    echo "'nvm' not installed or '~/.nvm' directory missing. Install it using 'brew install nvm'"
+  fi
+}
+
+# Software Development Kit Manager (SDKMan)
+load_sdkman () {
+  [[ -d "$HOME/.sdkman" ]] && export SDKMAN_DIR="$HOME/.sdkman"
+  [[ -s "$HOME/.sdkman/bin/sdkman-init.sh" ]] && source "$HOME/.sdkman/bin/sdkman-init.sh"
+}
+
+# Java Environment Management (jEnv)
+load_jenv () {
+  if [ -d "$HOME/.jenv" ] && command -v jenv > /dev/null; then
+    export PATH="$HOME/.jenv/bin:$PATH"
+    eval "$(jenv init -)"
+  fi
+}
+
+_prompt_powerline () {
+  POWERLINE_BASH="$PYTHON_USER_SITE/powerline/bindings/bash/powerline.sh"
+  if [[ -s $POWERLINE_BASH ]]; then
+    powerline-daemon -q
+    POWERLINE_BASH_CONTINUATION=1
+    POWERLINE_BASH_SELECT=1
+    source $POWERLINE_BASH
+  fi
+}
+
+# Java home
+javahome() {
+  unset JAVA_HOME
+  export JAVA_HOME=$(/usr/libexec/java_home -failfast -v "$1")
+  java --version
+}
+
+
+### Helper functions ##########################################################
+
+# Compare arg1 with arg2 taking arg3 as a version number separator
+# return -1 if arg1 > arg2, 0 if arg1 == arg2, 1 if arg1 < arg2
+# Original from: https://stackoverflow.com/questions/4023830/how-compare-two-strings-in-dot-separated-version-format-in-bash
+# Added version trim
+_version_compare () {
+
+  if [[ $1 == $2 ]]; then
+    return 0
+  fi
+
+  local IFS=$3
+  local index version1=($1) version2=($2)
+
+  # fill empty fields in version1 with zeros
+  for ((index=${#version1[@]}; index<${#version2[@]}; index++)); do
+    version1[index]=0
+  done
+
+  for ((index=0; index<${#version1[@]}; index++)); do
+    if [[ -z ${version2[i]} ]]; then
+      # fill empty fields in ver2 with zeros
+      version2[index]=0
+    fi
+
+    if ((10#${version1[index]%%[^0-9]*} > 10#${version2[index]%%[^0-9]*})); then
+      return -1
+    fi
+
+    if ((10#${version1[index]%%[^0-9]*} < 10#${version2[index]%%[^0-9]*})); then
+      return 1
+    fi
+  done
+
+  return 0
+}

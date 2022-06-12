@@ -1,2 +1,12 @@
 # ~/.zshenv
 # sourced by zsh(1) always at first, used to exporte environment variables.
+
+# Import required functions
+source ~/.shellenv
+
+
+### Configuration #############################################################
+_export_language
+_export_brew_shell_environment
+_export_brew_packages_environment
+_export_java_home
