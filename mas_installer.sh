@@ -6,20 +6,19 @@ source ./install_helper.sh
 
 
 ### Guard ###
-print_title "Check Installer:"
+print_title "Check App Store command line installer (mas):"
 
 if [ -z `command -v mas` ]; then
-  echo -e "\nRequired installer not found"
+  echo -e "\nRequired installer not found."
   exit $EXIT_FAILURE
+else
+    echo -e "\nAlready installed."
+    read -rn 1 -p "Please, make sure you are signed in 'App Store', press any key to launch the app "
+    echo -e ""
+    open -a "App Store"
+    read -rn 1 -p "Press any key to proceeed with applications installation"
+    echo
 fi
-
-if ! mas account &> /dev/null; then
-  echo -e "\nAccount issue, please make sure you're connected to the 'App Store'" >&2
-  echo -e "To restart from this stage, you can launch '`basename "$0"`'"
-  open -a "App Store"
-  exit $EXIT_FAILURE
-fi
-
 
 ### Apps Install ###
 echo
@@ -27,9 +26,9 @@ print_title "Install Apps\n"
 mas_apps=(
 
   # Tools
-  "1333542190"  # 1Password 7 - Password Manager
   "425424353"   # The Unarchiver
   "1116599239"  # NordVPN-IKE-Unlimited-VPN
+# "1333542190"  # 1Password 7 | Install 1Password 8 from website
 
   # Developer
   "497799835"   # Xcode
@@ -47,8 +46,8 @@ mas_apps=(
 
   # Communication
   "1176895641"  # Spark – Email App by Readdle
-  "803453959"   # Slack
   "1482454543"  # Twitter
+# "803453959"   # Slack | Install from website
 
   # Media Editor
   "408981434"   # iMovie
