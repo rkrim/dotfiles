@@ -127,3 +127,6 @@
 
 [include]
   path = ~/.gitconfig.user
+
+[includeIf "gitdir:~/Developer/yassir/"]
+  path = ~/.gitconfig.yassir
