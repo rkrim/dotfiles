@@ -71,6 +71,7 @@ cli_tools=(
   "gnu-sed"
   "gnu-tar"
   "gnu-which"
+  "gnupg"
   "grep"
   "gzip"
   "librsvg"
@@ -78,6 +79,7 @@ cli_tools=(
   "rsync"
   "screen"
   "tmux"
+  "tree"
   "vitorgalvao/tiny-scripts/cask-repair"
 )
 brew_batch_install cli_tools[@]
@@ -158,7 +160,6 @@ brew_batch_install image_tools[@]
 echo
 print_title "Install Applications (Cask)\n"
 ui_apps=(
-  "alt-tab"
   "android-file-transfer"
   "android-studio"
   "anydesk"
@@ -189,6 +190,7 @@ ui_apps=(
   "monitorcontrol"
   "opera"
   "paw"
+	"pinentry-mac"
   "react-native-debugger"
   "rectangle"
   "signal"
