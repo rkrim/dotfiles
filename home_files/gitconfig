@@ -13,7 +13,7 @@
 	excludesfile = ~/.gitignore_global
 
 [init]
-	defaultBranch = master
+  defaultBranch = main
 
 [color]
   # enable colors for supporting terminals
@@ -40,6 +40,7 @@
   trustExitCode = true
 
 [commit]
+  gpgsign = true
   template = ~/.stCommitMsg
 
 [alias]
@@ -110,7 +111,7 @@
 
 [pull]
   # preserve merge commits on pull
-  rebase = preserve
+  rebase = merges
 
 [push]
   # push should only carry the current branch when pushing to target
