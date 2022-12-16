@@ -27,7 +27,7 @@ mas_apps=(
 
   # Tools
   "425424353"   # The Unarchiver
-  "1116599239"  # NordVPN-IKE-Unlimited-VPN
+	"905953485"		# NordVPN: VPN Fast & Secure
 # "1333542190"  # 1Password 7 | Install 1Password 8 from website
 
   # Developer
