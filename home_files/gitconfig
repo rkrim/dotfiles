@@ -15,6 +15,7 @@
 [init]
   defaultBranch = main
 
+
 ### Colors
 # Supported colors: [normal, black, red, green, yellow, blue, magenta, cyan, white]
 # Supported colors alternatives: hexadecimal color codes like #ff0000, ANSI 256 color values if supported.
@@ -69,63 +70,50 @@
   template = ~/.stCommitMsg
 
 [alias]
-  # checkout
-  co = checkout                       # checkout
-  cob = checkout -back                # checkout to new branch
+  st = status                         # status
+	rv = remote -v											# show remotes (verbose)
 
-  # branch
-  b = branch                          # branch
   br = branch                         # branch
-  bv = branch -v                      # branch (verbose)
+  bv = branch -vv											# branch (full verbose)
+  co = checkout                       # switch branches or restore working tree files
+  cb = checkout -b                		# create a new branch and switch to it
 
-  # commit
   ci = commit                         # commit
   cm = commit -m                      # commit with message
   amend = commit --amend              # amend last commit
+  reword = !git amend									# alias to amend
+  cp = cherry-pick -x                 # play a commit on top of current branch
 
-  # status
-  s = status                          # status
-  st = status                         # status
+  last = log -1 HEAD                  # print last commit
+  uncommit = reset --soft HEAD~1			# uncommit and keep changes in stage
+  undo = !git uncommit                # alias to uncommit
+  unstage = reset HEAD                # remove files from index (tracking)
+  untrack = rm --cached								# remove file from stage and keep it in working directory
 
-  # rebase
+	rb = rebase													# rebase
   rc = rebase --continue              # continue rebase
   rs = rebase --skip                  # skip rebase
   ra = rebase --abort                 # abort rebase
-  rcontinue = rebase --continue       # continue rebase
-  rskip = rebase --skip               # skip rebase
-  rabort = rebase --abort             # abort rebase
 
-  # cherry-pick
-  cp = cherry-pick -x                 # play a commit on top of current branch
-  cpick = cherry-pick -x              # play a commit on top of current branch
-
-  # stash
-  sh = stash                          # stash changes
-  shlist = stash list                 # list stashes
-  shapply = stash apply               # apply stash (restore changes)
-  shdrop = stash drop                 # drop stashes (destory changes)
+  sh = stash													# stash changes
+  sh-list = stash list								# list stashes
+  sh-apply = stash apply							# apply stash (restore changes)
+  sh-drop = stash drop								# drop stashes (destory changes)
 
   # log
-  lg = log --graph --decorate --pretty=format:'%C(yellow)%h%C(white) -%C(auto)%d%C(reset) %s %C(green)(%cr) %C(cyan)<%an>%C(reset)'
-  oneline = log --graph --decorate --pretty=oneline --abbrev-commit
-  changes = log --pretty=format:'%C(yellow)%h%C(reset) %cr by %C(cyan)%cn%C(reset): %C(green)%s%C(reset)' --name-status
-  short = log --pretty=format:'%C(yellow)%h%C(reset) - %C(green)%cd%C(reset) - %C(cyan)%cn%C(reset) :: %C(reset)%s%C(reset)' --date=short
-  shortnocolor = log --pretty=format:'%h - %cd - %cn :: %s' --date=short
-
-  # history / reset
-  last = log -1 HEAD                  # print last commit
-  uncommit = reset --soft HEAD^       # go back before last commit, with files in uncommitted state
-  undo = !git uncommit                # same as uncommit
-  unstage = reset HEAD                # remove files from index (tracking)
-
-  # remote
-  rv = remote -v                      # show remotes (verbose)
-
-  # tags
-  prunetags = !git tag -l | xargs git tag -d && git fetch -t
-
-  # stats
-  who = shortlog -sne
+	lg = log --graph --pretty=tformat:'%C(red)%h%C(auto) - %<(72,trunc)%s %C(green)< %an | %cr >%C(reset)'
+	short = log --date=short --pretty=tformat:'%C(red)%h%C(reset) %C(green)[ %cd | %cn ]%C(reset) %s%C(reset)'
+  shortnb = log --date=short --pretty=tformat:'%h [ %cd | %cn ] %s'
+	changes = log --date=short --name-status --pretty=tformat:'%C(red)%h%C(reset) %C(green)[ %cd | %cn ]%C(reset) %s%C(reset)'
+  
+	# actions
+	push-lease = push --force-with-lease
+	prune-tags = !git tag -l | xargs git tag -d && git fetch -t
+	reset-upstream = !git reset --hard origin/$(git rev-parse --abbrev-ref HEAD)
+	delete-local-merged = !git branch --merged | egrep -wv "$(git config init.defaultBranch || echo 'main|master')" | xargs git branch -d
+  ls-alias = !git config --get-regexp alias 	# list available aliases
+  ls-local-commits = "!git short @{push}.."		# list non-pushed commits
+  who = shortlog -sne													# stats
 
 
 [filter "lfs"]
