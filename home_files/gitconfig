@@ -15,21 +15,46 @@
 [init]
   defaultBranch = main
 
+### Colors
+# Supported colors: [normal, black, red, green, yellow, blue, magenta, cyan, white]
+# Supported colors alternatives: hexadecimal color codes like #ff0000, ANSI 256 color values if supported.
+# Supported attributes: [bold, dim, ul, blink, reverse] ul: underline, reverse: swap foreground and background
+
 [color]
-  # enable colors for supporting terminals
+	# Colors handling on supported terminals, possible values are [auto|always|false]
   ui = auto
 
+[color "branch"]
+	# Colors for git branch
+  current = green bold		# current branch 
+  local = cyan						# local branch 
+	upstream = magenta			# remote branch ref in refs/remotes 
+	remote = red						# upstream tracking branch 
+
+[color "status"]
+	# Colors for git status
+	header = normal							# Regular status area text
+	branch = green bold					# current branch name
+	nobranch = red							# warning on detached HEAD
+	added = green								# Added or updated files to be committed
+	changed = yellow						# Changes not staged for commit
+	unmerged = magenta					# files with unmerged changes
+	untracked = red							# Untracked files by Git
+
 [color "decorate"]
-  HEAD = red bold
+	# Colors for git log --decorate
+  HEAD = red
   branch = green
   remoteBranch = magenta
-  stash = blue
+  stash = red
   tag = yellow bold
 
-[color "branch"]
-  current = red bold
-  local = green
-  remote = magenta
+[color "diff"]
+	# Colors for git diff
+	old = red
+	new = green
+	meta = yellow
+	frag = cyan
 
 [difftool "sourcetree"]
   cmd = opendiff \"$LOCAL\" \"$REMOTE\"
