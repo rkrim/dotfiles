@@ -2,18 +2,19 @@
 # Add any personal global config to ~/.gitconfig.user
 
 [core]
-  editor = code --wait
+	editor = code --wait
 
-  # Convert line endings to CRLF on checkout (useful only under windows)
-  # Change this in ~/.gitconfig.user or per repository if needed
-  autocrlf = false
+	# Convert line endings to CRLF on checkout (useful only under windows)
+	# Change this in ~/.gitconfig.user or per repository if needed
+	autocrlf = false
 
-  # Don't consider changes on trailing space (EOL, EOF) as conflicts
-  whitespace = -trailing-space
+	# Don't consider changes on trailing space (EOL, EOF) as conflicts
+	whitespace = -trailing-space
 	excludesfile = ~/.gitignore_global
+	pager = diff-so-fancy | less --tabs=4 -RFX
 
 [init]
-  defaultBranch = main
+	defaultBranch = main
 
 
 ### Colors
@@ -23,103 +24,113 @@
 
 [color]
 	# Colors handling on supported terminals, possible values are [auto|always|false]
-  ui = auto
+	ui = auto
 
 [color "branch"]
 	# Colors for git branch
-  current = green bold		# current branch 
-  local = cyan						# local branch 
-	upstream = magenta			# remote branch ref in refs/remotes 
-	remote = red						# upstream tracking branch 
+	current = green bold              # current branch
+	local = cyan                      # local branch
+	upstream = magenta                # remote branch ref in refs/remotes
+	remote = red                      # upstream tracking branch
 
 [color "status"]
 	# Colors for git status
-	header = normal							# Regular status area text
-	branch = green bold					# current branch name
-	nobranch = red							# warning on detached HEAD
-	added = green								# Added or updated files to be committed
-	changed = yellow						# Changes not staged for commit
-	unmerged = magenta					# files with unmerged changes
-	untracked = red							# Untracked files by Git
+	header = normal                   # Regular status area text
+	branch = green bold               # current branch name
+	nobranch = red                    # warning on detached HEAD
+	added = green                     # Added or updated files to be committed
+	changed = yellow                  # Changes not staged for commit
+	unmerged = magenta                # files with unmerged changes
+	untracked = red                   # Untracked files by Git
 
 [color "decorate"]
 	# Colors for git log --decorate
-  HEAD = red
-  branch = green
-  remoteBranch = magenta
-  stash = red
-  tag = yellow bold
+	HEAD = red
+	branch = green
+	remoteBranch = magenta
+	stash = red
+	tag = yellow bold
 
 [color "diff"]
 	# Colors for git diff
-	old = red
-	new = green
-	meta = yellow
-	frag = cyan
+	old = red bold
+	new = green bold
+	meta = 11
+	frag = magenta bold
+	func = 146 bold
+	commit = yellow bold
+	whitespace = red reverse
+
+[color "diff-highlight"]
+	oldNormal = red bold
+	oldHighlight = red bold 52
+	newNormal = green bold
+	newHighlight = green bold 22
+
 
 [alias]
-  st = status                         # status
-	rv = remote -v											# show remotes (verbose)
+	st = status                       # status
+	rv = remote -v                    # show remotes (verbose)
 
-  br = branch                         # branch
-  bv = branch -vv											# branch (full verbose)
-  co = checkout                       # switch branches or restore working tree files
-  cb = checkout -b                		# create a new branch and switch to it
+	br = branch                       # branch
+	bv = branch -vv                   # branch (full verbose)
+	co = checkout                     # switch branches or restore working tree files
+	cb = checkout -b                  # create a new branch and switch to it
 
-  ci = commit                         # commit
-  cm = commit -m                      # commit with message
-  amend = commit --amend              # amend last commit
-  reword = !git amend									# alias to amend
-  cp = cherry-pick -x                 # play a commit on top of current branch
+	ci = commit                       # commit
+	cm = commit -m                    # commit with message
+	amend = commit --amend            # amend last commit
+	reword = !git amend               # alias to amend
+	cp = cherry-pick -x               # play a commit on top of current branch
 
-  last = log -1 HEAD                  # print last commit
-  uncommit = reset --soft HEAD~1			# uncommit and keep changes in stage
-  undo = !git uncommit                # alias to uncommit
-  unstage = reset HEAD                # remove files from index (tracking)
-  untrack = rm --cached								# remove file from stage and keep it in working directory
+	last = log -1 HEAD                # print last commit
+	uncommit = reset --soft HEAD~1    # uncommit and keep changes in stage
+	undo = !git uncommit              # alias to uncommit
+	unstage = reset HEAD              # remove files from index (tracking)
+	untrack = rm --cached             # remove file from stage and keep it in working directory
 
-	rb = rebase													# rebase
-  rc = rebase --continue              # continue rebase
-  rs = rebase --skip                  # skip rebase
-  ra = rebase --abort                 # abort rebase
+	rb = rebase                       # rebase
+	rc = rebase --continue            # continue rebase
+	rs = rebase --skip                # skip rebase
+	ra = rebase --abort               # abort rebase
 
-  sh = stash													# stash changes
-  sh-list = stash list								# list stashes
-  sh-apply = stash apply							# apply stash (restore changes)
-  sh-drop = stash drop								# drop stashes (destory changes)
+	sh = stash                        # stash changes
+	sh-list = stash list              # list stashes
+	sh-apply = stash apply            # apply stash (restore changes)
+	sh-drop = stash drop              # drop stashes (destory changes)
 
-  # log
+	# log
 	lg = log --graph --pretty=tformat:'%C(red)%h%C(auto) - %<(72,trunc)%s %C(green)< %an | %cr >%C(reset)'
 	short = log --date=short --pretty=tformat:'%C(red)%h%C(reset) %C(green)[ %cd | %cn ]%C(reset) %s%C(reset)'
-  shortnb = log --date=short --pretty=tformat:'%h [ %cd | %cn ] %s'
+	shortbw = log --date=short --pretty=tformat:'%h [ %cd | %cn ] %s'
 	changes = log --date=short --name-status --pretty=tformat:'%C(red)%h%C(reset) %C(green)[ %cd | %cn ]%C(reset) %s%C(reset)'
-  
+
 	# actions
 	push-lease = push --force-with-lease
 	prune-tags = !git tag -l | xargs git tag -d && git fetch -t
 	reset-upstream = !git reset --hard origin/$(git rev-parse --abbrev-ref HEAD)
 	delete-local-merged = !git branch --merged | egrep -wv "$(git config init.defaultBranch || echo 'main|master')" | xargs git branch -d
-  ls-alias = !git config --get-regexp alias 	# list available aliases
-  ls-local-commits = "!git short @{push}.."		# list non-pushed commits
-  who = shortlog -sne													# stats
+	ls-alias = !git config --get-regexp alias    # list available aliases
+	ls-local-commits = "!git short @{push}.."    # list non-pushed commits
+	who = shortlog -sne                          # stats
 
 [status]
-  # traverse untracked directories to display contents
+	# traverse untracked directories to display contents
 	# may take some time in a large working tree.
-  showUntrackedFiles = all
+	showUntrackedFiles = all
 
 [diff]
-  # Instead of a/b to indicate the changed files
+	# Instead of a/b to indicate the changed files
 	# Uses meaningfull initials (i: index, w: work tree, c: commit, o: object)
-  mnemonicPrefix = true
-  renames = copy						# copy and rename detection
-  tool = vscode							# default tool invoked by `git difftool`
+	mnemonicPrefix = true
+	renames = copy                    # copy and rename detection
+	tool = vscode                     # default tool invoked by `git difftool`
 
 [difftool "vscode"]
-  cmd = code --wait --diff "$LOCAL" "$REMOTE"
+	cmd = code --wait --diff "$LOCAL" "$REMOTE"
 
 [difftool "filemerge"]
-  cmd = opendiff "$LOCAL" "$REMOTE"
+	cmd = opendiff "$LOCAL" "$REMOTE"
 
 [difftool "sourcetree"]
 	cmd = opendiff "$LOCAL\" "$REMOTE\"
@@ -131,61 +142,61 @@
   ff = true
 
 [mergetool]
-	keepBackup = false					# post merge backup files clean up
-	keepTemporaries = false			# post merge temp files clean up
-	writeToTemp = true					# create temp files in a dedicated dir
-	prompt = false							# accept file prompts when launching merge tools
+	keepBackup = false                # post merge backup files clean up
+	keepTemporaries = false           # post merge temp files clean up
+	writeToTemp = true                # create temp files in a dedicated dir
+	prompt = false                    # accept file prompts when launching merge tools
 
 [mergetool "sourcetree"]
-  cmd = /Applications/Sourcetree.app/Contents/Resources/opendiff-w.sh \"$LOCAL\" \"$REMOTE\" -ancestor \"$BASE\" -merge \"$MERGED\"
-  trustExitCode = true
+	cmd = /Applications/Sourcetree.app/Contents/Resources/opendiff-w.sh \"$LOCAL\" \"$REMOTE\" -ancestor \"$BASE\" -merge \"$MERGED\"
+	trustExitCode = true
 
 [commit]
-  gpgsign = true
-  template = ~/.stCommitMsg
+	gpgsign = true
+	template = ~/.stCommitMsg
 
 [pull]
-  # pull strategy: fetch than rebase preserving merge commits
+	# pull strategy: fetch than rebase preserving merge commits
 	# values are [true: old versions, preserve: >= 1.8.5, merges: >= 2.18]
-  rebase = merges
+	rebase = merges
 
 [push]
-  # push only current branch to its upstream tracked target
-  default = upstream
-  # avoid combining annotated tags t ocommits when pushing
-  followTags = false
+	# push only current branch to its upstream tracked target
+	default = upstream
+	# avoid combining annotated tags t ocommits when pushing
+	followTags = false
 
 [rebase]
-  # Auto stash current Working directory and stage before start a rebase
-  autoStash = true
+	# Auto stash current Working directory and stage before start a rebase
+	autoStash = true
 
 [rerere]
-  # Reuse Recorded Resolution
-  enabled = true
+	# Reuse Recorded Resolution
+	enabled = true
 	autoupdate = true
 
 [tag]
-  # Sort tags as version numbers and not char order
-  sort = version:refname
+	# Sort tags as version numbers and not char order
+	sort = version:refname
 
 [versionsort]
 	# tag version sorting for pre-releases version
 	# those will appear before the main version
-  suffix = -alpha
-  suffix = .alpha
-  suffix = -beta
-  suffix = .beta
-  suffix = -rc
-  suffix = .rc
+	suffix = -alpha
+	suffix = .alpha
+	suffix = -beta
+	suffix = .beta
+	suffix = -rc
+	suffix = .rc
 
 [filter "lfs"]
-  clean = git-lfs clean -- %f
-  smudge = git-lfs smudge -- %f
-  process = git-lfs filter-process
-  required = true
+	clean = git-lfs clean -- %f
+	smudge = git-lfs smudge -- %f
+	process = git-lfs filter-process
+	required = true
 
 [include]
-  path = ~/.gitconfig.user
+	path = ~/.gitconfig.user
 
 [includeIf "gitdir:~/Developer/yassir/"]
-  path = ~/.gitconfig.yassir
+	path = ~/.gitconfig.yassir

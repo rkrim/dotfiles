@@ -94,6 +94,7 @@ developer_tools=(
   "chisel"
   "cocoapods"
   "composer"
+	"diff-so-fancy"
   "dex2jar"
   "diffutils"
   "file-formula"
