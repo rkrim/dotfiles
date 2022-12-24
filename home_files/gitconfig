@@ -57,18 +57,6 @@
 	meta = yellow
 	frag = cyan
 
-[difftool "sourcetree"]
-  cmd = opendiff \"$LOCAL\" \"$REMOTE\"
-  path = 
-
-[mergetool "sourcetree"]
-  cmd = /Applications/Sourcetree.app/Contents/Resources/opendiff-w.sh \"$LOCAL\" \"$REMOTE\" -ancestor \"$BASE\" -merge \"$MERGED\"
-  trustExitCode = true
-
-[commit]
-  gpgsign = true
-  template = ~/.stCommitMsg
-
 [alias]
   st = status                         # status
 	rv = remote -v											# show remotes (verbose)
@@ -115,28 +103,86 @@
   ls-local-commits = "!git short @{push}.."		# list non-pushed commits
   who = shortlog -sne													# stats
 
+[status]
+  # traverse untracked directories to display contents
+	# may take some time in a large working tree.
+  showUntrackedFiles = all
+
+[diff]
+  # Instead of a/b to indicate the changed files
+	# Uses meaningfull initials (i: index, w: work tree, c: commit, o: object)
+  mnemonicPrefix = true
+  renames = copy						# copy and rename detection
+  tool = vscode							# default tool invoked by `git difftool`
+
+[difftool "vscode"]
+  cmd = code --wait --diff "$LOCAL" "$REMOTE"
+
+[difftool "filemerge"]
+  cmd = opendiff "$LOCAL" "$REMOTE"
+
+[difftool "sourcetree"]
+	cmd = opendiff "$LOCAL\" "$REMOTE\"
+
+[merge]
+	# 3 way merge method showing common-ancestor in conflict hunks
+	conflictstyle = diff3
+	# merge strategy: fast-forward by default
+  ff = true
+
+[mergetool]
+	keepBackup = false					# post merge backup files clean up
+	keepTemporaries = false			# post merge temp files clean up
+	writeToTemp = true					# create temp files in a dedicated dir
+	prompt = false							# accept file prompts when launching merge tools
+
+[mergetool "sourcetree"]
+  cmd = /Applications/Sourcetree.app/Contents/Resources/opendiff-w.sh \"$LOCAL\" \"$REMOTE\" -ancestor \"$BASE\" -merge \"$MERGED\"
+  trustExitCode = true
+
+[commit]
+  gpgsign = true
+  template = ~/.stCommitMsg
+
+[pull]
+  # pull strategy: fetch than rebase preserving merge commits
+	# values are [true: old versions, preserve: >= 1.8.5, merges: >= 2.18]
+  rebase = merges
+
+[push]
+  # push only current branch to its upstream tracked target
+  default = upstream
+  # avoid combining annotated tags t ocommits when pushing
+  followTags = false
+
+[rebase]
+  # Auto stash current Working directory and stage before start a rebase
+  autoStash = true
+
+[rerere]
+  # Reuse Recorded Resolution
+  enabled = true
+	autoupdate = true
+
+[tag]
+  # Sort tags as version numbers and not char order
+  sort = version:refname
+
+[versionsort]
+	# tag version sorting for pre-releases version
+	# those will appear before the main version
+  suffix = -alpha
+  suffix = .alpha
+  suffix = -beta
+  suffix = .beta
+  suffix = -rc
+  suffix = .rc
 
 [filter "lfs"]
   clean = git-lfs clean -- %f
   smudge = git-lfs smudge -- %f
   process = git-lfs filter-process
   required = true
-
-[pull]
-  # preserve merge commits on pull
-  rebase = merges
-
-[push]
-  # push should only carry the current branch when pushing to target
-  default = upstream
-
-[rerere]
-  # Reuse Recorded Resolution
-  enabled = true
-
-[tag]
-  # Sort tags as version numbers and not char order
-  sort = version:refname
 
 [include]
   path = ~/.gitconfig.user
