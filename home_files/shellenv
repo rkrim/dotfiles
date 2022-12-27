@@ -22,7 +22,7 @@ _brew_command_path () {
 # Export Homebrew Shell Environment
 # HOMEBREW_PREFIX, HOMEBREW_CELLAR, HOMEBREW_REPOSITORY, PATH, MANPATH, INFOPATH
 _export_brew_shell_environment () {
-  BREW_CMD_PATH=$(_brew_command_path)
+  local BREW_CMD_PATH=$(_brew_command_path)
   if [[ -z $BREW_CMD_PATH ]]; then
     echo >&2 "Brew not found in preferred location, please check: https://docs.brew.sh/Installation";
     echo >&2 "No brew environment variable to export.";
@@ -101,9 +101,9 @@ _export_java_home () {
   # Using java_home to check for installed java version, 'java_home -V' to list all installed version
   command -v /usr/libexec/java_home > /dev/null 2>&1 || { echo >&2 "Can't process JAVA_HOME."; return; }
 
-  JAVA_HOME_11=$(/usr/libexec/java_home -failfast -v "11" 2> /dev/null)
-  JAVA_HOME_17=$(/usr/libexec/java_home -failfast -v "17" 2> /dev/null)
-  JAVA_HOME_LATEST=$(/usr/libexec/java_home 2> /dev/null)
+  local JAVA_HOME_11=$(/usr/libexec/java_home -failfast -v "11" 2> /dev/null)
+  local JAVA_HOME_17=$(/usr/libexec/java_home -failfast -v "17" 2> /dev/null)
+  local JAVA_HOME_LATEST=$(/usr/libexec/java_home 2> /dev/null)
 
   if [ "$JAVA_HOME_17" ]; then
     export JAVA_HOME=$JAVA_HOME_17
@@ -142,7 +142,7 @@ load_jenv () {
 }
 
 _prompt_powerline () {
-  POWERLINE_BASH="$PYTHON_USER_SITE/powerline/bindings/bash/powerline.sh"
+  local POWERLINE_BASH="$PYTHON_USER_SITE/powerline/bindings/bash/powerline.sh"
   if [[ -s $POWERLINE_BASH ]]; then
     powerline-daemon -q
     POWERLINE_BASH_CONTINUATION=1
@@ -158,6 +158,29 @@ javahome() {
   java --version
 }
 
+# Bash Completion
+bash_completion() {
+	# Main Bash Completion
+	local MAIN_COMPLETION="$HOMEBREW_PREFIX/etc/profile.d/bash_completion.sh"
+
+	# Auto-Complete if in interactive mode
+	if [[ $- == *i* && -f $MAIN_COMPLETION ]]; then
+  	source $MAIN_COMPLETION
+	else
+  	echo "bash_completion not installed or file location has changed"
+	fi
+
+	# Auto-Complete SSH hostnames (no wildcards)
+	if [ -e "$HOME/.ssh/config" ]; then
+  	complete -o "default" -o "nospace" -W "$(grep "^Host" ~/.ssh/config | grep -v "[?*]" | cut -d " " -f2- | tr ' ' '\n')" scp sftp ssh;
+	fi
+
+	# Git Completion
+	local GIT_COMPLETION="$HOMEBREW_PREFIX/etc/bash_completion.d/git-completion.bash"
+	if [[ -f $GIT_COMPLETION ]]; then
+  	source $GIT_COMPLETION
+	fi
+}
 
 ### Helper functions ##########################################################
 

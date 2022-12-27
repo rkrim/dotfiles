@@ -2,7 +2,6 @@
 # sourced by bash(1) for non-login shells.
 
 
-
 update_key_binding () {
   bind '"\e[3~": delete-char' # fn+delete > delete char
 }
@@ -30,24 +29,13 @@ export HISTCONTROL=ignoreboth:erasedup
 # Remove deprecation warning when using macOS prebuilt bash
 export BASH_SILENCE_DEPRECATION_WARNING=1
 
-# Add Bash Completion
-COMPLETION_FILENAME="$HOMEBREW_PREFIX/etc/profile.d/bash_completion.sh"
-# Auto-Complete if in interactive mode
-if [[ $- == *i* && -n $COMPLETION_FILENAME && -f $COMPLETION_FILENAME ]]; then
-  source $COMPLETION_FILENAME
-else
-  echo "bash_completion not installed or file location has changed"
-fi
-
-# Auto-Complete SSH hostnames (no wildcards)
-if [ -e "$HOME/.ssh/config" ]; then
-  complete -o "default" -o "nospace" -W "$(grep "^Host" ~/.ssh/config | grep -v "[?*]" | cut -d " " -f2- | tr ' ' '\n')" scp sftp ssh;
-fi
-
 # Source Aliases file
 if [ -f ~/.aliases ]; then
   source ~/.aliases
 fi
+
+# Add bash completion
+bash_completion
 
 # Make terminal have approximately the same behavior what ever the $TERM
 update_terminal_behavior
