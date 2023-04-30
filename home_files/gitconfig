@@ -136,8 +136,8 @@
 	cmd = opendiff "$LOCAL\" "$REMOTE\"
 
 [merge]
-	# 3 way merge method showing common-ancestor in conflict hunks
-	conflictstyle = diff3
+	# 3 way merge method showing common-ancestor in conflict hunks [merge | diff3]
+	conflictstyle = merge 
 	# merge strategy: fast-forward by default
   ff = true
 
@@ -153,7 +153,7 @@
 
 [commit]
 	gpgsign = true
-	template = ~/.stCommitMsg
+	# template = ~/.stCommitMsg
 
 [pull]
 	# pull strategy: fetch than rebase preserving merge commits
@@ -163,8 +163,10 @@
 [push]
 	# push only current branch to its upstream tracked target
 	default = upstream
-	# avoid combining annotated tags t ocommits when pushing
+	# avoid combining annotated tags to commits when pushing
 	followTags = false
+	# available from 2.37.0, --set-upstream on default push if no branch tracking was set yet
+	autoSetupRemote = true
 
 [rebase]
 	# Auto stash current Working directory and stage before start a rebase
