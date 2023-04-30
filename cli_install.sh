@@ -40,7 +40,6 @@ fi
 # "openssh"           // OpenSSH does not support 'UseKeychain' option introduced in macOS 10.12.2+
 #                     // To use this version, add "IgnoreUnknown UseKeychain" in config file before using it.
 # "swiftlint"         // Requires Xcode App
-# "angry-ip-scanner"  // Unidentified developer (signature), no permission
 # "jd-gui"            // Unidentified developer (signature), no permission
 # "realm-studio"      // Deprecated legacy software since acquisition by MongoDB
 # "tftpserver"        // No more available in repo
@@ -161,24 +160,19 @@ brew_batch_install image_tools[@]
 echo
 print_title "Install Applications (Cask)\n"
 ui_apps=(
-  "android-file-transfer"
   "android-studio"
+  "angry-ip-scanner"
   "anydesk"
   "appcleaner"
   "asset-catalog-tinkerer"
   "brave-browser"
-  "charles"
   "cakebrew"
-  "clementine"
-  "caption"
   "dbeaver-community"
   "dbngin"
-  "deezer"
   "firefox"
   "figma"
   "flixtools"
   "fork"
-  "geektool"
   "google-chrome"
   "handbrake"
   "iina"
@@ -186,7 +180,6 @@ ui_apps=(
   "iterm2"
   "keepingyouawake"
   "notion"
-  "macdown"
   "maciasl"
   "monitorcontrol"
   "opera"
@@ -195,8 +188,8 @@ ui_apps=(
   "react-native-debugger"
   "rectangle"
   "signal"
-  "sequel-pro"
   "silentknight"
+	"sourcetree"
   "spotify"
   "transmission"
   "typora"
@@ -242,7 +235,6 @@ echo
 print_title "Install packages from 'Unidentified Developer' (Cask)\n"
 echo "Requires open authorization in 'System Preferences > Security & Privacy > General'"
 unidentified=(
-  "balenaetcher"
   "oclint"
 )
 brew_batch_install unidentified[@]
@@ -266,40 +258,46 @@ brew_batch_install drivers[@]
 ### ARCH TARGET APPS/TOOLS ###
 echo
 print_title "Install x86_64 arch tools & apps:\n"
-arch_x86_64=(
-  "apktool"
+arch_x86_64_only=(
+	"clementine"
+	"sequel-pro"
+	"sketch-toolbox"
+	"virtualbox"                  # Requires Password
+  "virtualbox-extension-pack"
+
+	"apktool"
   "sonarqube"         # Requires Java
   "sonar-scanner"     # Runs with sonarqube
-  "sonar-completion"  # Runs with sonarqube
-  "impactor"
-  "macdown"
-  "openemu"
-  "opensim"
-  "pusher"
-  "sequel-pro"
-  "sketch-toolbox"
-  "sourcetree"
-)
-arch_rosetta=(
-  "dbeaver-community"
-  "deezer"
-  "imageoptim"
+  "sonar-completion"  # Runs with sonarqube  
   "homebrew/cask-drivers/logitech-options"
-  "virtualbox"                  # Requires Password
-  "virtualbox-extension-pack"
+)
+arch_rosetta_compat=(
+	"android-file-transfer"
+	"balenaetcher"
+	"caption"
+	"charles"
+	"deezer"
+	"gas-mask"
+	"geektool"
+	"imageoptim"
+	"impactor"
+	"macdown"
+	"openemu"
+	"opensim"
+	"pusher"
 )
 
 if [ "$arch_name" == "$arch_x86_64" ]; then
   echo
   print_title "Install x86_64 arch tools & apps:\n"
-  brew_batch_install arch_x86_64[@]
+  brew_batch_install arch_x86_64_only[@]
 
   # If arch is emulated
   if [ "$(sysctl -in sysctl.proc_translated)" = "1" ]; then
     echo
     print_title "Install Rosetta apps:\n"
+    brew_batch_install arch_rosetta_compat[@]
   fi
-  brew_batch_install arch_rosetta[@]
 fi
 
 
