@@ -35,16 +35,19 @@ fi
 # "atom"              // Now using VSCode
 # "brackets"          // Now using VSCode
 # "dash3"             // No more available in repo
+# "dozer"             // Replaced by "Hidden Bar" from mas as this is not native Apple Silicon
 # "flux"              // Now using macOS Night Shift
-# "slack"             // Installed via mas
+# "jd-gui"            // Unidentified developer (signature), no permission
 # "openssh"           // OpenSSH does not support 'UseKeychain' option introduced in macOS 10.12.2+
 #                     // To use this version, add "IgnoreUnknown UseKeychain" in config file before using it.
-# "swiftlint"         // Requires Xcode App
-# "jd-gui"            // Unidentified developer (signature), no permission
 # "realm-studio"      // Deprecated legacy software since acquisition by MongoDB
+# "slack"             // Installed via mas
+# "swiftlint"         // Requires Xcode App
 # "tftpserver"        // No more available in repo
+# "the-unarchiver"		// Using mas
 # "vagrant"           // On demand
 # "vagrant-manager"   // Runs with Vagrant
+# "warp"							// Not yet usable (too early alpha stage)
 
 
 echo
@@ -71,6 +74,7 @@ cli_tools=(
   "gnu-tar"
   "gnu-which"
   "gnupg"
+  "graphviz"
   "grep"
   "gzip"
   "librsvg"
@@ -100,6 +104,7 @@ developer_tools=(
   "git"
   "git-lfs"
   "git-quick-stats"
+	"git-extras"
   "gnutls"
   "httpie"
   "jq"
@@ -165,28 +170,35 @@ ui_apps=(
   "anydesk"
   "appcleaner"
   "asset-catalog-tinkerer"
+	"Bluesnooze"
   "brave-browser"
   "cakebrew"
   "dbeaver-community"
   "dbngin"
+	"figma"
   "firefox"
-  "figma"
   "flixtools"
   "fork"
   "google-chrome"
   "handbrake"
   "iina"
   "intellij-idea-ce"
+	"ios-app-signer"
   "iterm2"
   "keepingyouawake"
-  "notion"
+	"keycastr"
+	"maccy"
   "maciasl"
   "monitorcontrol"
+	"notion"
+	"obsidian"
   "opera"
   "paw"
 	"pinentry-mac"
+	"proxyman"
   "react-native-debugger"
   "rectangle"
+	"sloth"
   "signal"
   "silentknight"
 	"sourcetree"
@@ -196,6 +208,7 @@ ui_apps=(
   "visual-studio-code"
   "vlc"
   "wwdc"
+	"xattred"
   "zeplin"
 )
 brew_batch_install ui_apps[@]
@@ -209,6 +222,7 @@ ql_plugins=(
   "qlmarkdown"
   "quicklook-json"
   "provisionql"
+	"syntax-highlight"
   "quicklookapk"
 )
 brew_batch_install ql_plugins[@]
