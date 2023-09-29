@@ -74,3 +74,5 @@ Desktop.ini
 #############################
 home_files/android/*
 !home_files/android/repositories.cfg
+home_files/gnupg/*
+!home_files/gnupg/gpg-agent.conf
