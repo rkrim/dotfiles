@@ -84,6 +84,7 @@ cli_tools=(
   "tmux"
   "tree"
   "vitorgalvao/tiny-scripts/cask-repair"
+  "zoxide"
 )
 brew_batch_install cli_tools[@]
 
