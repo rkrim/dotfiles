@@ -68,6 +68,7 @@ cli_tools=(
   "coreutils"
   "ed"
   "findutils"
+  "fzf"
   "gawk"
   "gnu-indent"
   "gnu-sed"
@@ -84,6 +85,7 @@ cli_tools=(
   "tmux"
   "tree"
   "vitorgalvao/tiny-scripts/cask-repair"
+  "zoxide"
 )
 brew_batch_install cli_tools[@]
 

@@ -182,6 +182,13 @@ bash_completion() {
 	fi
 }
 
+_load_common_commands() {
+  # zoxide
+  if command -v zoxide &>/dev/null; then
+    eval "$(zoxide init --cmd cd bash)"
+  fi
+}
+
 ### Helper functions ##########################################################
 
 # Compare arg1 with arg2 taking arg3 as a version number separator
