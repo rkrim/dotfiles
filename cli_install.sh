@@ -102,10 +102,11 @@ developer_tools=(
   "dex2jar"
   "diffutils"
   "file-formula"
+  "gh"                              # GitHub command-line tool
   "git"
+	"git-extras"                      # Small git utilities
   "git-lfs"
   "git-quick-stats"
-	"git-extras"
   "gnutls"
   "httpie"
   "jq"
