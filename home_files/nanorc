@@ -1,5 +1,4 @@
 # ~/.nanorc
 # nano customization file
 
-
-include /usr/local/share/nano/*.nanorc
+include "/opt/homebrew/opt/nano/share/nano/extra/*.nanorc"
