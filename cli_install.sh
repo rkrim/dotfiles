@@ -32,11 +32,12 @@ fi
 
 
 ### NOGO APPS/TOOLS & WHY ###
-# "atom"              // Now using VSCode
-# "brackets"          // Now using VSCode
+# "atom"              // Using alternative: VSCode
+# "brackets"          // Using alternative: VSCode
+# "cheatsheet"        // Using alternative: Keyclu
 # "dash3"             // No more available in repo
-# "dozer"             // Replaced by "Hidden Bar" from mas as this is not native Apple Silicon
-# "flux"              // Now using macOS Night Shift
+# "dozer"             // Using alternative: Hidden Bar - from mas as this is not native Apple Silicon
+# "flux"              // Using alternative: macOS Night Shift
 # "jd-gui"            // Unidentified developer (signature), no permission
 # "openssh"           // OpenSSH does not support 'UseKeychain' option introduced in macOS 10.12.2+
 #                     // To use this version, add "IgnoreUnknown UseKeychain" in config file before using it.
@@ -167,6 +168,7 @@ brew_batch_install image_tools[@]
 echo
 print_title "Install Applications (Cask)\n"
 ui_apps=(
+  "alex313031-thorium"
   "android-studio"
   "angry-ip-scanner"
   "anydesk"
@@ -184,11 +186,13 @@ ui_apps=(
   "google-chrome"
   "handbrake"
   "iina"
+  "imageoptim"
   "intellij-idea-ce"
 	"ios-app-signer"
   "iterm2"
   "keepingyouawake"
 	"keycastr"
+  "keyclu"
 	"maccy"
   "maciasl"
   "monitorcontrol"
@@ -203,6 +207,7 @@ ui_apps=(
 	"sloth"
   "signal"
   "silentknight"
+  "sloth"
 	"sourcetree"
   "spotify"
   "transmission"
