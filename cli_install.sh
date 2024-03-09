@@ -193,6 +193,7 @@ developer_tools=(
 	"asdf"											# Extendable version manager
 	"boost"
 	"carthage"
+	"cdktf"
 	"chisel"
 	"composer"
 	"dex2jar"
@@ -210,6 +211,7 @@ developer_tools=(
 	"git-lfs"
 	"git-quick-stats"
 	"gnutls"
+	"google-cloud-sdk"
 	"grc"												# Colorize logfiles and command output
 	"harper"										# Grammar checker for developers
 	"hunk"											# Git hunks with syntax highlighting
@@ -644,3 +646,9 @@ install_android_env
 echo
 print_title "Install Mac AppStore Apps\n"
 ./mas_installer.sh
+
+# Google Cloud SDK shell setup (add to the appropriate shell configuration):
+# Bash: source "$(brew --prefix)/share/google-cloud-sdk/path.bash.inc"
+# Zsh: source "$(brew --prefix)/share/google-cloud-sdk/path.zsh.inc"
+# Zsh: source "$(brew --prefix)/share/google-cloud-sdk/completion.zsh.inc"
+# Fish: source "$(brew --prefix)/share/google-cloud-sdk/path.fish.inc"
