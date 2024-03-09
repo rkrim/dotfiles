@@ -8,7 +8,7 @@ source ./install_helper.sh
 
 ### ENVIRONMENT DETECTION ###
 txt_attr_name=$(txt_attr $FG_COLOR_LIGHT_GREEN)
-print_title "Environment: $txt_attr_name $osName $osVersion ($osBuildVersion) | $arch_name""$reset_all\n"
+print_title "Environment: $txt_attr_name $ENV_OS_NAME $ENV_OS_VERSION ($ENV_OS_BUILD_VERSION) | $ENV_ARCH_NAME""$reset_all\n"
 
 
 ### INSTALL ###
@@ -303,7 +303,7 @@ arch_rosetta_compat=(
 	"pusher"
 )
 
-if [ "$arch_name" == "$arch_x86_64" ]; then
+if [ "$ENV_ARCH_NAME" == "$ENV_ARCH_X86_64" ]; then
   echo
   print_title "Install x86_64 arch tools & apps:\n"
   brew_batch_install arch_x86_64_only[@]

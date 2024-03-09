@@ -74,7 +74,7 @@ rosetta_apps=(
 	"1147396723"  # WhatsApp Desktop (rosetta)
 )
 
-if [ "$ARCH_NAME" == "$ARCH_X86_64" ]; then
+if [ "$ENV_ARCH_NAME" == "$ENV_ARCH_X86_64" ]; then
   # If arch is emulated
   if [ "$(sysctl -in sysctl.proc_translated)" = "1" ]; then
     print_title "Install Rosetta Apps\n"
