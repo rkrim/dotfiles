@@ -114,6 +114,7 @@ developer_tools=(
   "android-commandlinetools"
   "boost"
   "carthage"
+  "cdktf"
   "chisel"
   "cocoapods"
   "composer"
@@ -128,6 +129,7 @@ developer_tools=(
   "git-lfs"
   "git-quick-stats"
   "gnutls"
+  "google-cloud-sdk"
   "httpie"
   "jq"
   "mitmproxy"
@@ -399,3 +401,16 @@ add_acceptable_shell `command -v zsh`
 echo
 print_title "Install Mac AppStore Apps\n"
 ./mas_installer.sh
+
+
+
+>> gcp
+  for bash users
+    source "$(brew --prefix)/share/google-cloud-sdk/path.bash.inc"
+
+  for zsh users
+    source "$(brew --prefix)/share/google-cloud-sdk/path.zsh.inc"
+    source "$(brew --prefix)/share/google-cloud-sdk/completion.zsh.inc"
+
+  for fish users
+    source "$(brew --prefix)/share/google-cloud-sdk/path.fish.inc"
