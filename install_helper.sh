@@ -13,13 +13,13 @@ source ./pretty-print.sh
 brew_export_shell_environment () {
   # Brew is installed on different path following architecture
   # Check that brew exist in preferred location
-  local BREW_CMD_x86_64="/usr/local/bin/brew"
-  local BREW_CMD_arm64="/opt/homebrew/bin/brew"
+  local BREW_CMD_X86_64="/usr/local/bin/brew"
+  local BREW_CMD_ARM64="/opt/homebrew/bin/brew"
 
-  if command -v $BREW_CMD_x86_64 &> /dev/null; then
-    eval $($BREW_CMD_x86_64 shellenv)
-  elif command -v $BREW_CMD_arm64 &> /dev/null; then
-    eval $($BREW_CMD_arm64 shellenv)
+  if command -v $BREW_CMD_X86_64 &> /dev/null; then
+    eval $($BREW_CMD_X86_64 shellenv)
+  elif command -v $BREW_CMD_ARM64 &> /dev/null; then
+    eval $($BREW_CMD_ARM64 shellenv)
   fi
 }
 
