@@ -67,6 +67,7 @@ cli_tools=(
   "autoconf"
   "binutils"
   "coreutils"
+  "curl"            # Get a file from HTTP(s)/FTP servers
   "ed"
   "findutils"
   "gawk"
@@ -79,12 +80,15 @@ cli_tools=(
   "grep"
   "gzip"
   "librsvg"
+  "mailsy"          # Generate temporary email address
   "mas"
   "rsync"
   "screen"
   "tmux"
   "tree"
   "vitorgalvao/tiny-scripts/cask-repair"
+  "wifi-password"   # Show recorded WiFi password
+  "yt-dlp"          # Audio/Video downloader
   "zoxide"
 )
 brew_batch_install cli_tools[@]
