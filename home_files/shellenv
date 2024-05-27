@@ -31,6 +31,8 @@ _export_brew_shell_environment () {
     # Export brew environment paths
     eval $($BREW_CMD_PATH shellenv)
     export HOMEBREW_NO_INSTALL_CLEANUP=TRUE
+    export HOMEBREW_NO_AUTO_UPDATE=TRUE
+    export HOMEBREW_EDITOR="code"
   fi
 }
 
