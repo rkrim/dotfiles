@@ -253,8 +253,16 @@ brew_batch_install screensavers[@]
 echo
 print_title "Install Fonts (Cask)\n"
 fonts=(
-  "homebrew/cask-fonts/font-menlo-for-powerline"
-  "homebrew/cask-fonts/font-roboto-mono-for-powerline"
+  "font-noto-nerd-font"
+  "font-roboto-mono-nerd-font"    # Use as default
+  "font-dejavu-sans-mono-nerd-font"
+  "font-commit-mono-nerd-font"
+  "font-hack-nerd-font"
+  "font-geist-mono-nerd-font"
+  "font-fira-mono-nerd-font"
+  "font-meslo-lg-nerd-font"
+  "font-lilex-nerd-font"
+  "font-ubuntu-nerd-font"
 )
 brew_batch_install fonts[@]
 
