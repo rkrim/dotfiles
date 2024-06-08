@@ -143,16 +143,6 @@ load_jenv () {
   fi
 }
 
-_prompt_powerline () {
-  local POWERLINE_BASH="$PYTHON_USER_SITE/powerline/bindings/bash/powerline.sh"
-  if [[ -s $POWERLINE_BASH ]]; then
-    powerline-daemon -q
-    POWERLINE_BASH_CONTINUATION=1
-    POWERLINE_BASH_SELECT=1
-    source $POWERLINE_BASH
-  fi
-}
-
 # Java home
 javahome() {
   unset JAVA_HOME

@@ -363,15 +363,6 @@ dotfiles_symlink "home_files"
 
 
 echo
-print_title "Bash Powerline installation\n"
-# Zsh is default shell in macOS 10.15+
-# Needs bash_profile under bash
-bash;source ~/.bash_profile
-pip install --user powerline-gitstatus
-pip install --user powerline-status
-
-
-echo
 print_title "Update user default Shell (Requires Password):\n"
 add_acceptable_shell `command -v bash` default
 add_acceptable_shell `command -v zsh`
