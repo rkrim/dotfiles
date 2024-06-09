@@ -1,0 +1,113 @@
+# Starship Prompt configuration
+# Based on Tokyo Night Preset
+
+
+format = """
+[ $os $username$hostname](fg:#090c0c bg:#a3aed2)\
+[](fg:#a3aed2 bg:#769ff0)\
+$directory\
+[](fg:#769ff0 bg:#394260)\
+$git_branch\
+$git_status\
+$git_metrics\
+[](fg:#394260 bg:#212736)\
+$nodejs\
+$rust\
+$golang\
+$php\
+[](fg:#212736 bg:#1d2230)\
+$time\
+[ ](fg:#1d2230)\
+\n$character"""
+
+[character]
+success_symbol = "[❯](bold green)"
+error_symbol = "[❯](bold red)"
+
+[os]
+disabled = false
+symbols.Macos = ""
+symbols.Windows = ""
+symbols.Ubuntu = ""
+format = "$symbol"
+
+[username]
+show_always = true
+style_user = "#e3e5e5 bg:#a3aed2"
+style_root = "#e3e5e5 bg:#a3aed2"
+format = "[$user]($style)"
+
+[hostname]
+ssh_only = false
+ssh_symbol = " "
+style = "#e3e5e5 bg:#a3aed2"
+trim_at = ".local"
+format = '[@$hostname $ssh_symbol]($style)'
+
+[time]
+disabled = false
+style = "bg:#1d2230"
+time_format = "%R"      # Hour:Minute Format
+format = '[[  $time ](fg:#a0a9cb bg:#1d2230)]($style)'
+
+[cmd_duration]
+min_time = 500
+show_milliseconds = true
+format = "[$duration]($style) "
+
+[directory]
+home_symbol = ""
+read_only = "󰌾"
+style = "fg:#e3e5e5 bg:#769ff0"
+read_only_style = "fg:#e3e5e5 bg:#769ff0"
+truncation_length = 4
+truncate_to_repo = true
+truncation_symbol = "…/"
+format = '[ $path ]($style)[$read_only]($read_only_style)'
+
+[directory.substitutions]
+style = "fg:#e3e5e5 bg:#769ff0"
+"/" = "  "
+"Developer" = " "
+"Documents" = "󰈙"
+"Downloads" = ""
+"Music" = ""
+"Pictures" = ""
+
+[git_branch]
+symbol = ""
+style = "fg:#769ff0 bg:#394260"
+format = '[ $symbol $branch(:$remote_branch)]($style)'
+
+[git_status]
+style = "fg:#769ff0 bg:#394260"
+format = '[ $all_status$ahead_behind]($style)'
+
+[git_metrics]
+disabled = false
+only_nonzero_diffs = true
+added_style = "fg:green bg:#394260"
+deleted_style = "fg:red bg:#394260"
+format = '([\[+$added ]($added_style))([-$deleted\]]($deleted_style))'
+
+[rust]
+symbol = ""
+style = "fg:#769ff0 bg:#212736"
+format = '[ $symbol ($version) ]($style)'
+
+[golang]
+symbol = ""
+style = "fg:#769ff0 bg:#212736"
+format = '[ $symbol ($version) ]($style)'
+
+[php]
+symbol = ""
+style = "fg:#769ff0 bg:#212736"
+format = '[ $symbol ($version) ]($style)'
+
+[nodejs]
+symbol = ""
+style = "fg:#769ff0 bg:#212736"
+detect_files = ["package.json", ".node-version"]
+detect_folders = ["node_modules"]
+format = '[ $symbol ($version) ]($style)'

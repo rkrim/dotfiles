@@ -85,7 +85,8 @@ cli_tools=(
   "mas"
   "rsync"
   "screen"
-  "tmux"
+  "starship"        # Cross-shell prompt for astronauts
+  "tmux"            # Terminal multiplexer
   "tree"
   "vitorgalvao/tiny-scripts/cask-repair"
   "wifi-password"   # Show recorded WiFi password
