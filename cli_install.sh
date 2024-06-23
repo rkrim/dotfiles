@@ -111,6 +111,7 @@ developer_tools=(
   "gh"                              # GitHub command-line tool
   "git"
 	"git-extras"                      # Small git utilities
+  "git-filter-repo"                 # Rewrite git repository history
   "git-lfs"
   "git-quick-stats"
   "gnutls"
