@@ -112,6 +112,7 @@ developer_tools=(
   "gh"
   "git"
 	"git-extras"
+  "git-filter-repo"   # Rewrite git repository history
   "git-lfs"
   "git-quick-stats"
   "gnutls"
