@@ -64,6 +64,7 @@ brew_batch_install shells[@]
 echo
 print_title "Install cli tools\n"
 cli_tools=(
+  "1password-cli"
   "autoconf"
   "binutils"
   "coreutils"
