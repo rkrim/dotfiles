@@ -83,6 +83,7 @@ cli_tools=(
   "librsvg"
   "mailsy"          # Generate temporary email address
   "mas"
+  "neofetch"        # Customisable system info script
   "rsync"
   "screen"
   "starship"        # Cross-shell prompt for astronauts
