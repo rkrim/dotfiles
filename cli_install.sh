@@ -183,6 +183,7 @@ ui_apps=(
   "angry-ip-scanner"
   "anydesk"
   "appcleaner"
+  "arc"                     # Chromium based browser
   "asset-catalog-tinkerer"
 	"Bluesnooze"
   "brave-browser"
