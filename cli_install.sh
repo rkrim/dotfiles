@@ -223,6 +223,7 @@ ui_apps=(
 	"sourcetree"
   "spotify"
   "transmission"
+  "transnomino"             # Batch rename utility
   "typora"
   "visual-studio-code"
   "vlc"
