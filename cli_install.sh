@@ -212,11 +212,12 @@ ui_apps=(
   "keepingyouawake"
 	"keycastr"
   "keyclu"
-  "localsend"               # Open-source cross-platform alternative to AirDrop
+  "localsend"                 # Open-source cross-platform alternative to AirDrop
 	"maccy"
   "maciasl"
   "monitorcontrol"
-	"notion"
+  "ngrok"                     # Reverse proxy, secure introspectable tunnels to localhost
+  "notion"
 	"obsidian"
   "opera"
   "paw"

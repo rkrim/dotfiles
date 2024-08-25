@@ -172,6 +172,11 @@ bash_completion() {
 	if [[ -f $GIT_COMPLETION ]]; then
   	source $GIT_COMPLETION
 	fi
+
+  # ngrok Completion
+  if command -v ngrok &>/dev/null; then
+    eval "$(ngrok completion)"
+  fi
 }
 
 # Initialize starship prompt
