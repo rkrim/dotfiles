@@ -23,6 +23,20 @@ brew_export_shell_environment () {
   fi
 }
 
+# brew_register_taps()
+# Register Homebrew taps
+brew_register_taps() {
+  if [[ $# != 1 || $1 == "" ]]; then
+    echo "${FUNCNAME[0]}() :: bad_arguments"
+    false
+    return $EXIT_FAILURE
+  fi
+
+  for tap in "$@"; do
+    brew tap "$tap"
+  done
+}
+
 
 # is_brew_package_installed()
 # Check if a brew package is already installed

@@ -52,6 +52,14 @@ fi
 
 
 echo
+print_title "Register Brew Taps:\n"
+taps=(
+  "localsend/localsend"
+)
+brew_register_taps taps[@]
+
+
+echo
 print_title "Install Shells:\n"
 shells=(
   "bash"
@@ -94,6 +102,7 @@ cli_tools=(
   "zoxide"
 )
 brew_batch_install cli_tools[@]
+
 
 echo
 print_title "Install developer cli tools\n"
@@ -201,6 +210,7 @@ ui_apps=(
   "keepingyouawake"
 	"keycastr"
   "keyclu"
+  "localsend"               # Open-source cross-platform alternative to AirDrop
 	"maccy"
   "maciasl"
   "monitorcontrol"
