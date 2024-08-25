@@ -198,6 +198,7 @@ ui_apps=(
   "cakebrew"
   "dbeaver-community"
   "dbngin"
+  "devtoys"                 # Common development utilities
 	"figma"
   "firefox"
   "flixtools"
