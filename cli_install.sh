@@ -232,7 +232,8 @@ ui_apps=(
   "transmission"
   "transnomino"             # Batch rename utility
   "typora"
-  "visual-studio-code"
+  "visual-studio-code"      # Microsoft VS Code
+  "vscodium"                # VSCode without MS branding/telemetry/licensing
   "vlc"
   "wwdc"
 	"xattred"
