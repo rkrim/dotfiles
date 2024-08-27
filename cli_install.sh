@@ -90,6 +90,7 @@ cli_tools=(
   "mailsy"          # Generate temporary email address
   "mas"
   "neofetch"        # Customisable system info script
+  "neovim"          # Vim-fork focused on extensibility and agility
   "rsync"
   "screen"
   "starship"        # Cross-shell prompt for astronauts
