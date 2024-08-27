@@ -191,14 +191,14 @@ ui_apps=(
   "angry-ip-scanner"
   "anydesk"
   "appcleaner"
-  "arc"                     # Chromium based browser
+  "arc"                       # Chromium based browser
   "asset-catalog-tinkerer"
 	"Bluesnooze"
   "brave-browser"
   "cakebrew"
   "dbeaver-community"
   "dbngin"
-  "devtoys"                 # Common development utilities
+  "devtoys"                   # Common development utilities
 	"figma"
   "firefox"
   "flixtools"
@@ -239,6 +239,7 @@ ui_apps=(
   "vlc"
   "wwdc"
 	"xattred"
+  "zed"                       # Multiplayer code editor
   "zeplin"
 )
 brew_batch_install ui_apps[@]
