@@ -225,6 +225,7 @@ ui_apps=(
 	"obsidian"
   "opera"
   "paw"
+  "pearcleaner"             # Remove apps & leftover files
 	"pinentry-mac"
 	"proxyman"
   "raycast"                   # Spotlight replacement
