@@ -206,6 +206,7 @@ ui_apps=(
   "flixtools"
   "fork"
   "google-chrome"
+  "hammerspoon"             # macOS automation tool
   "handbrake"
   "iina"
   "imageoptim"
