@@ -193,6 +193,7 @@ ui_apps=(
   "appcleaner"
   "arc"                       # Chromium based browser
   "asset-catalog-tinkerer"
+  "beeper"                    # Universal chat app powered by Matrix
 	"Bluesnooze"
   "brave-browser"
   "cakebrew"
@@ -210,9 +211,11 @@ ui_apps=(
   "intellij-idea-ce"
 	"ios-app-signer"
   "iterm2"
+  "itsycal"                   # Menu bar calendar
   "keepingyouawake"
 	"keycastr"
   "keyclu"
+  "latest"                    # Shows latest app updates
   "localsend"                 # Open-source cross-platform alternative to AirDrop
 	"maccy"
   "maciasl"
