@@ -94,7 +94,8 @@ cli_tools=(
   "mas"
   "rsync"
   "screen"
-  "tmux"
+  "tmux"      # Terminal multiplexer
+  "tpm"       # Plugin manager for tmux
   "tree"
   "vitorgalvao/tiny-scripts/cask-repair"
   "wifi-password"   # Show recorded WiFi password
@@ -259,7 +260,8 @@ brew_batch_install ql_plugins[@]
 echo
 print_title "Install ScreenSavers (Cask)\n"
 screensavers=(
-  "aerial"
+  "aerial"    # Apple TV Aerial screensaver
+  "fliqlo"    # Flip clock screensaver
 )
 brew_batch_install screensavers[@]
 
