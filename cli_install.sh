@@ -225,6 +225,7 @@ ui_apps=(
   "paw"
 	"pinentry-mac"
 	"proxyman"
+  "raycast"                   # Spotlight replacement
   "react-native-debugger"
   "rectangle"
 	"sloth"
@@ -234,7 +235,7 @@ ui_apps=(
 	"sourcetree"
   "spotify"
   "transmission"
-  "transnomino"             # Batch rename utility
+  "transnomino"               # Batch rename utility
   "typora"
   "visual-studio-code"
   "vlc"
