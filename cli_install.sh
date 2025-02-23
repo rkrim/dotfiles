@@ -93,6 +93,7 @@ cli_tools=(
   "neovim"          # Vim-fork focused on extensibility and agility
   "rsync"
   "screen"
+  "spicetify-cli"   # Take control of the Spotify client
   "starship"        # Cross-shell prompt for astronauts
   "tmux"            # Terminal multiplexer
   "tpm"             # Plugin manager for tmux
