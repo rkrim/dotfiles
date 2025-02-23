@@ -79,6 +79,8 @@ home_files/gnupg/*
 home_files/config/*
 !home_files/config/starship
 !home_files/config/starship.toml
+!home_files/config/spicetify
+!home_files/config/spicetify/config-xpui.ini
 !home_files/config/zed
 home_files/config/zed/conversations
 home_files/config/zed/prompts
