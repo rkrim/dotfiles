@@ -94,8 +94,9 @@ cli_tools=(
   "mas"
   "rsync"
   "screen"
-  "tmux"      # Terminal multiplexer
-  "tpm"       # Plugin manager for tmux
+  "spicetify-cli"   # Take control of the Spotify client
+  "tmux"            # Terminal multiplexer
+  "tpm"             # Plugin manager for tmux
   "tree"
   "vitorgalvao/tiny-scripts/cask-repair"
   "wifi-password"   # Show recorded WiFi password
