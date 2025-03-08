@@ -16,7 +16,7 @@ ENV_ARCH_X86_64="x86_64"
 
 # Check if the argument is a positive number
 is_positive_number() {
-  if [[ $# != 1 ]]; then
+  if [[ $# -ne 1 ]]; then
     false
   fi
   decimal_regexp='^[0-9]+$'
