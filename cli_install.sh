@@ -88,8 +88,11 @@ cli_tools=(
   "dav1d"           # AV1 decoder
   "ed"
   "exiftool"        # Read and write EXIF metadata
+  "eza"             # ls replacement
+  "fd"              # Simple, fast and user-friendly alternative to find
   "ffmpeg"          # Audio/Video converter and manipulator
   "findutils"
+  "fzf"             # Command-line fuzzy finder written in Go
   "gawk"
   "gnu-indent"
   "gnu-sed"
@@ -107,9 +110,11 @@ cli_tools=(
   "mpv"             # Media player
   "neofetch"        # Customisable system info script
   "neovim"          # Vim-fork focused on extensibility and agility
+  "rg"              # Search tool, rg stands for ripgrep
   "rsync"
   "screen"
   "spicetify-cli"   # Take control of the Spotify client
+  "sshs"              # Graphical command-line client for SSH
   "starship"        # Cross-shell prompt for astronauts
   "cirruslabs/cli/tart"
   "tlrc"            # Official tldr , Simplified and community-driven man pages
@@ -171,6 +176,7 @@ developer_tools=(
   "xcode-build-server"        # Build server for integrating Xcode with sourcekit-lsp
   "xcodegen"                  # Generate Xcode project from a spec file
   "xcodes"                    # Manage multiple versions of Xcode
+  "yazi"                      # Modern, lightweight, and fast terminal file manager
 )
 brew_batch_install developer_tools[@]
 
@@ -261,6 +267,7 @@ ui_apps=(
 	"figma"
   "flixtools"
   "fork"
+  "ghostty"                   # Modern, lightweight, and fast terminal emulator
   "hammerspoon"               # macOS automation tool
   "handbrake-app"             # Open-source video transcoder
   "iina"                      # Media player
@@ -304,6 +311,7 @@ ui_apps=(
   "utm"                       # Virtual machines
   "visual-studio-code"        # Microsoft VS Code
   "vlc"
+  "wezterm"                   # GPU-accelerated cross-platform terminal emulator and multiplexer
   "whisky"                    # Wine wrapper for macOS
   "wwdc"
 	"xattred"

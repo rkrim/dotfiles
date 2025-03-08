@@ -77,6 +77,8 @@ home_files/android/*
 home_files/gnupg/*
 !home_files/gnupg/gpg-agent.conf
 home_files/config/*
+!home_files/config/ghostty
+home_files/config/ghostty/ghostty-shaders
 !home_files/config/starship
 !home_files/config/starship.toml
 !home_files/config/spicetify

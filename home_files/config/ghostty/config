@@ -1,0 +1,48 @@
+# Ghostty Configuration
+# cspell:disable
+#
+# Reload config: Cmd+Shift+',' (macOS) or Ctrl+Shift+',' (Linux)
+# To enable custom shaders, 1st place them in '~/.config/ghostty/ghostty-shaders/'
+# then set 'custom-shader' to the filename
+
+
+# Window appearance
+macos-titlebar-style = tabs
+window-theme = auto
+window-decoration = true
+window-padding-x = 0
+window-padding-y = 0
+background-opacity = 0.8
+background-blur-radius = 50
+
+# Font settings
+font-family = "MesloLGM Nerd Font", "NotoSansM Nerd Font Mono"
+font-size = 16
+font-feature = -calt
+font-feature = -clig
+font-feature = -liga
+
+# Notifications
+app-notifications = clipboard-copy,config-reload
+
+# Colors - list themes: 'ghostty +list-themes'
+theme = TokyoNight
+custom-shader-animation = true
+# custom-shader = ghostty-shaders/water.glsl
+# Theme: Catppuccin Mocha, Cobalt Next Dark, Github Dark Default
+
+# Cursor
+cursor-style = block
+
+# Scrollback
+scrollback-limit = 50000
+
+# Bell - disable audible bell, keep visual
+bell-features = no-audio,attention,title,border
+
+# Behavior
+mouse-hide-while-typing = false
+
+# Left Option → Alt, Right Option → macOS chars
+macos-option-as-alt = left
+keybind = shift+enter=text:\x1b\r

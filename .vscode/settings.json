@@ -1,0 +1,6 @@
+{
+	"files.associations": {
+		"**/ghostty/config": "properties"
+	},
+	"cSpell.words": ["Ghostty", "wezterm"]
+}
