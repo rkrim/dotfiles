@@ -155,22 +155,24 @@ bash_completion() {
 	# Main Bash Completion
 	local MAIN_COMPLETION="$HOMEBREW_PREFIX/etc/profile.d/bash_completion.sh"
 
-	# Auto-Complete if in interactive mode
-	if [[ $- == *i* && -f $MAIN_COMPLETION ]]; then
-  	source $MAIN_COMPLETION
-	else
-  	echo "bash_completion not installed or file location has changed"
-	fi
+  # Source completion file if in interactive mode and the file exists
+  if [[ $- =~ i ]]; then
+    if [[ -f "$MAIN_COMPLETION" ]]; then 
+      source "$MAIN_COMPLETION"
+    else
+      echo "bash completion not installed or the file location has changed."
+    fi
+  fi
 
 	# Auto-Complete SSH hostnames (no wildcards)
 	if [ -e "$HOME/.ssh/config" ]; then
-  	complete -o "default" -o "nospace" -W "$(grep "^Host" ~/.ssh/config | grep -v "[?*]" | cut -d " " -f2- | tr ' ' '\n')" scp sftp ssh;
+    complete -o "default" -o "nospace" -W "$(grep "^Host" ~/.ssh/config | grep -v "[?*]" | cut -d " " -f2- | tr ' ' '\n')" scp sftp ssh;
 	fi
 
 	# Git Completion
 	local GIT_COMPLETION="$HOMEBREW_PREFIX/etc/bash_completion.d/git-completion.bash"
 	if [[ -f $GIT_COMPLETION ]]; then
-  	source $GIT_COMPLETION
+    source $GIT_COMPLETION
 	fi
 
   # ngrok Completion

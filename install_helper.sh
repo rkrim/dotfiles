@@ -26,7 +26,7 @@ brew_export_shell_environment () {
 # brew_register_taps()
 # Register Homebrew taps
 brew_register_taps() {
-  if [[ $# != 1 || $1 == "" ]]; then
+  if [[ $# -ne 1 || -z "$1" ]]; then
     echo "${FUNCNAME[0]}() :: bad_arguments"
     false
     return $EXIT_FAILURE
@@ -44,7 +44,7 @@ brew_register_taps() {
 # @param1 required, Package name
 # @return: The versoin number of the package if its installed
 function is_brew_package_installed {
-  if [[ $# == 0  || $# > 1 || $1 == "" ]]; then
+  if [[ $# -ne 1 || -z "$1" ]]; then
     echo "${FUNCNAME[0]}() :: bad_arguments"
     false
     return $EXIT_FAILURE
@@ -68,7 +68,7 @@ function is_brew_package_installed {
 # Install a Brew package after Checking if already installed
 # @param1 required, Package name, or package name with installation aruments
 function brew_package_install {
-  if [[ $# == 0  || $# > 1 || $1 == "" ]]; then
+  if [[ $# -ne 1 || -z "$1" ]]; then
     echo "${FUNCNAME[0]}() :: bad_arguments"
     return $EXIT_FAILURE
   fi
@@ -118,7 +118,7 @@ function brew_package_install {
 # Install a list of Brew packages
 # @param1 required, an array of brew packages, or list of brew packages with installtion aruments
 function brew_batch_install {
-  if [[ $# == 0  || $# > 1 || $1 == "" ]]; then
+  if [[ $# -ne 1 || -z "$1" ]]; then
     echo "${FUNCNAME[0]}() :: bad_arguments"
     return $EXIT_FAILURE
   fi
@@ -134,7 +134,7 @@ function brew_batch_install {
 # Install a list of mas applications
 # @param1 required, an array of mas app identifiers
 function mas_batch_install {
-  if [[ $# != 1 || $1 == "" ]]; then
+  if [[ $# -ne 1 || -z "$1" ]]; then
     echo "${FUNCNAME[0]}() :: bad_arguments"
     return $EXIT_FAILURE
   fi
@@ -178,7 +178,7 @@ function add_acceptable_shell {
 # links are prefixed with '.'
 # original files will be moved to a backup folder
 function dotfiles_symlink {
-  if [[ $# != 1 || $1 == "" ]]; then
+  if [[ $# -ne 1 || -z "$1" ]]; then
     echo "${FUNCNAME[0]}() :: bad_arguments"
     return $EXIT_FAILURE
   fi
