@@ -1,0 +1,18 @@
+# Format the commit message as follow:
+#
+# Title
+# Empty line
+# Body
+#
+# Title:: <action>[scope]: <description>
+# Where 
+# - Action:
+#   [add, remove, update]
+# - Scope:
+#   [homebrew, shell, packages, casks, apps, mas, drivers, fonts, screensavers, quicklook]
+# - Description
+#   Short description
+#
+# Body:: [Optional]
+#
+# -----
