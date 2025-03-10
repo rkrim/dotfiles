@@ -233,6 +233,7 @@ ui_apps=(
   "pearcleaner"               # Remove apps & leftover files
 	"pinentry-mac"
 	"proxyman"
+  "raindropio"                # All-in-one bookmark manager
   "raycast"                   # Spotlight replacement
   "react-native-debugger"
   "rectangle"
@@ -242,10 +243,12 @@ ui_apps=(
   "sloth"
 	"sourcetree"
   "spotify"
+  "tempbox"                   # Disposable email client
   "transmission"
   "transnomino"               # Batch rename utility
   "typora"
-  "visual-studio-code"
+  "visual-studio-code"        # Microsoft VS Code
+  "Upscayl"                   # AI image upscaler
   "vlc"
   "wwdc"
 	"xattred"
