@@ -199,6 +199,7 @@ ui_apps=(
 	"Bluesnooze"
   "brave-browser"
   "cakebrew"
+  "cursor"                    # Write, edit, and chat about your code with AI
   "dbeaver-community"
   "dbngin"
   "devtoys"                   # Common development utilities
@@ -207,7 +208,7 @@ ui_apps=(
   "flixtools"
   "fork"
   "google-chrome"
-  "hammerspoon"             # macOS automation tool
+  "hammerspoon"               # macOS automation tool
   "handbrake"
   "iina"
   "imageoptim"
@@ -228,7 +229,7 @@ ui_apps=(
 	"obsidian"
   "opera"
   "paw"
-  "pearcleaner"             # Remove apps & leftover files
+  "pearcleaner"               # Remove apps & leftover files
 	"pinentry-mac"
 	"proxyman"
   "raycast"                   # Spotlight replacement
