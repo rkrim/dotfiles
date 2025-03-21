@@ -95,6 +95,7 @@ cli_tools=(
   "screen"
   "spicetify-cli"   # Take control of the Spotify client
   "starship"        # Cross-shell prompt for astronauts
+  "tlrc"            # Official tldr , Simplified and community-driven man pages
   "tmux"            # Terminal multiplexer
   "tpm"             # Plugin manager for tmux
   "tree"
