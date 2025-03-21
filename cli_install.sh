@@ -72,6 +72,7 @@ print_title "Install cli tools\n"
 cli_tools=(
   "1password-cli"
   "autoconf"
+  "bat"             # Cat with syntax highlighting and Git integration
   "binutils"
   "coreutils"
   "curl"            # Get a file from HTTP(s)/FTP servers
