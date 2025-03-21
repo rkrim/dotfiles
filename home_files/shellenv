@@ -224,6 +224,14 @@ ls_colors() {
   fi
 }
 
+# Initialize bat (cat replacement)
+_init_bat() {
+  if command -v bat &>/dev/null; then
+    export BAT_THEME=Coldark-Dark
+    alias cat="bat -n"
+  fi
+}
+
 # Initialize starship prompt
 _init_starship() {
   if command -v starship &>/dev/null; then
@@ -241,6 +249,7 @@ _init_zoxide() {
 
 _load_common_commands() {
   ls_colors
+  _init_bat
   _init_starship
   _init_zoxide
 }
