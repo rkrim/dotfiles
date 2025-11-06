@@ -34,11 +34,13 @@ fi
 ### NOGO APPS/TOOLS & WHY ###
 # "atom"              // Using alternative: VSCode
 # "brackets"          // Using alternative: VSCode
+# "brave-browser"     // Using alternative: Zen
 # "cakebrew"          // Disabled: Discontinued upstream
 # "cheatsheet"        // Using alternative: Keyclu
 # "dash3"             // No more available in repo
 # "dozer"             // Using alternative: Hidden Bar - from mas as this is not native Apple Silicon
 # "flux"              // Using alternative: macOS Night Shift
+# "google-chrome"     // Using alternative: Zen
 # "impactor"          // Disabled: Discontinued upstream
 # "jd-gui"            // Unidentified developer (signature), no permission
 # "openssh"           // OpenSSH does not support 'UseKeychain' option introduced in macOS 10.12.2+
@@ -191,29 +193,43 @@ brew_batch_install image_tools[@]
 
 
 echo
+print_title "Install Browsers (Cask)\n"
+cask_browsers=(
+  "alex313031-thorium"        # Chromium based web browser (Performance & Privacy Focus)
+  "arc"                       # Chromium based web browser (The Browser Company)
+  "blisk"                     # Chromium based web browser (Developer-oriented browser)
+  "chatgpt-atlas"             # OpenAI's Web Browser with ChatGPT built
+  "firefox"                   # Mozilla Web Browser
+  "helium-browser"            # Chromium-based web browser (Privacy Focus)
+  "microsoft-edge"            # Microsoft Web Browser
+  "opera"                     # Opera Web Browser
+  "responsively"              # Responsive web development Browser (Electron based)
+  "thebrowsercompany-dia"     # Chromium based web browser (AI Focused, The Browser Company)
+  "tor-browser"               # Web Browser focusing on Security
+  "zen"                       # Zen Browser
+)
+brew_batch_install cask_browsers[@]
+
+
+echo
 print_title "Install Applications (Cask)\n"
 ui_apps=(
-  "alex313031-thorium"
   "android-studio"
   "angry-ip-scanner"
   "anydesk"
   "appcleaner"
-  "arc"                       # Chromium based browser
   "asset-catalog-tinkerer"
   "balenaetcher"              # Flash OS images to SD cards and USB drives
   "beeper"                    # Universal chat app powered by Matrix
 	"bluesnooze"                # Prevents sleeping computer from connecting to Bluetooth accessories
-  "brave-browser"
   "cursor"                    # Write, edit, and chat about your code with AI
   "dbeaver-community"
   "dbngin"
   "deezer"                    # Music streaming service
   "devtoys"                   # Common development utilities
 	"figma"
-  "firefox"
   "flixtools"
   "fork"
-  "google-chrome"
   "hammerspoon"               # macOS automation tool
   "handbrake-app"             # Open-source video transcoder
   "iina"                      # Media player
@@ -233,7 +249,6 @@ ui_apps=(
   "ngrok"                     # Reverse proxy, secure introspectable tunnels to localhost
   "notion"
 	"obsidian"
-  "opera"
   "pearcleaner"               # Remove apps & leftover files
 	"pinentry-mac"
 	"proxyman"
@@ -312,7 +327,6 @@ brew_batch_install unidentified[@]
 echo
 print_title "Install Cask packages with user action required\n"
 action_required=(
-  "microsoft-edge"              # Requires Password
   "sdformatter"                 # Requires Password
 )
 brew_batch_install action_required[@]
