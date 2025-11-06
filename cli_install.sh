@@ -135,6 +135,7 @@ developer_tools=(
   "git-quick-stats"
   "gnutls"
   "httpie"
+  "ios-deploy"                # CLI to Install and debug iPhone apps
   "jq"
   "mitmproxy"
   "node"
@@ -149,14 +150,21 @@ developer_tools=(
   "python"
   "ruby"
   "sonar-scanner"
+  "swift-format"              # Formatting technology for Swift source code
+  "swiftlint"                 # Tool to enforce Swift style and conventions
   "svn"
   "tig"
+  "tuist"                     # Manage Xcode projects
   "vim"
   "volta"
   "watch"
   "watchman"
   "wdiff"
   "wget"
+  "xcbeautify"                # Little beautifier tool for xcodebuild
+  "xcode-build-server"        # Build server for integrating Xcode with sourcekit-lsp
+  "xcodegen"                  # Generate Xcode project from a spec file
+  "xcodes"                    # Manage multiple versions of Xcode
   "yarn"
 )
 brew_batch_install developer_tools[@]
@@ -221,11 +229,13 @@ ui_apps=(
   "asset-catalog-tinkerer"
   "balenaetcher"              # Flash OS images to SD cards and USB drives
   "beeper"                    # Universal chat app powered by Matrix
+  "blobsaver"                 # GUI for automatically saving SHSH blobs
 	"bluesnooze"                # Prevents sleeping computer from connecting to Bluetooth accessories
   "cursor"                    # Write, edit, and chat about your code with AI
   "dbeaver-community"
   "dbngin"
   "deezer"                    # Music streaming service
+  "devcleaner"                # Xcode cache cleaner
   "devtoys"                   # Common development utilities
 	"figma"
   "flixtools"
@@ -245,6 +255,7 @@ ui_apps=(
   "localsend"                 # Open-source cross-platform alternative to AirDrop
 	"maccy"
   "maciasl"
+  "mist"                      # Utility to downloads macOS firmwares and installers
   "monitorcontrol"
   "ngrok"                     # Reverse proxy, secure introspectable tunnels to localhost
   "notion"
@@ -257,6 +268,7 @@ ui_apps=(
   "raycast"                   # Spotlight replacement
   "react-native-debugger"
   "rectangle"
+  "rocket"                    # Emoji picker
 	"sloth"
   "signal"
   "silentknight"
@@ -271,6 +283,7 @@ ui_apps=(
   "vlc"
   "wwdc"
 	"xattred"
+  "xcodes-app"                # CLI to Manage multiple versions of Xcode
   "zed"                       # Multiplayer code editor
   "zeplin"
 )
@@ -327,7 +340,8 @@ brew_batch_install unidentified[@]
 echo
 print_title "Install Cask packages with user action required\n"
 action_required=(
-  "sdformatter"                 # Requires Password
+  "sdformatter"                 # Requires Password | Formatter for SD cards
+  "sf-symbols"                  # Requires Password | Apple SF Symbols app
 )
 brew_batch_install action_required[@]
 
