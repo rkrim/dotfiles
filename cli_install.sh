@@ -34,13 +34,16 @@ fi
 ### NOGO APPS/TOOLS & WHY ###
 # "atom"              // Using alternative: VSCode
 # "brackets"          // Using alternative: VSCode
+# "cakebrew"          // Disabled: Discontinued upstream
 # "cheatsheet"        // Using alternative: Keyclu
 # "dash3"             // No more available in repo
 # "dozer"             // Using alternative: Hidden Bar - from mas as this is not native Apple Silicon
 # "flux"              // Using alternative: macOS Night Shift
+# "impactor"          // Disabled: Discontinued upstream
 # "jd-gui"            // Unidentified developer (signature), no permission
 # "openssh"           // OpenSSH does not support 'UseKeychain' option introduced in macOS 10.12.2+
 #                     // To use this version, add "IgnoreUnknown UseKeychain" in config file before using it.
+# "quicklookapk"      // Disabled: Discontinued upstream
 # "realm-studio"      // Deprecated legacy software since acquisition by MongoDB
 # "slack"             // Installed via mas
 # "swiftlint"         // Requires Xcode App
@@ -197,13 +200,14 @@ ui_apps=(
   "appcleaner"
   "arc"                       # Chromium based browser
   "asset-catalog-tinkerer"
+  "balenaetcher"              # Flash OS images to SD cards and USB drives
   "beeper"                    # Universal chat app powered by Matrix
-	"Bluesnooze"
+	"bluesnooze"                # Prevents sleeping computer from connecting to Bluetooth accessories
   "brave-browser"
-  "cakebrew"
   "cursor"                    # Write, edit, and chat about your code with AI
   "dbeaver-community"
   "dbngin"
+  "deezer"                    # Music streaming service
   "devtoys"                   # Common development utilities
 	"figma"
   "firefox"
@@ -211,11 +215,11 @@ ui_apps=(
   "fork"
   "google-chrome"
   "hammerspoon"               # macOS automation tool
-  "handbrake"
-  "iina"
-  "imageoptim"
+  "handbrake-app"             # Open-source video transcoder
+  "iina"                      # Media player
+  "imageoptim"                # Image optimizer to a smaller size
   "intellij-idea-ce"
-	"ios-app-signer"
+	"ios-app-signer"            # Signing iOS apps with a developer account
   "iterm2"
   "itsycal"                   # Menu bar calendar
   "keepingyouawake"
@@ -230,11 +234,11 @@ ui_apps=(
   "notion"
 	"obsidian"
   "opera"
-  "paw"
   "pearcleaner"               # Remove apps & leftover files
 	"pinentry-mac"
 	"proxyman"
   "raindropio"                # All-in-one bookmark manager
+  "rapidapi"                  # HTTP client that helps testing and describing APIs
   "raycast"                   # Spotlight replacement
   "react-native-debugger"
   "rectangle"
@@ -245,11 +249,10 @@ ui_apps=(
 	"sourcetree"
   "spotify"
   "tempbox"                   # Disposable email client
-  "transmission"
+  "transmission"              # BitTorrent client
   "transnomino"               # Batch rename utility
-  "typora"
-  "visual-studio-code"        # Microsoft VS Code
   "Upscayl"                   # AI image upscaler
+  "visual-studio-code"        # Microsoft VS Code
   "vlc"
   "wwdc"
 	"xattred"
@@ -263,12 +266,11 @@ echo
 print_title "Install QuickLook Plugin (Cask)\n"
 ql_plugins=(
   "qlcolorcode"
-  "qlstephen"
   "qlmarkdown"
+  "qlstephen"
   "quicklook-json"
   "provisionql"
-	"syntax-highlight"
-  "quicklookapk"
+	"syntax-highlight"          # Syntax highlighting for QuickLook
 )
 brew_batch_install ql_plugins[@]
 
@@ -318,7 +320,9 @@ brew_batch_install action_required[@]
 
 echo
 print_title "Drivers and other Hardware apps (Cask)\n"
-drivers=()
+drivers=(
+  "logi-options+"              # Logitech Options+
+)
 brew_batch_install drivers[@]
 
 
@@ -331,23 +335,17 @@ arch_x86_64_only=(
 	"sketch-toolbox"
 	"virtualbox"                  # Requires Password
   "virtualbox-extension-pack"
-
 	"apktool"
-  "sonarqube"         # Requires Java
-  "sonar-scanner"     # Runs with sonarqube
-  "sonar-completion"  # Runs with sonarqube  
-  "homebrew/cask-drivers/logitech-options"
+  "sonarqube"                   # Requires Java
+  "sonar-scanner"               # Runs with sonarqube
+  "sonar-completion"            # Runs with sonarqube  
 )
 arch_rosetta_compat=(
 	"android-file-transfer"
-	"balenaetcher"
 	"caption"
 	"charles"
-	"deezer"
 	"gas-mask"
 	"geektool"
-	"imageoptim"
-	"impactor"
 	"macdown"
 	"openemu"
 	"opensim"

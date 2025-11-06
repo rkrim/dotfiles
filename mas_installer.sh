@@ -25,10 +25,13 @@ echo
 print_title "Install Apps\n"
 mas_apps=(
 
+  # Unused
+  # "1333542190"    # 1Password 7 | Install 1Password 8 from website
+  # "803453959"     # Slack | Install from website
+
   # Tools
-  "425424353"   # The Unarchiver
-	"905953485"		# NordVPN: VPN Fast & Secure
-# "1333542190"  # 1Password 7 | Install 1Password 8 from website
+  "425424353"     # The Unarchiver
+	"905953485"		  # NordVPN: VPN Fast & Secure
 
   # Developer
 	"640199958"   # Apple Developer
@@ -37,27 +40,24 @@ mas_apps=(
 	"497799835"   # Xcode
 
   # Productivity
-	"409183694"   # Keynote
-	"1274495053"  # Microsoft To-Do
-  "409203825"   # Numbers
-  "409201541"   # Pages
-	"1278508951"  # Trello (rosetta)
+	"409183694"     # Keynote
+	"1274495053"    # Microsoft To-Do
+  "409203825"     # Numbers
+  "409201541"     # Pages
+	"1278508951"    # Trello (rosetta)
 
   # Reference
-  "430255202"   # MacTracker
+  "430255202"     # MacTracker
 
   # Communication
-	"1480068668"  # Messenger
-  "1176895641"  # Spark – Email App by Readdle
-  "1482454543"  # Twitter
-# "803453959"   # Slack | Install from website
+  "1176895641"    # Spark – Email App by Readdle
 
   # Media
-  "408981434"   # iMovie
-	"461369673"   # Vox-Mp3-Flac-Music-Player
+  "408981434"     # iMovie
+	"461369673"     # Vox-Mp3-Flac-Music-Player
 
   # Safari Extensions
-  "1440147259"  # AdGuard-For-Safari
+  "1440147259"    # AdGuard-For-Safari
 
   # Customization
 	"1452453066" 	# "Hidden Bar"
