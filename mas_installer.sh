@@ -37,7 +37,6 @@ mas_apps=(
 	"640199958"   # Apple Developer
   "1496833156"  # Swift Playgrounds
   "1450874784"  # Transporter
-	"497799835"   # Xcode
 
   # Productivity
 	"409183694"     # Keynote
