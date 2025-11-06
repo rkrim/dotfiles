@@ -54,13 +54,25 @@ function is_brew_package_installed {
   package_name=${package_tokens[0]}
   brew_command="brew"
 
+  # Check if it's a formula
   result=`$brew_command list --versions $package_name 2> /dev/null`
   if [[ $? == 0 ]]; then
     echo $result | cut -d " " -f2
     true
-  else
-    false
+    return 0
   fi
+
+  # Check if it's a cask
+  result=`$brew_command list --cask --versions $package_name 2> /dev/null`
+  if [[ $? == 0 ]]; then
+    echo $result | cut -d " " -f2
+    true
+    return 0
+  fi
+
+  # If not found in either formulas or casks
+  false
+  return 1
 }
 
 
