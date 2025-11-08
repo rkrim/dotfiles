@@ -160,7 +160,6 @@ developer_tools=(
   "xcode-build-server"        # Build server for integrating Xcode with sourcekit-lsp
   "xcodegen"                  # Generate Xcode project from a spec file
   "xcodes"                    # Manage multiple versions of Xcode
-  "yarn"
 )
 brew_batch_install developer_tools[@]
 
@@ -417,7 +416,7 @@ if command -v asdf &> /dev/null; then
   # Install asdf plugins
   echo
   print_title "Install asdf plugins\n"
-  asdf_plugins=( "nodejs" "pnpm" "java" )
+  asdf_plugins=( "nodejs" "pnpm" "java" "yarn" )
   asdf_batch_install_plugins asdf_plugins[@]
 
   # Install asdf tool versions (tool:version:set_home[true/false])
@@ -427,6 +426,7 @@ if command -v asdf &> /dev/null; then
     "nodejs:lts:true"           # Install Node.js LTS and set as global
     "nodejs:latest:false"       # Install Node.js latest
     "pnpm:latest:true"          # Install pnpm latest and set as global (requires Node.js)
+    "yarn:latest:true"          # Install yarn latest and set as global (requires Node.js)
     "java:8:false"              # Install latest Java 8 (reference version)
     "java:17:false"             # Install latest Java 17
     "java:21:true"              # Install latest Java 21 LTS and set as global
