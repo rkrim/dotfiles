@@ -141,9 +141,6 @@ developer_tools=(
   "jq"
   "mitmproxy"
   "ocaml"
-  "openjdk"
-  "openjdk@11"
-  "openjdk@17"
   "gradle"
   "perl"
   "python"
@@ -392,18 +389,6 @@ if [ "$ENV_ARCH_NAME" == "$ENV_ARCH_X86_64" ]; then
 fi
 
 
-# Registering different Java versions, v18 available but not yet supported by some tools like Gradle
-echo
-print_title "Java Virtual Machines registration (Version 11, 17)\n"
-JAVA_PATH_11=$(brew --prefix openjdk@11 2> /dev/null)
-JAVA_PATH_17=$(brew --prefix openjdk@17 2> /dev/null)
-JVM_HOME="/Library/Java/JavaVirtualMachines"
-JDK_NAME="openjdk.jdk"
-
-[[ -d "$JAVA_PATH_11" ]] && sudo ln -sfn "$JAVA_PATH_11/libexec/$JDK_NAME" "$JVM_HOME/openjdk@11.jdk"
-[[ -d "$JAVA_PATH_17" ]] && sudo ln -sfn "$JAVA_PATH_17/libexec/$JDK_NAME" "$JVM_HOME/openjdk@17.jdk"
-
-
 echo
 print_title "Cleanup\n"
 brew cleanup -s
@@ -432,7 +417,7 @@ if command -v asdf &> /dev/null; then
   # Install asdf plugins
   echo
   print_title "Install asdf plugins\n"
-  asdf_plugins=( "nodejs" "pnpm" )
+  asdf_plugins=( "nodejs" "pnpm" "java" )
   asdf_batch_install_plugins asdf_plugins[@]
 
   # Install asdf tool versions (tool:version:set_home[true/false])
@@ -442,6 +427,10 @@ if command -v asdf &> /dev/null; then
     "nodejs:lts:true"           # Install Node.js LTS and set as global
     "nodejs:latest:false"       # Install Node.js latest
     "pnpm:latest:true"          # Install pnpm latest and set as global (requires Node.js)
+    "java:8:false"              # Install latest Java 8 (reference version)
+    "java:17:false"             # Install latest Java 17
+    "java:21:true"              # Install latest Java 21 LTS and set as global
+    "java:latest:false"         # Install latest Java version
   )
   asdf_batch_install_versions asdf_versions[@]
 fi

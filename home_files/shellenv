@@ -83,24 +83,6 @@ _export_brew_packages_environment () {
   [[ -d "$SQLITE_PREFIX/lib/pkgconfig" ]] && export PKG_CONFIG_PATH="$SQLITE_PREFIX/lib/pkgconfig:$PKG_CONFIG_PATH"
 }
 
-# Export JAVA_HOME (default to JDK 17)
-_export_java_home () {
-  # Using java_home to check for installed java version, 'java_home -V' to list all installed version
-  command -v /usr/libexec/java_home > /dev/null 2>&1 || { echo >&2 "Can't process JAVA_HOME."; return; }
-
-  local JAVA_HOME_11=$(/usr/libexec/java_home -failfast -v "11" 2> /dev/null)
-  local JAVA_HOME_17=$(/usr/libexec/java_home -failfast -v "17" 2> /dev/null)
-  local JAVA_HOME_LATEST=$(/usr/libexec/java_home 2> /dev/null)
-
-  if [ "$JAVA_HOME_17" ]; then
-    export JAVA_HOME=$JAVA_HOME_17
-  elif [ "$JAVA_HOME_11" ]; then
-    export JAVA_HOME=$JAVA_HOME_11
-  elif [ "$JAVA_HOME_LATEST" ]; then
-    export JAVA_HOME=$JAVA_HOME_LATEST
-  fi
-}
-
 # Initialize asdf version manager
 # asdf must be initialized after Homebrew but before other tools
 # asdf automatically prepends ~/.asdf/shims to PATH, ensuring asdf-managed tools take precedence
@@ -116,25 +98,35 @@ _init_asdf () {
   fi
 }
 
-# Software Development Kit Manager (SDKMan)
-load_sdkman () {
-  [[ -d "$HOME/.sdkman" ]] && export SDKMAN_DIR="$HOME/.sdkman"
-  [[ -s "$HOME/.sdkman/bin/sdkman-init.sh" ]] && source "$HOME/.sdkman/bin/sdkman-init.sh"
-}
-
-# Java Environment Management (jEnv)
-load_jenv () {
-  if [ -d "$HOME/.jenv" ] && command -v jenv > /dev/null; then
-    export PATH="$HOME/.jenv/bin:$PATH"
-    eval "$(jenv init -)"
-  fi
-}
-
-# Java home
+# Java version switcher - Now using asdf
 javahome() {
-  unset JAVA_HOME
-  export JAVA_HOME=$(/usr/libexec/java_home -failfast -v "$1")
-  java --version
+  if command -v asdf &> /dev/null; then
+    local version=$1
+    if [ -z "$version" ]; then
+      echo "Usage: javahome <version>"
+      echo ""
+      echo "Installed Java versions:"
+      asdf list java
+      echo ""
+      echo "To see all available versions: asdf list all java"
+      echo "Example: javahome temurin-17.0.9+11"
+      return 1
+    fi
+    if asdf shell java "$version" 2>/dev/null; then
+      java --version
+    else
+      echo "Error: Java version '$version' not found."
+      echo "Installed versions:"
+      asdf list java
+      echo ""
+      echo "Install with: asdf install java <version>"
+      echo "List available: asdf list all java"
+      return 1
+    fi
+  else
+    echo "asdf is not installed. Please install asdf first."
+    return 1
+  fi
 }
 
 # Bash Completion

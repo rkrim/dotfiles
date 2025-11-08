@@ -361,8 +361,16 @@ function asdf_install_version {
   # Determine actual version to install
   local version_to_install=""
   
-  if [[ "$version_spec" == "lts" || "$version_spec" == "latest" ]]; then
-    # For plugins, try to use special strings directly
+  # Special handling for Java version patterns (numeric patterns like 8, 11, 17, 21, 25, or "latest")
+  if [[ "$plugin_name" == "java" && ("$version_spec" =~ ^[0-9] || "$version_spec" == "latest") ]]; then
+    # Resolve Java pattern to actual version
+    version_to_install=$(asdf_find_latest_java_version "$version_spec")
+    if [[ $? -ne 0 || -z "$version_to_install" ]]; then
+      echo >&2 "${FUNCNAME[0]}() :: Failed to find Java version for pattern: $version_spec"
+      return $EXIT_FAILURE
+    fi
+  elif [[ "$version_spec" == "lts" || "$version_spec" == "latest" ]]; then
+    # For other plugins, try to use special strings directly
     version_to_install="$version_spec"
   else
     # Check if version is already installed
@@ -384,11 +392,12 @@ function asdf_install_version {
     # Get the installed version for display purposes
     local installed_version=$(asdf list "$plugin_name" 2>/dev/null | grep -E "^[ *]+${version_spec}|^[ *]+[0-9]" | sed 's/^[ *]*//' | tail -1 | xargs)
     
-    # Fallback: if we couldn't find a version, use the version_spec
-    [[ -z "$installed_version" ]] && installed_version="$version_spec"
+    # Fallback: if we couldn't find a version, use version_to_install (which is the actual installed version)
+    [[ -z "$installed_version" ]] && installed_version="$version_to_install"
     
     if [[ "$set_home" == "true" ]]; then
-        asdf set "$plugin_name" "$version_spec" --home >> "$log_file" 2>&1
+        # Use the actual installed version (version_to_install) for Java, not the pattern
+        asdf set "$plugin_name" "$version_to_install" --home >> "$log_file" 2>&1
         echo -en $prefix_line" [$txt_attr_success"" Installation successful $reset_all] :: Version $installed_version (home default)\n" | tee -a $log_file
       else
         echo -en $prefix_line" [$txt_attr_success"" Installation successful $reset_all] :: Version $installed_version\n" | tee -a $log_file
@@ -426,4 +435,94 @@ function asdf_batch_install_versions {
 
     asdf_install_version "$plugin" "$version" "${set_home:-false}"
   done
+}
+
+# asdf_find_latest_java_by_major()
+# Find the latest Java version for a specific major version from preferred distributions
+# @param1 required, Major version number (e.g., "8", "11", "17", "21")
+# @param2 required, All available Java versions (from asdf list all java)
+# @param3+ required, Distribution preferences (remaining arguments are distribution names in order)
+# @return: The latest matching version string
+function asdf_find_latest_java_by_major {
+  if [[ $# -lt 3 || -z "$1" || -z "$2" ]]; then
+    echo >&2 "${FUNCNAME[0]}() :: bad_arguments"
+    return $EXIT_FAILURE
+  fi
+
+  local major_version=$1
+  local all_versions=$2
+  local distro_prefs=("${@:3}")  # Capture arguments starting from position 3 as array
+  local version=""
+
+  # Get all versions for this major version
+  local matching_versions=$(echo "$all_versions" | grep -E "^[a-z]+-${major_version}\.")
+  
+  # Try each preferred distribution
+  for distro in "${distro_prefs[@]}"; do
+    local latest=$(echo "$matching_versions" | grep -E "^${distro}-${major_version}\." | sort -V | tail -1)
+    if [[ -n "$latest" ]]; then
+      version="$latest"
+      break
+    fi
+  done
+  
+  # Fallback to any distribution if preferred ones not found
+  [[ -z "$version" ]] && version=$(echo "$matching_versions" | sort -V | tail -1)
+  
+  echo "$version"
+}
+
+# asdf_find_latest_java_version()
+# Find the latest Java version matching a pattern
+# @param1 required, Version pattern (e.g. "8" for Java 8, "latest" for newest)
+# @return: The latest matching version string
+function asdf_find_latest_java_version {
+  if [[ $# -ne 1 || -z "$1" ]]; then
+    echo >&2 "${FUNCNAME[0]}() :: bad_arguments"
+    return $EXIT_FAILURE
+  fi
+
+  local pattern=$1
+  local version=""
+
+  # Get all available Java versions
+  local all_versions=$(asdf list all java 2>/dev/null)
+
+  if [[ -z "$all_versions" ]]; then
+    echo >&2 "${FUNCNAME[0]}() :: Failed to list Java versions"
+    return $EXIT_FAILURE
+  fi
+
+  # Distribution preference order (first is most preferred)
+  local distro_prefs=("temurin" "zulu" "corretto" "adoptopenjdk")
+  
+  case "$pattern" in
+    [0-9]*)
+      # Extract just the number part in case user passes something like "8.0" -> "8"
+      local major_version=$(echo "$pattern" | sed 's/^\([0-9]*\).*/\1/')
+      version=$(asdf_find_latest_java_by_major "$major_version" "$all_versions" "${distro_prefs[@]}")
+      ;;
+    "latest")
+      # Find the absolute latest version (highest major version number)
+      # First, find the highest major version across ALL distributions
+      local all_non_jre=$(echo "$all_versions" | grep -E "^[a-z]+-[0-9]+\." | grep -v "jre")
+      local max_major=$(echo "$all_non_jre" | sed 's/^[^-]*-\([0-9]*\)\..*/\1/' | sort -n | tail -1)
+      
+      if [[ -n "$max_major" ]]; then
+        # Use the existing function to find latest version for the highest major
+        version=$(asdf_find_latest_java_by_major "$max_major" "$all_versions" "${distro_prefs[@]}")
+      fi
+      ;;
+    *)
+      # Try to match the pattern directly
+      version=$(echo "$all_versions" | grep -E "^.*-${pattern}\." | sort -V | tail -1)
+      ;;
+  esac
+
+  if [[ -z "$version" ]]; then
+    echo >&2 "${FUNCNAME[0]}() :: No version found matching pattern: $pattern"
+    return $EXIT_FAILURE
+  fi
+
+  echo "$version"
 }
