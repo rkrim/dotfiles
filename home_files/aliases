@@ -46,8 +46,10 @@ alias brew_upgrade_cask="brew update;brew upgrade \$(brew outdated --greedy --ve
 ### Web services shortcuts
 alias weather="curl wttr.in"
 
-### Java version quick select (using javahome function from profile)
-if `command -v /usr/libexec/java_home > /dev/null`; then
-  alias java_11='javahome 11'
-  alias java_17='javahome 17'
+### Java version quick select (using asdf)
+if command -v asdf &> /dev/null; then
+  alias java_list='asdf list java'
+  alias java_versions='asdf list all java | grep -E "(temurin|adoptopenjdk|openjdk).*17"'
+  # Example alias:
+  # alias java_11='asdf shell java temurin-11.0.21+9 && java --version'
 fi

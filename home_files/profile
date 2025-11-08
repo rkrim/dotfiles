@@ -9,6 +9,5 @@ source ~/.shellenv
 _export_language
 _export_brew_shell_environment
 _export_brew_packages_environment
-_export_java_home
 _init_asdf
 _load_common_commands
