@@ -390,8 +390,11 @@ fi
 
 echo
 print_title "Cleanup\n"
-brew cleanup -s
-rm -rf $(brew --cache)
+echo "Cleanup in progress..."
+cleanup_output=$(brew cleanup -s 2>&1)
+echo "Cleanup finished"
+echo "$cleanup_output" | grep "^==>" | tail -1
+rm -rf $(brew --cache) 2>/dev/null
 
 
 echo
