@@ -32,7 +32,15 @@ brew_register_taps() {
     return $EXIT_FAILURE
   fi
 
-  for tap in "$@"; do
+  declare -a taps=("${!1}")
+
+  if [ ${#taps[@]} -eq 0 ]; then
+    warning=$(txt_attr $FG_COLOR_YELLOW)
+    echo -e "${warning}No taps to register.${reset_all}"
+    return 0
+  fi
+
+  for tap in "${taps[@]}"; do
     brew tap "$tap"
   done
 }
