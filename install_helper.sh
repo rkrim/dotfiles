@@ -251,3 +251,179 @@ function dotfiles_symlink {
 
   return $EXIT_SUCCESS
 }
+
+
+# asdf_plugin_install()
+# Install or update an asdf plugin
+# @param1 required, Plugin name
+function asdf_plugin_install {
+  if [[ $# -ne 1 || -z "$1" ]]; then
+    echo "${FUNCNAME[0]}() :: bad_arguments"
+    return $EXIT_FAILURE
+  fi
+
+  if ! command -v asdf &> /dev/null; then
+    echo >&2 "${FUNCNAME[0]}() :: asdf is not installed"
+    return $EXIT_FAILURE
+  fi
+
+  local plugin_name=$1
+  local log_file="output.file"
+  local txt_attr_pkg_name=$(txt_attr $FG_COLOR_LIGHT_CYAN $ATTR_BOLD)
+  local txt_attr_warning=$(txt_attr $FG_COLOR_YELLOW)
+  local txt_attr_success=$(txt_attr $FG_COLOR_LIGHT_GREEN)
+  local txt_attr_fail=$(txt_attr $FG_COLOR_LIGHT_RED)
+
+  local prefix_line="Plugin $txt_attr_pkg_name$plugin_name$reset_all"
+
+  echo -en $prefix_line" [$txt_attr_warning"" Processing $reset_all] :: Checking if already installed..."
+  
+  local plugin_list=$(asdf plugin list 2>/dev/null)
+  if echo "$plugin_list" | grep -q "^${plugin_name}$" 2>/dev/null; then
+    clear_line
+    echo -en $prefix_line" [$txt_attr_success"" Already Installed $reset_all] :: Updating..." | tee -a $log_file
+    if asdf plugin update "$plugin_name" >> "$log_file" 2>&1; then
+      clear_line
+      echo -en $prefix_line" [$txt_attr_success"" Updated $reset_all]\n" | tee -a $log_file
+    else
+      clear_line
+      echo -en $prefix_line" [$txt_attr_warning"" Update failed (may already be latest) $reset_all]\n" | tee -a $log_file
+    fi
+  else
+    clear_line
+    echo -en $prefix_line" [$txt_attr_warning"" Processing $reset_all] :: Not Installed, installing..."
+    if asdf plugin add "$plugin_name" >> "$log_file" 2>&1; then
+      clear_line
+      echo -en $prefix_line" [$txt_attr_success"" Installation successful $reset_all]\n" | tee -a $log_file
+    else
+      clear_line
+      echo -en $prefix_line" [$txt_attr_fail"" Installation failed $reset_all]\n" | tee -a $log_file
+      return $EXIT_FAILURE
+    fi
+  fi
+}
+
+# asdf_batch_install_plugins()
+# Install a list of asdf plugins
+# @param1 required, an array of asdf plugin names
+function asdf_batch_install_plugins {
+  if [[ $# -ne 1 || -z "$1" ]]; then
+    echo "${FUNCNAME[0]}() :: bad_arguments"
+    return $EXIT_FAILURE
+  fi
+
+  if ! command -v asdf &> /dev/null; then
+    echo >&2 "${FUNCNAME[0]}() :: asdf is not installed"
+    return $EXIT_FAILURE
+  fi
+
+  declare -a plugins=("${!1}")
+
+  for plugin in "${plugins[@]}"; do
+    asdf_plugin_install "$plugin"
+  done
+}
+
+# asdf_install_version()
+# Install a specific version of an asdf-managed tool
+# Supports special version strings: "lts", "latest", or specific version numbers
+# @param1 required, Plugin name
+# @param2 required, Version string (e.g. "latest", "lts", "20", "20.10.0")
+# @param3 optional, Set as home default (default: false)
+function asdf_install_version {
+  if [[ $# -lt 2 || -z "$1" || -z "$2" ]]; then
+    echo "${FUNCNAME[0]}() :: bad_arguments"
+    return $EXIT_FAILURE
+  fi
+
+  if ! command -v asdf &> /dev/null; then
+    echo >&2 "${FUNCNAME[0]}() :: asdf is not installed"
+    return $EXIT_FAILURE
+  fi
+
+  local plugin_name=$1
+  local version_spec=$2
+  local set_home=${3:-false}
+  local log_file="output.file"
+  local txt_attr_pkg_name=$(txt_attr $FG_COLOR_LIGHT_CYAN $ATTR_BOLD)
+  local txt_attr_warning=$(txt_attr $FG_COLOR_YELLOW)
+  local txt_attr_success=$(txt_attr $FG_COLOR_LIGHT_GREEN)
+  local txt_attr_fail=$(txt_attr $FG_COLOR_LIGHT_RED)
+
+  local prefix_line="Version $txt_attr_pkg_name$plugin_name $version_spec$reset_all"
+
+  # Check if plugin is installed
+  if ! asdf plugin list | grep -q "^${plugin_name}$" 2>/dev/null; then
+    echo >&2 "${FUNCNAME[0]}() :: Plugin '$plugin_name' is not installed. Install it first."
+    return $EXIT_FAILURE
+  fi
+
+  # Determine actual version to install
+  local version_to_install=""
+  
+  if [[ "$version_spec" == "lts" || "$version_spec" == "latest" ]]; then
+    # For plugins, try to use special strings directly
+    version_to_install="$version_spec"
+  else
+    # Check if version is already installed
+    if asdf list "$plugin_name" 2>/dev/null | grep -q "^  ${version_spec}$"; then
+      clear_line
+      echo -en $prefix_line" [$txt_attr_success"" Already Installed $reset_all]\n" | tee -a $log_file
+      if [[ "$set_home" == "true" ]]; then
+        asdf set "$plugin_name" "$version_spec" --home >> "$log_file" 2>&1
+      fi
+      return 0
+    fi
+    version_to_install="$version_spec"
+  fi
+
+  echo -en $prefix_line" [$txt_attr_warning"" Processing $reset_all] :: Installing..."
+  
+  if asdf install "$plugin_name" "$version_to_install" >> "$log_file" 2>&1; then
+    clear_line
+    # Get the installed version for display purposes
+    local installed_version=$(asdf list "$plugin_name" 2>/dev/null | grep -E "^[ *]+${version_spec}|^[ *]+[0-9]" | sed 's/^[ *]*//' | tail -1 | xargs)
+    
+    # Fallback: if we couldn't find a version, use the version_spec
+    [[ -z "$installed_version" ]] && installed_version="$version_spec"
+    
+    if [[ "$set_home" == "true" ]]; then
+        asdf set "$plugin_name" "$version_spec" --home >> "$log_file" 2>&1
+        echo -en $prefix_line" [$txt_attr_success"" Installation successful $reset_all] :: Version $installed_version (home default)\n" | tee -a $log_file
+      else
+        echo -en $prefix_line" [$txt_attr_success"" Installation successful $reset_all] :: Version $installed_version\n" | tee -a $log_file
+      fi
+  else
+    clear_line
+    echo -en $prefix_line" [$txt_attr_fail"" Installation failed $reset_all]\n" | tee -a $log_file
+    return $EXIT_FAILURE
+  fi
+}
+
+# asdf_batch_install_versions()
+# Install versions for asdf-managed tools
+# @param1 required, an associative array or array of "plugin:version" strings
+# Format: "plugin:version:home" where home is optional (true/false)
+function asdf_batch_install_versions {
+  if [[ $# -ne 1 || -z "$1" ]]; then
+    echo "${FUNCNAME[0]}() :: bad_arguments"
+    return $EXIT_FAILURE
+  fi
+
+  if ! command -v asdf &> /dev/null; then
+    echo >&2 "${FUNCNAME[0]}() :: asdf is not installed"
+    return $EXIT_FAILURE
+  fi
+
+  declare -a versions=("${!1}")
+
+  for version_spec in "${versions[@]}"; do
+    IFS=':' read -r plugin version set_home <<< "$version_spec"
+    if [[ -z "$plugin" || -z "$version" ]]; then
+      echo >&2 "${FUNCNAME[0]}() :: Invalid format: '$version_spec'. Expected 'plugin:version' or 'plugin:version:true'"
+      continue
+    fi
+
+    asdf_install_version "$plugin" "$version" "${set_home:-false}"
+  done
+}
