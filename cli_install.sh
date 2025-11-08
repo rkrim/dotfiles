@@ -4,6 +4,7 @@
 source ./std.sh
 source ./pretty-print.sh
 source ./install_helper.sh
+source ./home_files/shellenv
 
 
 ### ENVIRONMENT DETECTION ###
@@ -118,6 +119,7 @@ print_title "Install developer cli tools\n"
 developer_tools=(
   "ack"
   "android-commandlinetools"
+  "asdf"                            # Extendable version manager
   "boost"
   "carthage"
   "chisel"
@@ -138,15 +140,12 @@ developer_tools=(
   "ios-deploy"                # CLI to Install and debug iPhone apps
   "jq"
   "mitmproxy"
-  "node"
-  "nvm"
   "ocaml"
   "openjdk"
   "openjdk@11"
   "openjdk@17"
   "gradle"
   "perl"
-  "pnpm"
   "python"
   "ruby"
   "sonar-scanner"
@@ -156,7 +155,6 @@ developer_tools=(
   "tig"
   "tuist"                     # Manage Xcode projects
   "vim"
-  "volta"
   "watch"
   "watchman"
   "wdiff"
@@ -425,6 +423,28 @@ echo
 print_title "Update user default Shell (Requires Password):\n"
 add_acceptable_shell `command -v bash` default
 add_acceptable_shell `command -v zsh`
+
+
+if command -v asdf &> /dev/null; then
+  mkdir -p "$HOME/.asdf"
+  _init_asdf
+
+  # Install asdf plugins
+  echo
+  print_title "Install asdf plugins\n"
+  asdf_plugins=( "nodejs" "pnpm" )
+  asdf_batch_install_plugins asdf_plugins[@]
+
+  # Install asdf tool versions (tool:version:set_home[true/false])
+  echo
+  print_title "Install asdf tool versions\n"
+  asdf_versions=(
+    "nodejs:lts:true"           # Install Node.js LTS and set as global
+    "nodejs:latest:false"       # Install Node.js latest
+    "pnpm:latest:true"          # Install pnpm latest and set as global (requires Node.js)
+  )
+  asdf_batch_install_versions asdf_versions[@]
+fi
 
 
 echo

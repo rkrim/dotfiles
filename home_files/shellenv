@@ -55,21 +55,6 @@ _export_brew_packages_environment () {
     fi
   fi
 
-  # Node
-  local NODE_PREFIX="$HOMEBREW_PREFIX/opt/node"
-  if [[ -d "$NODE_PREFIX" ]]; then
-    export PATH="$NODE_PREFIX/bin:$PATH"
-    export NODE_BINARY="$NODE_PREFIX/bin/node"
-    export LDFLAGS="-L$NODE_PREFIX/lib"
-    export CPPFLAGS="-I$NODE_PREFIX/include"
-  fi
-
-  # JavaScript Tool Manager (volta)
-  if [[ -d "$HOMEBREW_PREFIX/opt/volta" ]]; then
-    export VOLTA_HOME="$HOME/.volta"
-    export PATH="$VOLTA_HOME/bin:$PATH"
-  fi
-
   # Ruby
   local RUBY_PREFIX="$HOMEBREW_PREFIX/opt/ruby"
   [[ -d "$RUBY_PREFIX/bin" ]] && export PATH="$RUBY_PREFIX/bin:$PATH"
@@ -116,16 +101,18 @@ _export_java_home () {
   fi
 }
 
-# Node version manager (nvm)
-load_nvm () {
-  local NVM_PREFIX="$HOMEBREW_PREFIX/opt/nvm"
-  if [[ -e "$NVM_PREFIX" && -d "$HOME/.nvm" ]]; then
-    export NVM_DIR="$HOME/.nvm"
-    [ -s "$NVM_PREFIX/nvm.sh" ] && source "$NVM_PREFIX/nvm.sh"
-    [ -s "$NVM_PREFIX/etc/bash_completion" ] && source "$NVM_PREFIX/etc/bash_completion"
-    [ -s "$NVM_PREFIX/etc/bash_completion.d/nvm" ] && source "$NVM_PREFIX/etc/bash_completion.d/nvm"
+# Initialize asdf version manager
+# asdf must be initialized after Homebrew but before other tools
+# asdf automatically prepends ~/.asdf/shims to PATH, ensuring asdf-managed tools take precedence
+_init_asdf () {
+  # ASDF_DIR should always point to ~/.asdf for data (plugins, shims, etc.)
+  export ASDF_DIR="$HOME/.asdf"
+  local ASDF_BREW_PREFIX="$(brew --prefix asdf 2>/dev/null)"
+  if [[ -n "$ASDF_BREW_PREFIX" ]]; then
+    [ -s "$ASDF_BREW_PREFIX/libexec/asdf.sh" ] && source "$ASDF_BREW_PREFIX/libexec/asdf.sh"
+    [[ -n "$BASH_VERSION" ]] && [ -s "$ASDF_BREW_PREFIX/etc/bash_completion.d/asdf" ] && source "$ASDF_BREW_PREFIX/etc/bash_completion.d/asdf"
   else
-    echo "'nvm' not installed or '~/.nvm' directory missing. Install it using 'brew install nvm'"
+    echo >&2 "Warning: asdf init files not foud"
   fi
 }
 
