@@ -143,7 +143,6 @@ developer_tools=(
   "ocaml"
   "gradle"
   "perl"
-  "python"
   "ruby"
   "sonar-scanner"
   "swift-format"              # Formatting technology for Swift source code
@@ -419,7 +418,7 @@ if command -v asdf &> /dev/null; then
   # Install asdf plugins
   echo
   print_title "Install asdf plugins\n"
-  asdf_plugins=( "nodejs" "pnpm" "java" "yarn" )
+  asdf_plugins=( "nodejs" "pnpm" "java" "yarn" "python" )
   asdf_batch_install_plugins asdf_plugins[@]
 
   # Install asdf tool versions (tool:version:set_home[true/false])
@@ -434,6 +433,7 @@ if command -v asdf &> /dev/null; then
     "java:17:false"             # Install latest Java 17
     "java:21:true"              # Install latest Java 21 LTS and set as global
     "java:latest:false"         # Install latest Java version
+    "python:latest:true"        # Install Python latest and set as global
   )
   asdf_batch_install_versions asdf_versions[@]
 fi
