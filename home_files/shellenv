@@ -44,17 +44,6 @@ _export_brew_packages_environment () {
   [[ -d "$COREUTILS_PREFIX/libexec/gnubin" ]] && export PATH="$COREUTILS_PREFIX/libexec/gnubin:$PATH"
   [[ -d "$COREUTILS_PREFIX/libexec/gnuman" ]] && export MANPATH="$COREUTILS_PREFIX/libexec/gnuman:$MANPATH"
 
-  # Python
-  if [[ -d "$HOMEBREW_PREFIX/opt/python/libexec/bin" ]]; then
-    export PATH="$HOMEBREW_PREFIX/opt/python/libexec/bin:$PATH"
-    export PYTHON_USER_BASE=`python -m site --user-base`
-    export PYTHON_USER_SITE=`python -m site --user-site`
-
-    if [[ -d "$PYTHON_USER_BASE/bin" ]]; then
-      export PATH="$PYTHON_USER_BASE/bin:$PATH"
-    fi
-  fi
-
   # Ruby
   local RUBY_PREFIX="$HOMEBREW_PREFIX/opt/ruby"
   [[ -d "$RUBY_PREFIX/bin" ]] && export PATH="$RUBY_PREFIX/bin:$PATH"
