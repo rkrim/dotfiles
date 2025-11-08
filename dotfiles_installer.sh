@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/usr/bin/env bash
 # Dotfiles installer
 #
 # Parameters of used (ba)sh built-in commands
@@ -72,6 +72,7 @@ cleanup() {
 # Set trap for cleanup on interrupt
 trap cleanup INT TERM
 
+
 # Print header
 print_title "=========================================="
 print_title "  Dotfiles Installation Script"
@@ -79,9 +80,16 @@ print_title "=========================================="
 echo
 
 # Check Shell 
-if [ ! -n "$BASH" ]; then
+print_info "Checking bash..."
+if ! command -v bash > /dev/null 2>&1; then
+  print_error "Bash is not installed. Please install bash first."
+  exit $EXIT_FAILURE
+elif test "${BASH_VERSION+set}" != "set" || ! (eval '[[ -n "${BASH_VERSION}" ]]' 2>/dev/null); then
   print_error "Please use bash to run this script"
   exit $EXIT_FAILURE
+else
+  print_success "✓ Bash is installed and running"
+  echo
 fi
 
 # Check Args 
