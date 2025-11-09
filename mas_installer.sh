@@ -54,6 +54,12 @@ mas_apps=(
   # Media
   "408981434"     # iMovie
 	"461369673"     # Vox-Mp3-Flac-Music-Player
+  "1621435983"    # AnyEXIF
+  "953286746"     # Darkroom - Photo Editor
+  "1514817810"    # Poolsuite FM
+  "933627574"     # Silicio Mini Player + Widgets
+  "1500855883"    # CapCut - Photo & Video Editor
+  "1294126402"    # HEIC Converter - Convert HEIC to JPEG & PNG
 
   # Safari Extensions
   "1440147259"    # AdGuard-For-Safari
