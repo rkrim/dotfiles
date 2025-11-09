@@ -33,14 +33,14 @@ format = "$symbol"
 
 [username]
 show_always = true
-style_user = "#e3e5e5 bg:#a3aed2"
-style_root = "#e3e5e5 bg:#a3aed2"
+style_user = "#151a1a bg:#a3aed2"
+style_root = "#151a1a bg:#a3aed2"
 format = "[$user]($style)"
 
 [hostname]
 ssh_only = false
 ssh_symbol = " "
-style = "#e3e5e5 bg:#a3aed2"
+style = "#151a1a bg:#a3aed2"
 trim_at = ".local"
 format = '[@$hostname $ssh_symbol]($style)'
 
