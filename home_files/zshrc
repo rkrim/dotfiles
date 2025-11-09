@@ -17,3 +17,6 @@ zstyle :compinstall filename '~/.zshrc'
 autoload -Uz compinit
 compinit
 # End of lines added by compinstall
+
+# Load common commands (starship, bat, zoxide, etc.)
+_load_common_commands zsh

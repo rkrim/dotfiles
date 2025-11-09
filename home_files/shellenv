@@ -201,10 +201,11 @@ _init_bat() {
 }
 
 # Initialize starship prompt
+# @param1 required, shell name (bash, zsh, fish, etc.)
 _init_starship() {
   if command -v starship &>/dev/null; then
     export STARSHIP_CONFIG=~/.config/starship/starship.toml
-    eval "$(starship init bash)"
+    eval "$(starship init "$1")"
   fi
 }
 
@@ -216,9 +217,10 @@ _init_zoxide() {
 }
 
 _load_common_commands() {
+  local shell_name="$1"
   ls_colors
   _init_bat
-  _init_starship
+  _init_starship "$shell_name"
   _init_zoxide
 }
 
