@@ -82,7 +82,10 @@ cli_tools=(
   "binutils"
   "coreutils"
   "curl"            # Get a file from HTTP(s)/FTP servers
+  "dav1d"           # AV1 decoder
   "ed"
+  "exiftool"        # Read and write EXIF metadata
+  "ffmpeg"          # Audio/Video converter and manipulator
   "findutils"
   "gawk"
   "gnu-indent"
@@ -93,9 +96,11 @@ cli_tools=(
   "graphviz"
   "grep"
   "gzip"
-  "librsvg"
+  "librsvg"         # SVG rendering library
   "mailsy"          # Generate temporary email address
   "mas"
+  "media-info"      # Display information about media files
+  "mpv"             # Media player
   "neofetch"        # Customisable system info script
   "neovim"          # Vim-fork focused on extensibility and agility
   "rsync"
