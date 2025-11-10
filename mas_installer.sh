@@ -65,8 +65,15 @@ mas_apps=(
   "1440147259"    # AdGuard-For-Safari
 
   # Customization
-	"1452453066" 	# "Hidden Bar"
-  "1284863847"  # Unsplash Wallpapers
+	"1452453066" 	  # "Hidden Bar"
+  "1284863847"    # Unsplash Wallpapers
+
+  # AI & Automation
+  "6714467650"    # Perplexity AI
+  "1586435171"    # Actions
+  "6753896649"    # Mocolamma
+  "1453273600"    # Data Jar
+  "6444050820"    # Draw Things: Offline AI Art
 )
 mas_batch_install mas_apps[@]
 
