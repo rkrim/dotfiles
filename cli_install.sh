@@ -81,6 +81,7 @@ echo
 print_title "Install cli tools\n"
 cli_tools=(
   "1password-cli"
+  "aria2"           # Download utility
   "autoconf"
   "bat"             # Cat with syntax highlighting and Git integration
   "binutils"
@@ -112,8 +113,10 @@ cli_tools=(
   "mpv"             # Media player
   "neofetch"        # Customisable system info script
   "neovim"          # Vim-fork focused on extensibility and agility
+  "rclone"          # Rsync for cloud storage
   "rg"              # Search tool, rg stands for ripgrep
-  "rsync"
+  "rsync"           # Remote file synchronization tool (fast incremental file transfer)
+  "rsyncy"          # Status/progress bar for rsync
   "screen"
   "spicetify-cli"   # Take control of the Spotify client
   "sshs"              # Graphical command-line client for SSH
@@ -273,6 +276,7 @@ ui_apps=(
   "devcleaner"                # Xcode cache cleaner
   "devtoys"                   # Common development utilities
   "discord"                   # Chat and messaging app
+  "easyfind"                  # Find files and folders quickly
 	"figma"
   "flixtools"
   "fork"
@@ -288,10 +292,13 @@ ui_apps=(
 	"ios-app-signer"            # Signing iOS apps with a developer account
   "iterm2"
   "itsycal"                   # Menu bar calendar
+  "jdownloader"               # Download manager
   "jordanbaird-ice"           # Menu bar manager
   "keepingyouawake"
+  "keka"                      # File archiver
 	"keycastr"
   "keyclu"
+  "kid3"                      # Audio tagger focusing on efficiency
   "latest"                    # Shows latest app updates
   "localsend"                 # Open-source cross-platform alternative to AirDrop
   "logseq"                    # Open-source & Privacy-first platform for knowledge sharing and management
