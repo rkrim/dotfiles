@@ -260,7 +260,9 @@ ui_apps=(
   "beeper"                    # Universal chat app powered by Matrix
   "blobsaver"                 # GUI for automatically saving SHSH blobs
 	"bluesnooze"                # Prevents sleeping computer from connecting to Bluetooth accessories
+  "calibre"                   # E-book reader and manager
   "charles"                   # Web debugging Proxy application
+  "clickup"                   # Productivity platform for tasks, docs, goals, and chat
   "coconutbattery"            # Battery status and monitoring
   "cursor"                    # Write, edit, and chat about your code with AI
   "dbeaver-community"
@@ -290,10 +292,12 @@ ui_apps=(
   "keyclu"
   "latest"                    # Shows latest app updates
   "localsend"                 # Open-source cross-platform alternative to AirDrop
+  "logseq"                    # Open-source & Privacy-first platform for knowledge sharing and management
   "lulu"                      # Open-source firewall to block unknown outgoing connections
 	"maccy"
   "maciasl"
   "messenger"                 # Facebook Messenger
+  "miro"                      # Realtime collaborative whiteboard app
   "mist"                      # Utility to downloads macOS firmwares and installers
   "monitorcontrol"
   "ngrok"                     # Reverse proxy, secure introspectable tunnels to localhost
@@ -321,6 +325,7 @@ ui_apps=(
   "spacedrive"                # Open-source cross-platform file explorer
   "spotify"
   "tempbox"                   # Disposable email client
+  "thorium"                   # Epub reader
   "thunderbird"               # Email client
   "transmission"              # BitTorrent client
   "transnomino"               # Batch rename utility
