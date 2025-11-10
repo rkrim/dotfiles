@@ -32,6 +32,10 @@ mas_apps=(
   # Tools
   "425424353"     # The Unarchiver
 	"905953485"		  # NordVPN: VPN Fast & Secure
+  "1436994560"    # Portal - Escape into Nature
+  "1090488118"    # Gemini 2: The Duplicate Finder
+  "375589283"     # Parcel - Delivery Tracking
+  "290986013"     # Deliveries: a package tracker
 
   # Developer
 	"640199958"     # Apple Developer
