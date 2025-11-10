@@ -59,7 +59,10 @@ fi
 
 echo
 print_title "Register Brew Taps:\n"
-taps=()
+taps=(
+  "cirruslabs/cli"
+  "slp/krunkit"
+)
 brew_register_taps taps[@]
 
 
@@ -96,6 +99,7 @@ cli_tools=(
   "graphviz"
   "grep"
   "gzip"
+  "krunkit"         # Start macOS Hypervisor framework virtual machines using the libkrun platform
   "librsvg"         # SVG rendering library
   "mailsy"          # Generate temporary email address
   "mas"
@@ -107,6 +111,7 @@ cli_tools=(
   "screen"
   "spicetify-cli"   # Take control of the Spotify client
   "starship"        # Cross-shell prompt for astronauts
+  "cirruslabs/cli/tart"
   "tlrc"            # Official tldr , Simplified and community-driven man pages
   "tmux"            # Terminal multiplexer
   "tpm"             # Plugin manager for tmux
@@ -130,9 +135,10 @@ developer_tools=(
   "chisel"
   "cocoapods"
   "composer"
-	"diff-so-fancy"
   "dex2jar"
+	"diff-so-fancy"
   "diffutils"
+  "docker"                          # Pack, ship and run any application as a lightweight container
   "file-formula"
   "gh"                              # GitHub command-line tool
   "git"
@@ -147,6 +153,7 @@ developer_tools=(
   "mitmproxy"
   "ocaml"
   "gradle"
+  "podman"                    # Tool for managing OCI containers and pods
   "perl"
   "ruby"
   "sonar-scanner"
@@ -260,6 +267,7 @@ ui_apps=(
 	"obsidian"
   "pearcleaner"               # Remove apps & leftover files
 	"pinentry-mac"
+  "podman-desktop"            # Desktop interface for Podman
 	"proxyman"
   "raindropio"                # All-in-one bookmark manager
   "rapidapi"                  # HTTP client that helps testing and describing APIs
@@ -277,8 +285,10 @@ ui_apps=(
   "transmission"              # BitTorrent client
   "transnomino"               # Batch rename utility
   "Upscayl"                   # AI image upscaler
+  "utm"                       # Virtual machines
   "visual-studio-code"        # Microsoft VS Code
   "vlc"
+  "whisky"                    # Wine wrapper for macOS
   "wwdc"
 	"xattred"
   "xcodes-app"                # CLI to Manage multiple versions of Xcode
