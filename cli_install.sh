@@ -399,9 +399,12 @@ arch_rosetta_compat=(
 	"gas-mask"
 	"geektool"
 	"macdown"
+  "mkvtoolnix-app"            # Create, alter and inspect Matroska files (MKV)
+  "mkvtools"                  # Create and edit Matroska files (MKV)
 	"openemu"
 	"opensim"
 	"pusher"
+  "stremio"                   # Media streaming client
 )
 
 if [ "$ENV_ARCH_NAME" == "$ENV_ARCH_X86_64" ]; then
