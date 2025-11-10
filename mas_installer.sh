@@ -84,6 +84,7 @@ rosetta_apps=(
   "568494494"   # Pocket (rosetta)
   "512204619"   # Radiant Defense (rosetta)
 	"1147396723"  # WhatsApp Desktop (rosetta)
+  "592679713"   # GitStatX (rosetta)
 )
 
 if [ "$ENV_ARCH_NAME" == "$ENV_ARCH_X86_64" ]; then
