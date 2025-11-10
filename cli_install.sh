@@ -225,6 +225,22 @@ brew_batch_install cask_browsers[@]
 
 
 echo
+print_title "Install AI Apps (Cask)\n"
+ai_apps=(
+  "anythingllm"               # Chat with any LLM
+  "jan"                       # Offline AI chat tool
+  "lm-studio"                 # Discover, download, and run local LLMs
+  "ollama-app"                # Discover, download, and run local LLMs
+  "onlook"                    # Open-Source AI-First Design tool
+  "opcode"                    # Claude Code desktop companion
+  "github-copilot-for-xcode"  # GitHub Copilot for Xcode
+  "trae"                      # AI code editor
+  "void"                      # Open-Source AI code editor
+)
+brew_batch_install ai_apps[@]
+
+
+echo
 print_title "Install Applications (Cask)\n"
 ui_apps=(
   "android-studio"
