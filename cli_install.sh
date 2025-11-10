@@ -268,6 +268,7 @@ ui_apps=(
   "deezer"                    # Music streaming service
   "devcleaner"                # Xcode cache cleaner
   "devtoys"                   # Common development utilities
+  "discord"                   # Chat and messaging app
 	"figma"
   "flixtools"
   "fork"
@@ -292,6 +293,7 @@ ui_apps=(
   "lulu"                      # Open-source firewall to block unknown outgoing connections
 	"maccy"
   "maciasl"
+  "messenger"                 # Facebook Messenger
   "mist"                      # Utility to downloads macOS firmwares and installers
   "monitorcontrol"
   "ngrok"                     # Reverse proxy, secure introspectable tunnels to localhost
@@ -319,6 +321,7 @@ ui_apps=(
   "spacedrive"                # Open-source cross-platform file explorer
   "spotify"
   "tempbox"                   # Disposable email client
+  "thunderbird"               # Email client
   "transmission"              # BitTorrent client
   "transnomino"               # Batch rename utility
   "Upscayl"                   # AI image upscaler
@@ -326,6 +329,7 @@ ui_apps=(
   "visual-studio-code"        # Microsoft VS Code
   "vlc"
   "wezterm"                   # GPU-accelerated cross-platform terminal emulator and multiplexer
+  "whatsapp"                  # WhatsApp Messenger
   "whisky"                    # Wine wrapper for macOS
   "wwdc"
 	"xattred"
