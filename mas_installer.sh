@@ -34,9 +34,13 @@ mas_apps=(
 	"905953485"		  # NordVPN: VPN Fast & Secure
 
   # Developer
-	"640199958"   # Apple Developer
-  "1496833156"  # Swift Playgrounds
-  "1450874784"  # Transporter
+	"640199958"     # Apple Developer
+  "1496833156"    # Swift Playgrounds
+  "1450874784"    # Transporter
+  "1287239339"    # ColorSlurp
+  "1499227284"    # Push Hero - Test Notifications
+  "6737813684"    # DataScout for SwiftData
+  "6475956137"    # Grab2Text
 
   # Productivity
 	"409183694"     # Keynote

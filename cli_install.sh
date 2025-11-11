@@ -133,8 +133,9 @@ echo
 print_title "Install developer cli tools\n"
 developer_tools=(
   "ack"
-  "android-commandlinetools"
-  "asdf"                            # Extendable version manager
+  "android-commandlinetools"      # Android command line tools
+  "ansifilter"                    # Strip or convert ANSI codes into HTML, (La)Tex, RTF, or BBCode
+  "asdf"                          # Extendable version manager
   "boost"
   "carthage"
   "chisel"
@@ -152,6 +153,7 @@ developer_tools=(
   "git-lfs"
   "git-quick-stats"
   "gnutls"
+  "grc"                           # Colorize logfiles and command output
   "httpie"
   "ios-deploy"                # CLI to Install and debug iPhone apps
   "jq"
@@ -258,6 +260,7 @@ ui_apps=(
   "beeper"                    # Universal chat app powered by Matrix
   "blobsaver"                 # GUI for automatically saving SHSH blobs
 	"bluesnooze"                # Prevents sleeping computer from connecting to Bluetooth accessories
+  "charles"                   # Web debugging Proxy application
   "coconutbattery"            # Battery status and monitoring
   "cursor"                    # Write, edit, and chat about your code with AI
   "dbeaver-community"
@@ -269,6 +272,8 @@ ui_apps=(
   "flixtools"
   "fork"
   "ghostty"                   # Modern, lightweight, and fast terminal emulator
+  "gitbutler"                 # Git client for simultaneous branches
+  "gitup-app"                 # Git interface focused on visual interaction
   "hammerspoon"               # macOS automation tool
   "handbrake-app"             # Open-source video transcoder
   "hiddenbar"                 # Customizable menu bar for macOS
@@ -298,6 +303,7 @@ ui_apps=(
   "pearcleaner"               # Remove apps & leftover files
 	"pinentry-mac"
   "podman-desktop"            # Desktop interface for Podman
+  "postman"                   # API platform for building and using APIs
 	"proxyman"
   "raindropio"                # All-in-one bookmark manager
   "rapidapi"                  # HTTP client that helps testing and describing APIs
@@ -334,6 +340,7 @@ echo
 print_title "Install QuickLook Plugin (Cask)\n"
 ql_plugins=(
   "qlcolorcode"
+  "qlgradle"
   "qlmarkdown"
   "qlstephen"
   "quicklook-json"
