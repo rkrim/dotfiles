@@ -258,6 +258,7 @@ ui_apps=(
   "beeper"                    # Universal chat app powered by Matrix
   "blobsaver"                 # GUI for automatically saving SHSH blobs
 	"bluesnooze"                # Prevents sleeping computer from connecting to Bluetooth accessories
+  "coconutbattery"            # Battery status and monitoring
   "cursor"                    # Write, edit, and chat about your code with AI
   "dbeaver-community"
   "dbngin"
@@ -270,17 +271,20 @@ ui_apps=(
   "ghostty"                   # Modern, lightweight, and fast terminal emulator
   "hammerspoon"               # macOS automation tool
   "handbrake-app"             # Open-source video transcoder
+  "hiddenbar"                 # Customizable menu bar for macOS
   "iina"                      # Media player
   "imageoptim"                # Image optimizer to a smaller size
   "intellij-idea-ce"
 	"ios-app-signer"            # Signing iOS apps with a developer account
   "iterm2"
   "itsycal"                   # Menu bar calendar
+  "jordanbaird-ice"           # Menu bar manager
   "keepingyouawake"
 	"keycastr"
   "keyclu"
   "latest"                    # Shows latest app updates
   "localsend"                 # Open-source cross-platform alternative to AirDrop
+  "lulu"                      # Open-source firewall to block unknown outgoing connections
 	"maccy"
   "maciasl"
   "mist"                      # Utility to downloads macOS firmwares and installers
@@ -288,6 +292,9 @@ ui_apps=(
   "ngrok"                     # Reverse proxy, secure introspectable tunnels to localhost
   "notion"
 	"obsidian"
+  "onyx"                      # System maintenance and more
+  "openmtp"                   # Android file transfer
+  "oversight"                 # Monitors computer mic and webcam
   "pearcleaner"               # Remove apps & leftover files
 	"pinentry-mac"
   "podman-desktop"            # Desktop interface for Podman
@@ -303,6 +310,7 @@ ui_apps=(
   "silentknight"
   "sloth"
 	"sourcetree"
+  "spacedrive"                # Open-source cross-platform file explorer
   "spotify"
   "tempbox"                   # Disposable email client
   "transmission"              # BitTorrent client
@@ -372,6 +380,7 @@ brew_batch_install unidentified[@]
 echo
 print_title "Install Cask packages with user action required\n"
 action_required=(
+  "karabiner-elements"          # Requires Password | Keyboard customizer for macOS 
   "sdformatter"                 # Requires Password | Formatter for SD cards
   "sf-symbols"                  # Requires Password | Apple SF Symbols app
 )
