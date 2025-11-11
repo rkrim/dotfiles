@@ -161,6 +161,14 @@ _init_asdf () {
   fi
 }
 
+# Initialize atuin shell history
+# @param1 required, shell name (bash, zsh, fish, etc.)
+_init_atuin() {
+  if command -v atuin &>/dev/null; then
+    eval "$(atuin init "$1")"
+  fi
+}
+
 # Bash Completion
 _init_bash_completion() {
 	# Main Bash Completion
@@ -282,6 +290,11 @@ _init_zoxide() {
     fi
 }
 
+# Initialize common commands for all shells
+# @param1 required, shell name (bash, zsh, fish, etc.)
+# Note:
+# The order of initialization matters for some tools
+# - atuin must be initialized after starship
 _load_common_commands() {
   local shell_name="$1"
   ls_colors
