@@ -39,8 +39,5 @@ if [ -f ~/.shell_tokens ]; then
   source ~/.shell_tokens
 fi
 
-# Add bash completion
-bash_completion
-
 # Make terminal have approximately the same behavior what ever the $TERM
 update_terminal_behavior

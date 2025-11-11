@@ -72,21 +72,6 @@ _export_brew_packages_environment () {
   [[ -d "$SQLITE_PREFIX/lib/pkgconfig" ]] && export PKG_CONFIG_PATH="$SQLITE_PREFIX/lib/pkgconfig:$PKG_CONFIG_PATH"
 }
 
-# Initialize asdf version manager
-# asdf must be initialized after Homebrew but before other tools
-# asdf automatically prepends ~/.asdf/shims to PATH, ensuring asdf-managed tools take precedence
-_init_asdf () {
-  # ASDF_DIR should always point to ~/.asdf for data (plugins, shims, etc.)
-  export ASDF_DIR="$HOME/.asdf"
-  local ASDF_BREW_PREFIX="$(brew --prefix asdf 2>/dev/null)"
-  if [[ -n "$ASDF_BREW_PREFIX" ]]; then
-    [ -s "$ASDF_BREW_PREFIX/libexec/asdf.sh" ] && source "$ASDF_BREW_PREFIX/libexec/asdf.sh"
-    [[ -n "$BASH_VERSION" ]] && [ -s "$ASDF_BREW_PREFIX/etc/bash_completion.d/asdf" ] && source "$ASDF_BREW_PREFIX/etc/bash_completion.d/asdf"
-  else
-    echo >&2 "Warning: asdf init files not foud"
-  fi
-}
-
 # Java version switcher - Now using asdf
 javahome() {
   if command -v asdf &> /dev/null; then
@@ -115,37 +100,6 @@ javahome() {
   else
     echo "asdf is not installed. Please install asdf first."
     return 1
-  fi
-}
-
-# Bash Completion
-bash_completion() {
-	# Main Bash Completion
-	local MAIN_COMPLETION="$HOMEBREW_PREFIX/etc/profile.d/bash_completion.sh"
-
-  # Source completion file if in interactive mode and the file exists
-  if [[ $- =~ i ]]; then
-    if [[ -f "$MAIN_COMPLETION" ]]; then 
-      source "$MAIN_COMPLETION"
-    else
-      echo "bash completion not installed or the file location has changed."
-    fi
-  fi
-
-	# Auto-Complete SSH hostnames (no wildcards)
-	if [ -e "$HOME/.ssh/config" ]; then
-    complete -o "default" -o "nospace" -W "$(grep "^Host" ~/.ssh/config | grep -v "[?*]" | cut -d " " -f2- | tr ' ' '\n')" scp sftp ssh;
-	fi
-
-	# Git Completion
-	local GIT_COMPLETION="$HOMEBREW_PREFIX/etc/bash_completion.d/git-completion.bash"
-	if [[ -f $GIT_COMPLETION ]]; then
-    source $GIT_COMPLETION
-	fi
-
-  # ngrok Completion
-  if command -v ngrok &>/dev/null; then
-    eval "$(ngrok completion)"
   fi
 }
 
@@ -192,11 +146,79 @@ ls_colors() {
   fi
 }
 
+# Initialize asdf version manager
+# asdf must be initialized after Homebrew but before other tools
+# asdf automatically prepends ~/.asdf/shims to PATH, ensuring asdf-managed tools take precedence
+_init_asdf () {
+  # ASDF_DIR should always point to ~/.asdf for data (plugins, shims, etc.)
+  export ASDF_DIR="$HOME/.asdf"
+  local ASDF_BREW_PREFIX="$(brew --prefix asdf 2>/dev/null)"
+  if [[ -n "$ASDF_BREW_PREFIX" ]]; then
+    [ -s "$ASDF_BREW_PREFIX/libexec/asdf.sh" ] && source "$ASDF_BREW_PREFIX/libexec/asdf.sh"
+    [[ -n "$BASH_VERSION" ]] && [ -s "$ASDF_BREW_PREFIX/etc/bash_completion.d/asdf" ] && source "$ASDF_BREW_PREFIX/etc/bash_completion.d/asdf"
+  else
+    echo >&2 "Warning: asdf init files not foud"
+  fi
+}
+
+# Bash Completion
+_init_bash_completion() {
+	# Main Bash Completion
+	local MAIN_COMPLETION="$HOMEBREW_PREFIX/etc/profile.d/bash_completion.sh"
+
+  # Source completion file if in interactive mode and the file exists
+  if [[ $- =~ i ]]; then
+    if [[ -f "$MAIN_COMPLETION" ]]; then 
+      source "$MAIN_COMPLETION"
+    else
+      echo "bash completion not installed or the file location has changed."
+    fi
+  fi
+
+	# Auto-Complete SSH hostnames (no wildcards)
+	if [ -e "$HOME/.ssh/config" ]; then
+    complete -o "default" -o "nospace" -W "$(grep "^Host" ~/.ssh/config | grep -v "[?*]" | cut -d " " -f2- | tr ' ' '\n')" scp sftp ssh;
+	fi
+
+	# Git Completion
+	local GIT_COMPLETION="$HOMEBREW_PREFIX/etc/bash_completion.d/git-completion.bash"
+	if [[ -f $GIT_COMPLETION ]]; then
+    source $GIT_COMPLETION
+	fi
+
+  # ngrok Completion
+  if command -v ngrok &>/dev/null; then
+    eval "$(ngrok completion)"
+  fi
+}
+
 # Initialize bat (cat replacement)
 _init_bat() {
   if command -v bat &>/dev/null; then
     export BAT_THEME=Coldark-Dark
     alias cat="bat -n"
+  fi
+}
+
+# Initialize carapace completion
+# @param1 required, shell name (bash, zsh, nu, etc.)
+# See: https://carapace-sh.github.io/carapace-bin/setup.html
+_init_carapace() {
+  if command -v carapace &>/dev/null; then
+    export CARAPACE_BRIDGES='zsh,fish,bash,inshellisense'
+    case "$1" in
+      bash)
+        source <(carapace _carapace)
+        ;;
+      zsh)
+        zstyle ':completion:*' format $'\e[2;37mCompleting %d\e[m'
+        source <(carapace _carapace)
+        ;;
+      *)
+        # Fallback: try to initialize with shell name
+        source <(carapace _carapace 2>/dev/null) || echo >&2 "Warning: carapace initialization for shell '$1' may not be supported"
+        ;;
+    esac
   fi
 }
 
@@ -263,6 +285,7 @@ _init_zoxide() {
 _load_common_commands() {
   local shell_name="$1"
   ls_colors
+  _init_asdf
   _init_bat
   _init_carapace "$shell_name"
   _init_starship "$shell_name"

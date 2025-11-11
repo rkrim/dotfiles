@@ -83,6 +83,7 @@ cli_tools=(
   "autoconf"
   "bat"             # Cat with syntax highlighting and Git integration
   "binutils"
+  "carapace"        # A shell autocomplete library
   "coreutils"
   "curl"            # Get a file from HTTP(s)/FTP servers
   "dav1d"           # AV1 decoder
