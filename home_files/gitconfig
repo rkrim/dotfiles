@@ -11,11 +11,10 @@
 	# Don't consider changes on trailing space (EOL, EOF) as conflicts
 	whitespace = -trailing-space
 	excludesfile = ~/.gitignore_global
-	pager = diff-so-fancy | less --tabs=4 -RFX
+	pager = delta
 
 [init]
 	defaultBranch = main
-
 
 ### Colors
 # Supported colors: [normal, black, red, green, yellow, blue, magenta, cyan, white]
@@ -119,12 +118,25 @@
 	# may take some time in a large working tree.
 	showUntrackedFiles = all
 
+[interactive]
+    diffFilter = delta --color-only
+
+[delta]
+    navigate = true			# use n and N to move between diff sections
+	side-by-side = true		# side-by-side diffs
+    line-numbers = true
+	true-color = always
+	hyperlinks = true
+	hyperlinks-file-link-format = "vscode://file/{path}:{line}"
+	map-styles = bold purple => syntax magenta, bold cyan => syntax blue
+
 [diff]
 	# Instead of a/b to indicate the changed files
 	# Uses meaningfull initials (i: index, w: work tree, c: commit, o: object)
 	mnemonicPrefix = true
-	renames = copy                    # copy and rename detection
-	tool = vscode                     # default tool invoked by `git difftool`
+	renames = copy					# copy and rename detection
+	tool = vscode					# default tool invoked by `git difftool`
+	colorMoved = default			# moved code detection
 
 [difftool "vscode"]
 	cmd = code --wait --diff "$LOCAL" "$REMOTE"
@@ -137,9 +149,10 @@
 
 [merge]
 	# 3 way merge method showing common-ancestor in conflict hunks [merge | diff3]
-	conflictstyle = merge 
+	conflictStyle = zdiff3
+
 	# merge strategy: fast-forward by default
-  ff = true
+	ff = true
 
 [mergetool]
 	keepBackup = false                # post merge backup files clean up

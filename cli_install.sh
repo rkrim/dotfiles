@@ -39,6 +39,7 @@ fi
 # "cakebrew"          // Disabled: Discontinued upstream
 # "cheatsheet"        // Using alternative: Keyclu
 # "dash3"             // No more available in repo
+# "diff-so-fancy"     // Using alternative: git-delta
 # "dozer"             // Using alternative: Hidden Bar - from mas as this is not native Apple Silicon
 # "flux"              // Using alternative: macOS Night Shift
 # "google-chrome"     // Using alternative: Zen
@@ -143,12 +144,12 @@ developer_tools=(
   "cocoapods"
   "composer"
   "dex2jar"
-	"diff-so-fancy"
   "diffutils"
   "docker"                          # Pack, ship and run any application as a lightweight container
   "file-formula"
   "gh"                              # GitHub command-line tool
   "git"
+  "git-delta"                       # A viewer for git and diff output
 	"git-extras"                      # Small git utilities
   "git-filter-repo"                 # Rewrite git repository history
   "git-lfs"
