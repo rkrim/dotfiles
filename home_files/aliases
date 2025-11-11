@@ -43,6 +43,9 @@ alias slack="open -a '/Applications/Slack.app'"
 ### Homebrew
 alias brew_upgrade_cask="brew update;brew upgrade \$(brew outdated --greedy --verbose | grep -v '(latest)' | cut -d' ' -f1)"
 
+### tlrc - tldr command line client
+alias tlrc="tldr"
+
 ### Web services shortcuts
 alias weather="curl wttr.in"
 
