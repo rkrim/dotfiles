@@ -82,3 +82,4 @@ home_files/config/*
 !home_files/config/spicetify
 !home_files/config/spicetify/config-xpui.ini
 !home_files/config/ghostty
+!home_files/config/atuin

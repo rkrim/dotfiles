@@ -82,6 +82,7 @@ print_title "Install cli tools\n"
 cli_tools=(
   "1password-cli"
   "aria2"           # Download utility
+  "atuin"           # A modern, easy-to-use shell history manager
   "autoconf"
   "bat"             # Cat with syntax highlighting and Git integration
   "binutils"
@@ -261,6 +262,7 @@ ui_apps=(
   "anydesk"
   "appcleaner"
   "asset-catalog-tinkerer"
+  "atuin-desktop"             # A modern, easy-to-use shell history manager
   "balenaetcher"              # Flash OS images to SD cards and USB drives
   "beeper"                    # Universal chat app powered by Matrix
   "blobsaver"                 # GUI for automatically saving SHSH blobs
