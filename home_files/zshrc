@@ -1,6 +1,10 @@
 # ~/.zshrc
 # sourced by zsh(1) for interactive shells, 
 
+# Source shellenv for common functions
+if [ -f ~/.shellenv ]; then
+  source ~/.shellenv
+fi
 
 # Lines configured by zsh-newuser-install
 HISTFILE=~/.histfile

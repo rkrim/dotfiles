@@ -1,8 +1,10 @@
 # ~/.profile
 # Sourced by the command interpreter for login shells.
 
-# Import required functions
-source ~/.shellenv
+# Source shellenv for common functions
+if [ -f ~/.shellenv ]; then
+  source ~/.shellenv
+fi
 
 
 ### Configuration #############################################################

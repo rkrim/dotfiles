@@ -1,33 +1,10 @@
 # ~/.bashrc
 # sourced by bash(1) for non-login shells.
 
-
-update_key_binding () {
-  bind '"\e[3~": delete-char' # fn+delete > delete char
-}
-
-update_terminal_behavior () {
-  case $TERM in
-    ansi)
-    update_key_binding
-    ;;
-
-    *)
-    ;;
-  esac
-}
-
-
-### Configuration ##############################################################
-
-# Bash history
-# Ignore successive identical commands
-# Ignore commands starting whith space
-# Erase duplicate
-export HISTCONTROL=ignoreboth:erasedup
-
-# Remove deprecation warning when using macOS prebuilt bash
-export BASH_SILENCE_DEPRECATION_WARNING=1
+# Source shellenv for common functions
+if [ -f ~/.shellenv ]; then
+  source ~/.shellenv
+fi
 
 # Source Aliases file
 if [ -f ~/.aliases ]; then
@@ -39,8 +16,8 @@ if [ -f ~/.shell_tokens ]; then
   source ~/.shell_tokens
 fi
 
-# Make terminal have approximately the same behavior what ever the $TERM
-update_terminal_behavior
+# Initialize bash environment
+_bash_init_environment
 
 # Initialize bash-preexec (must be early, before other tools that use preexec hooks)
-_init_bash_preexec
+_bash_init_preexec
