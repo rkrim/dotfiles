@@ -1,6 +1,13 @@
 # ~/.shellenv
 # Shell common environment
 
+# Prevent multiple sourcing
+if [ -n "$SHELL_SOURCED_SHELLENV" ]; then
+  return 0 2>/dev/null || true
+fi
+# Mark as sourced in current session (don't export to child processes)
+SHELL_SOURCED_SHELLENV=1
+
 
 ### Language setting
 _export_language () {
@@ -146,31 +153,8 @@ ls_colors() {
   fi
 }
 
-# Initialize asdf version manager
-# asdf must be initialized after Homebrew but before other tools
-# asdf automatically prepends ~/.asdf/shims to PATH, ensuring asdf-managed tools take precedence
-_init_asdf () {
-  # ASDF_DIR should always point to ~/.asdf for data (plugins, shims, etc.)
-  export ASDF_DIR="$HOME/.asdf"
-  local ASDF_BREW_PREFIX="$(brew --prefix asdf 2>/dev/null)"
-  if [[ -n "$ASDF_BREW_PREFIX" ]]; then
-    [ -s "$ASDF_BREW_PREFIX/libexec/asdf.sh" ] && source "$ASDF_BREW_PREFIX/libexec/asdf.sh"
-    [[ -n "$BASH_VERSION" ]] && [ -s "$ASDF_BREW_PREFIX/etc/bash_completion.d/asdf" ] && source "$ASDF_BREW_PREFIX/etc/bash_completion.d/asdf"
-  else
-    echo >&2 "Warning: asdf init files not foud"
-  fi
-}
-
-# Initialize atuin shell history
-# @param1 required, shell name (bash, zsh, fish, etc.)
-_init_atuin() {
-  if command -v atuin &>/dev/null; then
-    eval "$(atuin init "$1")"
-  fi
-}
-
 # Bash Completion
-_init_bash_completion() {
+_bash_init_completion() {
 	# Main Bash Completion
 	local MAIN_COMPLETION="$HOMEBREW_PREFIX/etc/profile.d/bash_completion.sh"
 
@@ -202,10 +186,63 @@ _init_bash_completion() {
 
 # Initialize bash-preexec (hooks for preexec and precmd functions)
 # bash-preexec must be initialized early, before other tools that use preexec hooks
-_init_bash_preexec() {
+_bash_init_preexec() {
   local BASH_PREEXEC_PATH="$HOMEBREW_PREFIX/etc/profile.d/bash-preexec.sh"
   if [[ -f "$BASH_PREEXEC_PATH" ]]; then
     source "$BASH_PREEXEC_PATH"
+  fi
+}
+
+# Update key bindings for bash
+_bash_update_key_binding() {
+  bind '"\e[3~": delete-char' # fn+delete > delete char
+}
+
+# Update terminal behavior for bash
+_bash_update_terminal_behavior() {
+  case $TERM in
+    ansi)
+      _bash_update_key_binding
+      ;;
+    *)
+      ;;
+  esac
+}
+
+# Initialize bash environment
+_bash_init_environment() {
+  # Ignore successive identical commands
+  # Ignore commands starting with space
+  # Erase duplicates
+  export HISTCONTROL=ignoreboth:erasedup
+  
+  # Remove deprecation warning when using macOS prebuilt bash
+  export BASH_SILENCE_DEPRECATION_WARNING=1
+  
+  # Make terminal have approximately the same behavior whatever the $TERM
+  _bash_update_terminal_behavior
+}
+
+# Initialize asdf version manager
+# asdf must be initialized after Homebrew but before other tools
+# asdf automatically prepends ~/.asdf/shims to PATH, ensuring asdf-managed tools take precedence
+_init_asdf () {
+  # ASDF_DIR should always point to ~/.asdf for data (plugins, shims, etc.)
+  export ASDF_DIR="$HOME/.asdf"
+  local ASDF_BREW_PREFIX="$(brew --prefix asdf 2>/dev/null)"
+  if [[ -n "$ASDF_BREW_PREFIX" ]]; then
+    [ -s "$ASDF_BREW_PREFIX/libexec/asdf.sh" ] && source "$ASDF_BREW_PREFIX/libexec/asdf.sh"
+    [[ -n "$BASH_VERSION" ]] && [ -s "$ASDF_BREW_PREFIX/etc/bash_completion.d/asdf" ] && source "$ASDF_BREW_PREFIX/etc/bash_completion.d/asdf"
+  else
+    echo >&2 "Warning: asdf init files not foud"
+  fi
+}
+
+# Initialize atuin shell history
+# @param1 required, shell name (bash, zsh, fish, etc.)
+_init_atuin() {
+  if command -v atuin &>/dev/null; then
+    eval "$(atuin init "$1")"
   fi
 }
 

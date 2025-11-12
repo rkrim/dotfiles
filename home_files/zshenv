@@ -2,8 +2,9 @@
 # sourced by zsh(1) always at first, used to exporte environment variables.
 
 # Import required functions
-source ~/.shellenv
-
+if [ -f ~/.shellenv ]; then
+  source ~/.shellenv
+fi
 
 ### Configuration #############################################################
 _export_language
