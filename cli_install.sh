@@ -131,7 +131,7 @@ cli_tools=(
   "vitorgalvao/tiny-scripts/cask-repair"
   "wifi-password"   # Show recorded WiFi password
   "yt-dlp"          # Audio/Video downloader
-  "zoxide"
+  "zoxide"          # Shell extension to navigate filesystem faster
 )
 brew_batch_install cli_tools[@]
 
