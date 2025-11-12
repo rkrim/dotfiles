@@ -72,6 +72,40 @@ cleanup() {
 # Set trap for cleanup on interrupt
 trap cleanup INT TERM
 
+# Capture script path and arguments for potential restart
+SCRIPT_PATH="$0"
+SCRIPT_ARGS=("$@")
+
+# Function to restart the script
+restart_script() {
+  echo
+  print_info "Repository updated. The installation scripts may have changed."
+  print_info "Restarting the installer using the local version..."
+  echo
+  
+  # Use the local version from the cloned repository
+  LOCAL_SCRIPT="$DOTFILES_DESTINATION/dotfiles_installer.sh"
+  
+  if [ ! -f "$LOCAL_SCRIPT" ]; then
+    print_error "Local installer script not found at: $LOCAL_SCRIPT"
+    exit $EXIT_FAILURE
+  fi
+  
+  # Make sure it's executable
+  chmod +x "$LOCAL_SCRIPT" 2>/dev/null
+  
+  for i in {5..1}; do
+    printf "\r${COLOR_CYAN}Restarting in %d seconds... (Press Ctrl+C to cancel)${COLOR_RESET}" "$i"
+    sleep 1
+  done
+  printf "\r${COLOR_RESET}"
+  # Clear screen
+  if [ -t 1 ] && command -v clear > /dev/null 2>&1; then
+    clear
+  fi
+  # Restart using the local version with the same arguments
+  exec "$LOCAL_SCRIPT" "${SCRIPT_ARGS[@]}"
+}
 
 # Print header
 print_title "=========================================="
@@ -114,7 +148,7 @@ if [[ $(uname -s) =~ "Darwin" && `command -v xcode-select` ]]; then
     read -rn 1 -p "Install? (Y or y to confirm, any other key to exit) "
     echo
     if [[ ! $REPLY =~ ^[Yy]$ ]]; then
-      echo "Installation cancelled. Command Line Tools are required."
+      print_error "Installation cancelled. Command Line Tools are required."
       exit $EXIT_FAILURE
     fi
     print_info "Installing Command Line Tools..."
@@ -147,24 +181,50 @@ if [ -d "$DOTFILES_DESTINATION" ]; then
   # Check if it's already a git repository
   if [ -d "$DOTFILES_DESTINATION/.git" ]; then
     print_warning "Directory '$DOTFILES_DESTINATION' already exists and appears to be a git repository."
-    read -rn 1 -p "Update existing repository instead? (Y or y to update, any other key to exit) "
+    read -rn 1 -p "Update repository? (Y/y to update, N/n to continue without updating, any other key to exit) "
     echo
     if [[ $REPLY =~ ^[Yy]$ ]]; then
       echo
       print_info "Updating existing repository..."
       pushd "$DOTFILES_DESTINATION" > /dev/null
-      git pull
-      PULL_EXIT=$?
+      # Get the current commit before update
+      OLD_COMMIT=$(git rev-parse HEAD 2>/dev/null)
+      # Determine the current branch (default to main)
+      CURRENT_BRANCH=$(git rev-parse --abbrev-ref HEAD 2>/dev/null || echo "main")
+      # Fetch latest changes
+      git fetch origin
+      FETCH_EXIT=$?
+      if [[ $FETCH_EXIT -ne 0 ]]; then
+        popd > /dev/null
+        print_error "Failed to fetch from remote repository."
+        exit $EXIT_FAILURE
+      fi
+      # Reset to match remote state exactly (discarding local changes)
+      git reset --hard "origin/$CURRENT_BRANCH" 2>/dev/null || git reset --hard "origin/main" 2>/dev/null
+      RESET_EXIT=$?
+      # Get the new commit after reset
+      NEW_COMMIT=$(git rev-parse HEAD 2>/dev/null)
       popd > /dev/null
-      if [[ $PULL_EXIT -ne 0 ]]; then
+      if [[ $RESET_EXIT -ne 0 ]]; then
         print_error "Failed to update repository. Please resolve conflicts manually."
         exit $EXIT_FAILURE
       fi
-      print_success "✓ Repository updated successfully"
+      # Check if repository was actually updated
+      if [[ "$OLD_COMMIT" != "$NEW_COMMIT" ]]; then
+        print_success "✓ Repository updated successfully"
+        # Restart the script to use the latest version
+        restart_script
+      else
+        print_success "✓ Repository is already up to date"
+        echo
+        SKIP_CLONE=true
+      fi
+    elif [[ $REPLY =~ ^[Nn]$ ]]; then
+      print_info "Continuing with existing repository without updating..."
       echo
       SKIP_CLONE=true
     else
-      echo "Installation cancelled."
+      echo "${COLOR_RED}Installation cancelled.${COLOR_RESET}"
       exit $EXIT_FAILURE
     fi
   else
@@ -172,7 +232,7 @@ if [ -d "$DOTFILES_DESTINATION" ]; then
     read -rn 1 -p "Continue anyway? (Y or y to continue, any other key to exit) "
     echo
     if [[ ! $REPLY =~ ^[Yy]$ ]]; then
-      echo "Installation cancelled."
+      echo "${COLOR_RED}Installation cancelled.${COLOR_RESET}"
       exit $EXIT_FAILURE
     fi
   fi
@@ -194,7 +254,7 @@ if [ -z "$SKIP_CLONE" ]; then
       print_success "✓ Created parent directory"
       echo
     else
-      echo "Installation cancelled."
+      echo "${COLOR_RED}Installation cancelled.${COLOR_RESET}"
       exit $EXIT_FAILURE
     fi
   elif [ ! -w "$PARENT_DIR" ]; then
@@ -211,7 +271,7 @@ if [ -z "$SKIP_CLONE" ]; then
   read -rn 1 -p "Continue? (Y or y to confirm, any other key to exit) "
   echo
   if [[ ! $REPLY =~ ^[Yy]$ ]]; then
-      echo "Installation cancelled."
+      echo "${COLOR_RED}Installation cancelled.${COLOR_RESET}"
       exit $EXIT_FAILURE
   fi
 
