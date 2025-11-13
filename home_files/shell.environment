@@ -1,0 +1,21 @@
+# ~/.shell.environment
+# Common environment variables for shells
+
+# Prevent multiple sourcing
+if [ -n "$SHELL_SOURCED_ENVIRONMENT" ]; then
+  return 0 2>/dev/null || true
+fi
+# Mark as sourced in current session (don't export to child processes)
+SHELL_SOURCED_ENVIRONMENT=1
+
+# Source shell.utils if exist
+if [ -f ~/.shell.utils ]; then
+  source ~/.shell.utils
+fi
+
+### Configuration #############################################################
+# Common environment variables (available to all shells)
+_export_language
+_export_brew_shell_environment
+_export_brew_packages_environment
+_export_session_ls_colors

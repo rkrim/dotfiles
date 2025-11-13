@@ -1,9 +1,9 @@
 # ~/.zshrc
 # sourced by zsh(1) for interactive shells, 
 
-# Source shellenv for common functions
-if [ -f ~/.shellenv ]; then
-  source ~/.shellenv
+# Source shell.environment if exist
+if [ -f ~/.shell.environment ]; then
+  source ~/.shell.environment
 fi
 
 # Lines configured by zsh-newuser-install
