@@ -41,3 +41,6 @@ fi
 
 # Make terminal have approximately the same behavior what ever the $TERM
 update_terminal_behavior
+
+# Initialize bash-preexec (must be early, before other tools that use preexec hooks)
+_init_bash_preexec

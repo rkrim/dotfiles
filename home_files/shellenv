@@ -200,6 +200,15 @@ _init_bash_completion() {
   fi
 }
 
+# Initialize bash-preexec (hooks for preexec and precmd functions)
+# bash-preexec must be initialized early, before other tools that use preexec hooks
+_init_bash_preexec() {
+  local BASH_PREEXEC_PATH="$HOMEBREW_PREFIX/etc/profile.d/bash-preexec.sh"
+  if [[ -f "$BASH_PREEXEC_PATH" ]]; then
+    source "$BASH_PREEXEC_PATH"
+  fi
+}
+
 # Initialize bat (cat replacement)
 _init_bat() {
   if command -v bat &>/dev/null; then

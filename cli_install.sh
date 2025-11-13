@@ -72,6 +72,7 @@ print_title "Install Shells:\n"
 shells=(
   "bash"
   "bash-completion@2"
+  "bash-preexec"          # Bash pre-execution hook for Zsh-like 'precmd' functionality
   "zsh"
 )
 brew_batch_install shells[@]
