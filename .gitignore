@@ -88,3 +88,4 @@ home_files/config/ghostty/ghostty-shaders
 home_files/config/zed/conversations
 home_files/config/zed/prompts
 home_files/config/zed/themes
+!home_files/config/zellij

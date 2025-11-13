@@ -224,6 +224,23 @@ _bash_update_terminal_behavior() {
   esac
 }
 
+# Initialize bash environment
+_bash_init_environment() {
+  # Ignore successive identical commands
+  # Ignore commands starting with space
+  # Erase duplicates
+  export HISTCONTROL=ignoreboth:erasedup
+  
+  # Remove deprecation warning when using macOS prebuilt bash
+  export BASH_SILENCE_DEPRECATION_WARNING=1
+  
+  # Disable zellij auto-start
+  export ZELLIJ_AUTO_START=false
+  
+  # Make terminal have approximately the same behavior whatever the $TERM
+  _bash_update_terminal_behavior
+}
+
 # Initialize asdf version manager
 # asdf must be initialized after Homebrew but before other tools
 # asdf automatically prepends ~/.asdf/shims to PATH, ensuring asdf-managed tools take precedence
@@ -337,6 +354,16 @@ _init_zoxide() {
     fi
 }
 
+# Initialize zellij terminal multiplexer
+# @param1 required, shell name (bash, zsh, fish, etc.)
+_init_zellij() {
+  if command -v zellij &>/dev/null; then
+    if [[ "${ZELLIJ_AUTO_START:-false}" == "true" ]]; then
+      eval "$(zellij setup --generate-auto-start "$1")"
+    fi
+  fi
+}
+
 # Initialize common commands for all shells
 # @param1 required, shell name (bash, zsh, fish, etc.)
 # Note:
@@ -351,6 +378,7 @@ _load_common_commands() {
   _init_atuin "$shell_name"
   _init_fzf "$shell_name"
   _init_zoxide "$shell_name"
+  _init_zellij "$shell_name"
 }
 
 
