@@ -1,12 +1,7 @@
 # ~/.zshenv
-# sourced by zsh(1) always at first, used to exporte environment variables.
+# sourced by zsh(1) always at first, used to export environment variables.
 
-# Import required functions
-if [ -f ~/.shellenv ]; then
-  source ~/.shellenv
+# Source shell.environment if exist
+if [ -f ~/.shell.environment ]; then
+  source ~/.shell.environment
 fi
-
-### Configuration #############################################################
-_export_language
-_export_brew_shell_environment
-_export_brew_packages_environment

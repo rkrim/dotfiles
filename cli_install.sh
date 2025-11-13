@@ -4,7 +4,7 @@
 source ./std.sh
 source ./pretty-print.sh
 source ./install_helper.sh
-source ./home_files/shellenv
+source ./home_files/shell.utils
 
 
 ### ENVIRONMENT DETECTION ###

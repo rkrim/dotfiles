@@ -27,7 +27,7 @@ alias quit="exit"
 alias ls="ls -h ${LS_COLOR_FLAG} ${LS_DIRECTORY_FIRST_FLAG}"
 alias l="ls -lF ${LS_COLOR_FLAG}"
 alias la="ls -laF ${LS_COLOR_FLAG}"
-alias lsd="\ls -Al | grep --color=never '^d'"
+alias lsd="ls -Al | grep '^d'"
 
 ### GUI Apps
 alias finder="open -a Finder"

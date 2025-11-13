@@ -1,11 +1,11 @@
 # ~/.bash_profile:
 # Sourced by the command interpreter for login shells.
+# Order of sourcing: /etc/profile, ~/.bash_profile, ~/.bash_login, ~/.profile
 
 
-# About PATH and Prompt
-# Source ~/.profile if exist (not automatically sourced if .bash_profile exist)
-if [ -r ~/.profile ]; then
-  source ~/.profile
+# Source shell.environment if exist
+if [ -f ~/.shell.environment ]; then
+  source ~/.shell.environment
 fi
 
 # About All other things

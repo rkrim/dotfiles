@@ -1,9 +1,9 @@
 # ~/.bashrc
 # sourced by bash(1) for non-login shells.
 
-# Source shellenv for common functions
-if [ -f ~/.shellenv ]; then
-  source ~/.shellenv
+# Source shell.environment if exist
+if [ -f ~/.shell.environment ]; then
+  source ~/.shell.environment
 fi
 
 # Source Aliases file
@@ -21,3 +21,8 @@ _bash_init_environment
 
 # Initialize bash-preexec (must be early, before other tools that use preexec hooks)
 _bash_init_preexec
+
+# Load common commands (starship, bat, zoxide, etc.) for interactive shells
+if [[ $- =~ i ]]; then
+  _load_common_commands bash
+fi

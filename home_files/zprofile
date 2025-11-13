@@ -1,2 +1,4 @@
 # ~/.zprofile
 # sourced by zsh(1) for login shells, before .zshrc.
+# Note: shell.environment is already sourced by .zshenv, so this file is kept for any
+# zsh login-specific configuration if needed in the future.
