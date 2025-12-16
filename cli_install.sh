@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 
+# cspell:disable
+
 # Include required libraries
 source ./std.sh
 source ./pretty-print.sh
@@ -165,6 +167,7 @@ developer_tools=(
   "httpie"
   "ios-deploy"                # CLI to Install and debug iPhone apps
   "jq"
+  "mise"                      # Polyglot runtime manager (asdf rust clone)
   "mitmproxy"
   "ocaml"
   "gradle"
@@ -491,20 +494,44 @@ add_acceptable_shell `command -v bash` default
 add_acceptable_shell `command -v zsh`
 
 
-if command -v asdf &> /dev/null; then
+# Detect which version manager is available (mise > asdf > none)
+version_manager=$(detect_version_manager)
+
+if [[ "$version_manager" == "none" ]]; then
+  echo
+  print_title "Version Manager Not Found\n"
+  echo "Neither 'mise' nor 'asdf' is installed. Tool version management will be skipped."
+  echo "To enable tool version management, install one of the following:"
+  echo "  • mise (recommended):  brew install mise"
+  echo "  • asdf (alternative):  brew install asdf"
+  echo
+else
+  echo
+  print_title "Version Manager: Using $version_manager for tools installation\n"
+
+  # Initialize the version manager
+  case "$version_manager" in
+    mise)
+      mkdir -p "$HOME/.config/mise"
+      _init_mise bash
+      mise trust "$HOME/.config/mise" 2>/dev/null || true
+      ;;
+    asdf)
   mkdir -p "$HOME/.asdf"
   _init_asdf
+      ;;
+  esac
 
-  # Install asdf plugins
+  # Install version manager plugins
   echo
-  print_title "Install asdf plugins\n"
-  asdf_plugins=( "nodejs" "pnpm" "java" "yarn" "python" )
-  asdf_batch_install_plugins asdf_plugins[@]
+  print_title "Install version manager plugins\n"
+  vm_plugins=( "nodejs" "pnpm" "java" "yarn" "python" "ruby" "rust" )
+  vm_batch_install_plugins vm_plugins[@]
 
-  # Install asdf tool versions (tool:version:set_home[true/false])
+  # Install tool versions (tool:version:set_global[true/false])
   echo
-  print_title "Install asdf tool versions\n"
-  asdf_versions=(
+  print_title "Install tool versions\n"
+  vm_versions=(
     "nodejs:lts:true"           # Install Node.js LTS and set as global
     "nodejs:latest:false"       # Install Node.js latest
     "pnpm:latest:true"          # Install pnpm latest and set as global (requires Node.js)
@@ -514,8 +541,10 @@ if command -v asdf &> /dev/null; then
     "java:21:true"              # Install latest Java 21 LTS and set as global
     "java:latest:false"         # Install latest Java version
     "python:latest:true"        # Install Python latest and set as global
+    "ruby:latest:true"          # Install Ruby latest and set as global
+    "rust:latest:true"          # Install Rust latest and set as global
   )
-  asdf_batch_install_versions asdf_versions[@]
+  vm_batch_install_versions vm_versions[@]
 fi
 
 

@@ -352,10 +352,12 @@ popd > /dev/null
 # Final summary
 echo
 print_title "=========================================="
+echo
 if [ $INSTALL_EXIT -eq 0 ]; then
   print_success "✓ Installation completed successfully!"
   echo "Your dotfiles are now set up at: $DOTFILES_DESTINATION"
 else
+
   print_warning "⚠ Installation completed with errors (exit code: $INSTALL_EXIT)"
   echo "Please review the output above for details."
 fi

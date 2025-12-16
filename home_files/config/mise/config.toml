@@ -1,0 +1,26 @@
+# mise configuration file
+# https://mise.jdx.dev/configuration.html
+
+[settings]
+experimental = true
+legacy_version_file = true  # Support asdf .tool-versions files
+plugin_autoupdate_last_check_duration = "7d"
+always_keep_download = false
+always_keep_install = false
+verbose = false
+quiet = false
+asdf_compat = true  # Enable asdf compatibility mode
+
+[tools]
+# Global tool versions managed by mise
+# You can override these per-project using .mise.toml or .tool-versions files
+
+# Uncomment and set versions as needed:
+# node = "lts"
+# python = "latest"
+# ruby = "latest"
+# rust = "latest"
+# java = "21"
+
+[plugins]
+# Custom plugin configurations can go here
