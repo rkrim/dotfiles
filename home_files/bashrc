@@ -1,19 +1,22 @@
+# shellcheck shell=bash
 # ~/.bashrc
+# cspell:disable
+#
 # sourced by bash(1) for non-login shells.
 
 # Source shell.environment if exist
 if [ -f ~/.shell.environment ]; then
-  source ~/.shell.environment
+	source ~/.shell.environment
 fi
 
 # Source Aliases file
 if [ -f ~/.aliases ]; then
-  source ~/.aliases
+	source ~/.aliases
 fi
 
 # Source Token file
 if [ -f ~/.shell_tokens ]; then
-  source ~/.shell_tokens
+	source ~/.shell_tokens
 fi
 
 # Initialize bash environment
@@ -24,5 +27,5 @@ _bash_init_preexec
 
 # Load common commands (starship, bat, zoxide, etc.) for interactive shells
 if [[ $- =~ i ]]; then
-  _load_common_commands bash
+	_load_common_commands bash
 fi

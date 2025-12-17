@@ -1,3 +1,11 @@
+-- ~/.wezterm.lua
+-- cspell:disable
+-- WezTerm terminal emulator configuration file
+-- Documentation:
+-- https://wezterm.org/config/files.html
+-- https://wezterm.org/config/lua/general.html
+-- https://wezterm.org/config/lua/config/index.html
+
 -- Pull in the wezterm API
 local wezterm = require 'wezterm'
 

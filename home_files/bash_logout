@@ -1,0 +1,5 @@
+# shellcheck shell=bash
+# ~/.bash_logout:
+# cspell:disable
+#
+# Sourced by the command interpreter for login shells when exiting.

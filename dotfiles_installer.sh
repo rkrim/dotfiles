@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
 # Dotfiles installer
+# cspell:disable
 #
 # Parameters of used (ba)sh built-in commands
 # test:
@@ -56,6 +57,13 @@ print_title() {
   echo "${COLOR_BOLD}$1${COLOR_RESET}"
 }
 
+safe_cd() {
+  if ! cd "$1"; then
+    print_error "Failed to change directory to: $1"
+    exit "$EXIT_FAILURE"
+  fi
+}
+
 # Cleanup function for interrupted operations
 cleanup() {
   echo
@@ -66,7 +74,7 @@ cleanup() {
     print_info "Removing incomplete clone..."
     rm -rf "$DOTFILES_DESTINATION"
   fi
-  exit $EXIT_FAILURE
+  exit "$EXIT_FAILURE"
 }
 
 # Set trap for cleanup on interrupt
@@ -82,23 +90,23 @@ restart_script() {
   print_info "Repository updated. The installation scripts may have changed."
   print_info "Restarting the installer using the local version..."
   echo
-  
+
   # Use the local version from the cloned repository
   LOCAL_SCRIPT="$DOTFILES_DESTINATION/dotfiles_installer.sh"
-  
+
   if [ ! -f "$LOCAL_SCRIPT" ]; then
     print_error "Local installer script not found at: $LOCAL_SCRIPT"
-    exit $EXIT_FAILURE
+    exit "$EXIT_FAILURE"
   fi
-  
+
   # Make sure it's executable
   chmod +x "$LOCAL_SCRIPT" 2>/dev/null
-  
+
   for i in {5..1}; do
-    printf "\r${COLOR_CYAN}Restarting in %d seconds... (Press Ctrl+C to cancel)${COLOR_RESET}" "$i"
+    printf "\r%sRestarting in %d seconds... (Press Ctrl+C to cancel)%s" "$COLOR_CYAN" "$i" "$COLOR_RESET"
     sleep 1
   done
-  printf "\r${COLOR_RESET}"
+  printf "\r%s" "$COLOR_RESET"
   # Clear screen
   if [ -t 1 ] && command -v clear > /dev/null 2>&1; then
     clear
@@ -113,35 +121,35 @@ print_title "  Dotfiles Installation Script"
 print_title "=========================================="
 echo
 
-# Check Shell 
+# Check Shell
 print_info "Checking bash..."
 if ! command -v bash > /dev/null 2>&1; then
   print_error "Bash is not installed. Please install bash first."
-  exit $EXIT_FAILURE
+  exit "$EXIT_FAILURE"
 elif test "${BASH_VERSION+set}" != "set" || ! (eval '[[ -n "${BASH_VERSION}" ]]' 2>/dev/null); then
   print_error "Please use bash to run this script"
-  exit $EXIT_FAILURE
+  exit "$EXIT_FAILURE"
 else
   print_success "✓ Bash is installed and running"
   echo
 fi
 
-# Check Args 
+# Check Args
 if [ "$#" -gt 1 ]; then
   print_error "This script handles a maximum of 1 argument"
   echo "Usage: $0 [destination_path]"
-  exit $EXIT_FAILURE
+  exit "$EXIT_FAILURE"
 fi
 
 # Check Git
-if [ ! `command -v git` ]; then
+if [ ! "$(command -v git)" ]; then
   print_error "Git is not installed"
   echo "Please install git first to use this script"
-  exit $EXIT_FAILURE
+  exit "$EXIT_FAILURE"
 fi
 
 # Check Command Line Tools under macOS
-if [[ $(uname -s) =~ "Darwin" && `command -v xcode-select` ]]; then
+if [[ $(uname -s) =~ "Darwin" && "$(command -v xcode-select)" ]]; then
   print_info "Checking Command Line Tools..."
   while [[ -z $(xcode-select -p 2> /dev/null) ]]; do
     print_warning "Command Line Tools were not found"
@@ -149,7 +157,7 @@ if [[ $(uname -s) =~ "Darwin" && `command -v xcode-select` ]]; then
     echo
     if [[ ! $REPLY =~ ^[Yy]$ ]]; then
       print_error "Installation cancelled. Command Line Tools are required."
-      exit $EXIT_FAILURE
+      exit "$EXIT_FAILURE"
     fi
     print_info "Installing Command Line Tools..."
     xcode-select --install
@@ -173,7 +181,7 @@ DOTFILES_DESTINATION="${DOTFILES_DESTINATION/#\~/$HOME}"
 if [[ "$DOTFILES_DESTINATION" =~ ^[^/] ]]; then
   print_error "Invalid destination path format: '$DOTFILES_DESTINATION'"
   echo "Please provide an absolute path or a path starting with ~/"
-  exit $EXIT_FAILURE
+  exit "$EXIT_FAILURE"
 fi
 
 # Check if destination already exists
@@ -186,29 +194,26 @@ if [ -d "$DOTFILES_DESTINATION" ]; then
     if [[ $REPLY =~ ^[Yy]$ ]]; then
       echo
       print_info "Updating existing repository..."
-      pushd "$DOTFILES_DESTINATION" > /dev/null
+      safe_cd "$DOTFILES_DESTINATION"
       # Get the current commit before update
       OLD_COMMIT=$(git rev-parse HEAD 2>/dev/null)
       # Determine the current branch (default to main)
       CURRENT_BRANCH=$(git rev-parse --abbrev-ref HEAD 2>/dev/null || echo "main")
       # Fetch latest changes
-      git fetch origin
-      FETCH_EXIT=$?
-      if [[ $FETCH_EXIT -ne 0 ]]; then
-        popd > /dev/null
+      if ! git fetch origin; then
+        cd - > /dev/null || true
         print_error "Failed to fetch from remote repository."
-        exit $EXIT_FAILURE
+        exit "$EXIT_FAILURE"
       fi
       # Reset to match remote state exactly (discarding local changes)
-      git reset --hard "origin/$CURRENT_BRANCH" 2>/dev/null || git reset --hard "origin/main" 2>/dev/null
-      RESET_EXIT=$?
+      if ! git reset --hard "origin/$CURRENT_BRANCH" 2>/dev/null && ! git reset --hard "origin/main" 2>/dev/null; then
+        cd - > /dev/null || true
+        print_error "Failed to update repository. Please resolve conflicts manually."
+        exit "$EXIT_FAILURE"
+      fi
       # Get the new commit after reset
       NEW_COMMIT=$(git rev-parse HEAD 2>/dev/null)
-      popd > /dev/null
-      if [[ $RESET_EXIT -ne 0 ]]; then
-        print_error "Failed to update repository. Please resolve conflicts manually."
-        exit $EXIT_FAILURE
-      fi
+      cd - > /dev/null || true
       # Check if repository was actually updated
       if [[ "$OLD_COMMIT" != "$NEW_COMMIT" ]]; then
         print_success "✓ Repository updated successfully"
@@ -225,7 +230,7 @@ if [ -d "$DOTFILES_DESTINATION" ]; then
       SKIP_CLONE=true
     else
       echo "${COLOR_RED}Installation cancelled.${COLOR_RESET}"
-      exit $EXIT_FAILURE
+      exit "$EXIT_FAILURE"
     fi
   else
     print_warning "Directory '$DOTFILES_DESTINATION' already exists."
@@ -233,7 +238,7 @@ if [ -d "$DOTFILES_DESTINATION" ]; then
     echo
     if [[ ! $REPLY =~ ^[Yy]$ ]]; then
       echo "${COLOR_RED}Installation cancelled.${COLOR_RESET}"
-      exit $EXIT_FAILURE
+      exit "$EXIT_FAILURE"
     fi
   fi
 fi
@@ -246,20 +251,19 @@ if [ -z "$SKIP_CLONE" ]; then
     read -rn 1 -p "Create it? (Y or y to create, any other key to exit) "
     echo
     if [[ $REPLY =~ ^[Yy]$ ]]; then
-      mkdir -p "$PARENT_DIR"
-      if [ $? -ne 0 ]; then
+      if ! mkdir -p "$PARENT_DIR"; then
         print_error "Failed to create parent directory."
-        exit $EXIT_FAILURE
+        exit "$EXIT_FAILURE"
       fi
       print_success "✓ Created parent directory"
       echo
     else
       echo "${COLOR_RED}Installation cancelled.${COLOR_RESET}"
-      exit $EXIT_FAILURE
+      exit "$EXIT_FAILURE"
     fi
   elif [ ! -w "$PARENT_DIR" ]; then
     print_error "No write permission for parent directory '$PARENT_DIR'"
-    exit $EXIT_FAILURE
+    exit "$EXIT_FAILURE"
   fi
 fi
 
@@ -272,7 +276,7 @@ if [ -z "$SKIP_CLONE" ]; then
   echo
   if [[ ! $REPLY =~ ^[Yy]$ ]]; then
       echo "${COLOR_RED}Installation cancelled.${COLOR_RESET}"
-      exit $EXIT_FAILURE
+      exit "$EXIT_FAILURE"
   fi
 
   # Check if repository is reachable (quick connectivity check)
@@ -300,7 +304,7 @@ if [ -z "$SKIP_CLONE" ]; then
     echo "  - Repository URL is incorrect"
     echo "  - Insufficient disk space"
     echo "  - Permission issues"
-    exit $EXIT_FAILURE
+    exit "$EXIT_FAILURE"
   fi
   print_success "✓ Git clone completed successfully"
   echo
@@ -308,15 +312,15 @@ fi
 
 # Verify cli_install.sh exists and make it executable
 print_info "Preparing installation script..."
-pushd "$DOTFILES_DESTINATION" > /dev/null
+safe_cd "$DOTFILES_DESTINATION"
 if [ ! -f "cli_install.sh" ]; then
   print_error "cli_install.sh not found in cloned repository."
   echo "The repository may be incomplete or the file structure has changed."
-  popd > /dev/null
-  exit $EXIT_FAILURE
+  cd - > /dev/null || true
+  exit "$EXIT_FAILURE"
 fi
 chmod +x cli_install.sh
-popd > /dev/null
+cd - > /dev/null || true
 print_success "✓ Made cli_install.sh executable"
 echo
 
@@ -344,10 +348,10 @@ echo
 print_title "Starting installation..."
 print_title "=========================================="
 echo
-pushd "$DOTFILES_DESTINATION" > /dev/null
+safe_cd "$DOTFILES_DESTINATION"
 INSTALL_EXIT=0
 . cli_install.sh || INSTALL_EXIT=$?
-popd > /dev/null
+cd - > /dev/null || true
 
 # Final summary
 echo

@@ -1,6 +1,12 @@
+# ~/.tool-versions
+# cspell:disable
+#
+# Development runtime versions
+# Updated: 2025-01-17
+
 nodejs lts
-pnpm   10.20.0
-yarn   1.22.22
-java   temurin-21.0.9+10.0.LTS
-python 3.14.0t
+pnpm 10.25.0
+yarn 1.22.22
+java temurin-21.0.9+10.0.LTS
+python 3.14.2
 dotnet latest

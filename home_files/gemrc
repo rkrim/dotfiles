@@ -1,7 +1,9 @@
 # ~/.gemrc
-# http://guides.rubygems.org/
-# http://guides.rubygems.org/command-reference/#gem-environment
-
+# cspell:disable
+#
+# https://guides.rubygems.org/
+# https://guides.rubygems.org/command-reference/#gem-environment
+#
 
 # No documents installation (--no-ri & --no-rdoc were deprecated)
 gem: --no-document

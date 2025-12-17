@@ -1,5 +1,7 @@
 # ~/.screenrc
-
+# cspell:disable
+#
+# GNU Screen configuration file
 
 # Disable startup message
 startup_message off
@@ -9,4 +11,4 @@ hardstatus on
 hardstatus alwayslastline
 
 # Make system shell as default screen shell
-shell -$SHELL
+shell -"$SHELL"

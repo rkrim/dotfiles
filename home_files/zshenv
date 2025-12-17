@@ -1,7 +1,9 @@
 # ~/.zshenv
+# cspell:disable
+#
 # sourced by zsh(1) always at first, used to export environment variables.
 
 # Source shell.environment if exist
 if [ -f ~/.shell.environment ]; then
-  source ~/.shell.environment
+	source ~/.shell.environment
 fi

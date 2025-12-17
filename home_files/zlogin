@@ -1,2 +1,4 @@
 # ~/.zlogin
+# cspell:disable
+#
 # sourced by zsh(1) for login shells and after .zshrc

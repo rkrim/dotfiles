@@ -1,5 +1,8 @@
-#!/usr/bin/env bash
-
+# shellcheck shell=bash
+# ~/.aliases
+# cspell:disable
+#
+# Common shell aliases
 
 # Navigation
 alias cd..="cd .."
@@ -8,6 +11,7 @@ alias cd3="cd ../../.."
 alias cd4="cd ../../../.."
 
 # Display
+# shellcheck disable=SC2139
 alias path="echo -e '${PATH//:/\\n}'" # Print each PATH entry on a separate line
 alias cls="clear"
 
@@ -24,8 +28,11 @@ alias quit="exit"
 # -h Use unit suffixes: Byte, Kilobyte, Megabyte, Gigabyte, Terabyte and Petabyte
 # -F Display '/' after directory, '*' after executable, '@' after symbolic link,
 # '=' after socket, '%' after whiteout, '|' after a FIFO.
+# shellcheck disable=SC2139
 alias ls="ls -h ${LS_COLOR_FLAG} ${LS_DIRECTORY_FIRST_FLAG}"
+# shellcheck disable=SC2139
 alias l="ls -lF ${LS_COLOR_FLAG}"
+# shellcheck disable=SC2139
 alias la="ls -laF ${LS_COLOR_FLAG}"
 alias lsd="ls -Al | grep '^d'"
 
@@ -51,8 +58,8 @@ alias weather="curl wttr.in"
 
 ### Java version quick select (using asdf)
 if command -v asdf &> /dev/null; then
-  alias java_list='asdf list java'
-  alias java_versions='asdf list all java | grep -E "(temurin|adoptopenjdk|openjdk).*17"'
-  # Example alias:
-  # alias java_11='asdf shell java temurin-11.0.21+9 && java --version'
+	alias java_list='asdf list java'
+	alias java_versions='asdf list all java | grep -E "(temurin|adoptopenjdk|openjdk).*17"'
+	# Example alias:
+	# alias java_11='asdf shell java temurin-11.0.21+9 && java --version'
 fi

@@ -1,4 +1,7 @@
 # ~/.gitconfig
+# cspell:disable
+#
+# Global git configuration file
 # Add any personal global config to ~/.gitconfig.user
 
 [core]

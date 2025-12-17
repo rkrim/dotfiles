@@ -1,9 +1,11 @@
 # ~/.zshrc
-# sourced by zsh(1) for interactive shells, 
+# cspell:disable
+#
+# sourced by zsh(1) for interactive shells,
 
 # Source shell.environment if exist
 if [ -f ~/.shell.environment ]; then
-  source ~/.shell.environment
+	source ~/.shell.environment
 fi
 
 # Lines configured by zsh-newuser-install

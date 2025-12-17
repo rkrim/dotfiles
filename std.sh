@@ -1,6 +1,8 @@
-#!/usr/bin/env bash
-# Standard utilities
-
+# shellcheck shell=bash
+# ~/.std.sh
+# cspell:disable
+#
+# Shell Standard utilities
 
 # Exit status for return functions
 EXIT_SUCCESS=0
@@ -16,9 +18,9 @@ ENV_ARCH_X86_64="x86_64"
 
 # Check if the argument is a positive number
 is_positive_number() {
-  if [[ $# -ne 1 ]]; then
-    false
-  fi
-  decimal_regexp='^[0-9]+$'
-  [[ $1 =~ $decimal_regexp ]]
+	if [[ $# -ne 1 ]]; then
+		false
+	fi
+	decimal_regexp='^[0-9]+$'
+	[[ $1 =~ $decimal_regexp ]]
 }

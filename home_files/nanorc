@@ -1,4 +1,6 @@
 # ~/.nanorc
-# nano customization file
+# cspell:disable
+#
+# nano configuration file
 
 include "/opt/homebrew/opt/nano/share/nano/extra/*.nanorc"
