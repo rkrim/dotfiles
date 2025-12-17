@@ -1,0 +1,10 @@
+{
+	"recommendations": [
+		"editorconfig.editorconfig",
+		"mkhl.shfmt",
+		"timonwong.shellcheck"
+	],
+	"unwantedRecommendations": [
+		"foxundermoon.shell-format"
+	]
+}

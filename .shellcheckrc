@@ -1,0 +1,29 @@
+# ShellCheck configuration for dotfiles project
+# https://github.com/koalaman/shellcheck/wiki/Configuration
+
+# Disable specific checks that might be too strict for this project
+
+# SC1090: Can't follow non-constant source. Use a directive to specify location.
+disable=SC1090
+
+# SC1091: Not following: file not included in sources
+disable=SC1091
+
+# SC2034: Variable appears unused. Verify use (or export if used externally).
+# Useful for variables that are sourced by other scripts
+disable=SC2034
+
+# SC2154: Variable is referenced but not assigned
+# Common in sourced files where variables are defined elsewhere
+disable=SC2154
+
+# SC2155: Declare and assign separately to avoid masking return values
+# Disabled for code brevity - splitting local var=$(cmd) into two lines is overly verbose
+disable=SC2155
+
+# SC2164: Use 'cd ... || exit' or 'cd ... || return' in case cd fails
+# Sometimes we want to continue even if cd fails
+# disable=SC2164
+
+# You can enable specific optional checks:
+# enable=avoid-nullary-conditions

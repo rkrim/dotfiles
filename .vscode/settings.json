@@ -1,6 +1,35 @@
 {
 	"files.associations": {
+		"aliases": "shellscript",
+		"bash_logout": "shellscript",
+		"bash_profile": "shellscript",
+		"bashrc": "shellscript",
+		"screenrc": "properties",
+		"shell.environment": "shellscript",
+		"shell.utils": "shellscript",
+		"tool-versions": "properties",
+		"gemrc": "yaml",
+		"zlogin": "shellscript",
+		"zlogout": "shellscript",
+		"zprofile": "shellscript",
+		"zshenv": "shellscript",
+		"zshrc": "shellscript",
 		"**/ghostty/config": "properties"
 	},
-	"cSpell.words": ["Ghostty", "wezterm"]
+	"shfmt.executablePath": "/opt/homebrew/bin/shfmt",
+	"shfmt.executableArgs": ["-i", "0", "-bn", "-ci", "-sr"],
+	"[shellscript]": {
+		"editor.defaultFormatter": "mkhl.shfmt",
+		"editor.formatOnSave": false,
+		"editor.tabSize": 2,
+		"editor.insertSpaces": false,
+		"editor.detectIndentation": true
+	},
+	"[json]": {
+		"editor.defaultFormatter": "esbenp.prettier-vscode"
+	},
+	"[jsonc]": {
+		"editor.defaultFormatter": "esbenp.prettier-vscode"
+	},
+	"cSpell.words": ["gemrc", "Ghostty", "nanorc", "screenrc", "wezterm"]
 }
