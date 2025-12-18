@@ -39,6 +39,8 @@ mas_apps=(
 	"1090488118" # Gemini 2: The Duplicate Finder
 	"375589283"  # Parcel - Delivery Tracking
 	"290986013"  # Deliveries: a package tracker
+	"1056643111" # Clocker
+	"1295203466" # Windows App
 
 	# Developer
 	"640199958"  # Apple Developer
@@ -48,6 +50,10 @@ mas_apps=(
 	"1499227284" # Push Hero - Test Notifications
 	"6737813684" # DataScout for SwiftData
 	"6475956137" # Grab2Text
+	"899247664"  # TestFlight
+	"693112260"  # Sim Daltonism
+	"1451685025" # WireGuard
+	"1545870783" # Color Picker
 
 	# Productivity
 	"409183694"  # Keynote
@@ -58,6 +64,7 @@ mas_apps=(
 
 	# Reference
 	"430255202" # MacTracker
+	"302584613" # Amazon Kindle
 
 	# Communication
 	"1176895641" # Spark – Email App by Readdle
@@ -78,6 +85,9 @@ mas_apps=(
 	# Customization
 	"1452453066" # "Hidden Bar"
 	"1284863847" # Unsplash Wallpapers
+	"1181028777" # Flip Clock - Digital widgets
+	"1039633667" # Irvue
+	"1435296403" # Dynaper
 
 	# AI & Automation
 	"6714467650" # Perplexity AI
@@ -85,6 +95,7 @@ mas_apps=(
 	"6753896649" # Mocolamma
 	"1453273600" # Data Jar
 	"6444050820" # Draw Things: Offline AI Art
+	"6738511300" # Microsoft Copilot
 )
 mas_batch_install mas_apps[@]
 
