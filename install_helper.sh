@@ -36,8 +36,7 @@ brew_register_taps() {
 	declare -a taps=("${!1}")
 
 	if [ ${#taps[@]} -eq 0 ]; then
-		warning=$(txt_attr "$FG_COLOR_YELLOW")
-		echo -e "${warning}No taps to register.${reset_all}"
+		print_warning "No taps to register."
 		return 0
 	fi
 
@@ -93,35 +92,31 @@ function brew_package_install {
 	brew_command="brew"
 	package_name=$1
 	log_file="output.file"
-	txt_attr_pkg_name=$(txt_attr "$FG_COLOR_LIGHT_CYAN" "$ATTR_BOLD")
-	txt_attr_warning=$(txt_attr "$FG_COLOR_YELLOW")
-	txt_attr_success=$(txt_attr "$FG_COLOR_LIGHT_GREEN")
-	txt_attr_fail=$(txt_attr "$FG_COLOR_LIGHT_RED")
 
-	prefix_line="Package $txt_attr_pkg_name$package_name$reset_all"
-
-	echo -en "$prefix_line [$txt_attr_warning Processing $reset_all] :: Checking if already installed..."
+	print_package_status "$package_name" "Processing" "$FG_COLOR_YELLOW" "Checking if already installed..."
+	
 	package_version=$(is_brew_package_installed "$package_name" 2> /dev/null)
 	package_version_status=$?
 
 	clear_line
 	if [[ $package_version_status == 0 ]]; then
-		echo -en "$prefix_line [$txt_attr_success Already Installed $reset_all] :: Version $package_version\n" | tee -a $log_file
+		print_package_status "$package_name" "Already Installed" "$FG_COLOR_LIGHT_GREEN" "Version $package_version\n" | tee -a $log_file
 	else
-		echo -en "$prefix_line [$txt_attr_warning Processing $reset_all] :: Not Installed, installing..."
+		print_package_status "$package_name" "Processing" "$FG_COLOR_YELLOW" "Not Installed, installing..."
+		
 		if $brew_command install "$package_name" >> "$log_file" 2>&1; then
 			clear_line
-			echo -en "$prefix_line [$txt_attr_success Installation successful $reset_all]" | tee -a "$log_file"
-
+			
+			local success_msg=""
 			if package_version=$(is_brew_package_installed "$package_name" 2> /dev/null); then
-				echo -en " :: Version $package_version\n" | tee -a "$log_file"
-			else
-				echo | tee -a "$log_file"
+				success_msg="Version $package_version"
 			fi
+			
+			print_package_status "$package_name" "Installation successful" "$FG_COLOR_LIGHT_GREEN" "$success_msg\n" | tee -a "$log_file"
 
 		else
 			clear_line
-			echo -en "$prefix_line [$txt_attr_fail Installation failed $reset_all]\n" | tee -a "$log_file"
+			print_package_status "$package_name" "Installation failed" "$FG_COLOR_LIGHT_RED" "\n" | tee -a "$log_file"
 		fi
 	fi
 }
@@ -249,7 +244,7 @@ function dotfiles_symlink {
 	fi
 
 	if [[ $link_count != "$files_count" ]]; then
-		echo >&2 "${FUNCNAME[0]}() :: Warning: Created '$link_count' links, while expecting '$files_count'"
+		print_warning "${FUNCNAME[0]}() :: Created '$link_count' links, while expecting '$files_count'"
 		return "$EXIT_FAILURE"
 	fi
 
@@ -328,12 +323,7 @@ function mise_install_version {
 	local version_spec=$2
 	local set_global=${3:-false}
 	local log_file="output.file"
-	local txt_attr_pkg_name=$(txt_attr "$FG_COLOR_LIGHT_CYAN" "$ATTR_BOLD")
-	local txt_attr_warning=$(txt_attr "$FG_COLOR_YELLOW")
-	local txt_attr_success=$(txt_attr "$FG_COLOR_LIGHT_GREEN")
-	local txt_attr_fail=$(txt_attr "$FG_COLOR_LIGHT_RED")
 
-	local prefix_line="Version $txt_attr_pkg_name$plugin_name $version_spec$reset_all"
 
 	# Determine actual version to install
 	local version_to_install=""
@@ -357,20 +347,20 @@ function mise_install_version {
 		version_to_install="$version_spec"
 	fi
 
-	echo -en "$prefix_line [$txt_attr_warning Processing $reset_all] :: Installing..."
+	print_package_status "$plugin_name:$version_spec" "Processing" "$FG_COLOR_YELLOW" "Installing..."
 
 	if mise install "$plugin_name@$version_to_install" >> "$log_file" 2>&1; then
 		clear_line
 		if [[ "$set_global" == "true" ]]; then
 			mise use --global "$plugin_name@$version_to_install" >> "$log_file" 2>&1
-			echo -en "$prefix_line [$txt_attr_success Installation successful $reset_all] :: Version $version_to_install (global default)\n" | tee -a $log_file
+			print_package_status "$plugin_name:$version_spec" "Installation successful" "$FG_COLOR_LIGHT_GREEN" "Version $version_to_install (global default)\n" | tee -a $log_file
 		else
-			echo -en "$prefix_line [$txt_attr_success Installation successful $reset_all] :: Version $version_to_install\n" | tee -a $log_file
+			print_package_status "$plugin_name:$version_spec" "Installation successful" "$FG_COLOR_LIGHT_GREEN" "Version $version_to_install\n" | tee -a $log_file
 		fi
 		return 0
 	else
 		clear_line
-		echo -en "$prefix_line [$txt_attr_fail Installation failed $reset_all]\n" | tee -a $log_file
+		print_package_status "$plugin_name:$version_spec" "Installation failed" "$FG_COLOR_LIGHT_RED" "\n" | tee -a $log_file
 		return "$EXIT_FAILURE"
 	fi
 }
@@ -468,39 +458,32 @@ function asdf_plugin_install {
 
 	local plugin_name=$1
 	local log_file="output.file"
-	local txt_attr_pkg_name=$(txt_attr "$FG_COLOR_LIGHT_CYAN" "$ATTR_BOLD")
-	local txt_attr_warning=$(txt_attr "$FG_COLOR_YELLOW")
-	local txt_attr_success=$(txt_attr "$FG_COLOR_LIGHT_GREEN")
-	local txt_attr_fail=$(txt_attr "$FG_COLOR_LIGHT_RED")
-
-	local prefix_line="Plugin $txt_attr_pkg_name$plugin_name$reset_all"
-
-	echo -en "$prefix_line [$txt_attr_warning Processing $reset_all] :: Checking..."
+	print_package_status "$plugin_name" "Processing" "$FG_COLOR_YELLOW" "Checking..."
 
 	# Check if plugin already installed (without storing list)
 	if asdf plugin list 2> /dev/null | grep -q "^${plugin_name}$"; then
 		clear_line
-		echo -en "$prefix_line [$txt_attr_success Already Installed $reset_all] :: Updating..." | tee -a $log_file
+		print_package_status "$plugin_name" "Already Installed" "$FG_COLOR_LIGHT_GREEN" "Updating...\n" | tee -a $log_file
 
 		if asdf plugin update "$plugin_name" >> "$log_file" 2>&1; then
 			clear_line
-			echo -en "$prefix_line [$txt_attr_success Updated $reset_all]\n" | tee -a $log_file
+			print_package_status "$plugin_name" "Updated" "$FG_COLOR_LIGHT_GREEN" "\n" | tee -a $log_file
 		else
 			clear_line
-			echo -en "$prefix_line [$txt_attr_warning Update failed (skipped) $reset_all]\n" | tee -a $log_file
+			print_package_status "$plugin_name" "Update failed (skipped)" "$FG_COLOR_YELLOW" "\n" | tee -a $log_file
 		fi
 		return 0 # Success either way - plugin is installed
 	else
 		clear_line
-		echo -en "$prefix_line [$txt_attr_warning Processing $reset_all] :: Installing..."
+		print_package_status "$plugin_name" "Processing" "$FG_COLOR_YELLOW" "Installing..."
 
 		if asdf plugin add "$plugin_name" >> "$log_file" 2>&1; then
 			clear_line
-			echo -en "$prefix_line [$txt_attr_success Installation successful $reset_all]\n" | tee -a $log_file
+			print_package_status "$plugin_name" "Installation successful" "$FG_COLOR_LIGHT_GREEN" "\n" | tee -a $log_file
 			return 0
 		else
 			clear_line
-			echo -en "$prefix_line [$txt_attr_fail Installation failed $reset_all]\n" | tee -a $log_file
+			print_package_status "$plugin_name" "Installation failed" "$FG_COLOR_LIGHT_RED" "\n" | tee -a $log_file
 			return "$EXIT_FAILURE"
 		fi
 	fi
@@ -548,12 +531,6 @@ function asdf_install_version {
 	local version_spec=$2
 	local set_global=${3:-false}
 	local log_file="output.file"
-	local txt_attr_pkg_name=$(txt_attr "$FG_COLOR_LIGHT_CYAN" "$ATTR_BOLD")
-	local txt_attr_warning=$(txt_attr "$FG_COLOR_YELLOW")
-	local txt_attr_success=$(txt_attr "$FG_COLOR_LIGHT_GREEN")
-	local txt_attr_fail=$(txt_attr "$FG_COLOR_LIGHT_RED")
-
-	local prefix_line="Version $txt_attr_pkg_name$plugin_name $version_spec$reset_all"
 
 	# Check if plugin is installed
 	if ! asdf plugin list | grep -q "^${plugin_name}$" 2> /dev/null; then
@@ -595,7 +572,7 @@ function asdf_install_version {
 		version_to_install="$version_spec"
 	fi
 
-	echo -en "$prefix_line [$txt_attr_warning Processing $reset_all] :: Installing..."
+	print_package_status "$plugin_name:$version_spec" "Processing" "$FG_COLOR_YELLOW" "Installing..."
 
 	if asdf install "$plugin_name" "$version_to_install" >> "$log_file" 2>&1; then
 		clear_line
@@ -608,13 +585,13 @@ function asdf_install_version {
 		if [[ "$set_global" == "true" ]]; then
 			# Use the actual installed version (version_to_install) for Java, not the pattern
 			asdf set "$plugin_name" "$version_to_install" --home >> "$log_file" 2>&1
-			echo -en "$prefix_line [$txt_attr_success Installation successful $reset_all] :: Version $installed_version (global default)\n" | tee -a $log_file
+			print_package_status "$plugin_name:$version_spec" "Installation successful" "$FG_COLOR_LIGHT_GREEN" "Version $installed_version (global default)\n" | tee -a $log_file
 		else
-			echo -en "$prefix_line [$txt_attr_success Installation successful $reset_all] :: Version $installed_version\n" | tee -a $log_file
+			print_package_status "$plugin_name:$version_spec" "Installation successful" "$FG_COLOR_LIGHT_GREEN" "Version $installed_version\n" | tee -a $log_file
 		fi
 	else
 		clear_line
-		echo -en "$prefix_line [$txt_attr_fail Installation failed $reset_all]\n" | tee -a $log_file
+		print_package_status "$plugin_name:$version_spec" "Installation failed" "$FG_COLOR_LIGHT_RED" "\n" | tee -a $log_file
 		return "$EXIT_FAILURE"
 	fi
 }

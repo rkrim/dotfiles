@@ -83,7 +83,6 @@ txt_attr() {
 	echo -e "$ATTR_EXP"
 }
 
-#
 reset_all=$(txt_attr $ATTR_RESET_ALL)
 clear_to_eol="${ESC_SEQ}[K"
 clear_line="\r$clear_to_eol"
@@ -96,6 +95,44 @@ function print_title() {
 	bullet=$(txt_attr $FG_COLOR_GREEN)
 	title=$(txt_attr $FG_COLOR_WHITE $ATTR_BOLD)
 	echo -en "$bullet###$reset_all $title$1$reset_all"
+}
+
+function print_warning() {
+	local label="Warning"
+	local message="$1"
+
+	if [[ $# -gt 1 ]]; then
+		label="$1"
+		message="$2"
+	fi
+
+	local warning_attr=$(txt_attr $FG_COLOR_YELLOW $ATTR_BOLD)
+	echo -e "${warning_attr}${label}:${reset_all} ${message}"
+}
+
+# Print package status in a standardized format
+# Usage: print_package_status "package_name" "STATUS_LABEL" "STATUS_COLOR" "Message"
+# Example: print_package_status "git" "Processing" "$FG_COLOR_YELLOW" "Checking if already installed..."
+function print_package_status() {
+	local package_name="$1"
+	local status_label="$2"
+	local status_color="$3"
+	local message="$4"
+	
+	local txt_attr_pkg_name=$(txt_attr "$FG_COLOR_LIGHT_CYAN" "$ATTR_BOLD")
+	local txt_attr_status=$(txt_attr "$status_color")
+	
+	local separator=""
+	# Only display separator if message contains non-whitespace characters
+	# Also strip literal '\n' which acts as a newline token for echo -e
+	local clean_msg="${message//[[:space:]]/}"
+	clean_msg="${clean_msg//\\n/}"
+	
+	if [[ -n "$clean_msg" ]]; then
+		separator=" :: "
+	fi
+
+	echo -en "Package ${txt_attr_pkg_name}${package_name}${reset_all} [${txt_attr_status} ${status_label} ${reset_all}]${separator}${message}"
 }
 
 ### 88/256 Colors
