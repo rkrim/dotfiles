@@ -7,6 +7,7 @@
 # Include required libraries
 source ./std.sh
 source ./pretty-print.sh
+source ./home_files/shell.utils
 
 # brew_export_shell_environment
 # Attempt to detect the right command path to export brew shell environments
@@ -94,7 +95,7 @@ function brew_package_install {
 	log_file="output.file"
 
 	print_package_status "$package_name" "Processing" "$FG_COLOR_YELLOW" "Checking if already installed..."
-	
+
 	package_version=$(is_brew_package_installed "$package_name" 2> /dev/null)
 	package_version_status=$?
 
@@ -103,15 +104,15 @@ function brew_package_install {
 		print_package_status "$package_name" "Already Installed" "$FG_COLOR_LIGHT_GREEN" "Version $package_version\n" | tee -a $log_file
 	else
 		print_package_status "$package_name" "Processing" "$FG_COLOR_YELLOW" "Not Installed, installing..."
-		
+
 		if $brew_command install "$package_name" >> "$log_file" 2>&1; then
 			clear_line
-			
+
 			local success_msg=""
 			if package_version=$(is_brew_package_installed "$package_name" 2> /dev/null); then
 				success_msg="Version $package_version"
 			fi
-			
+
 			print_package_status "$package_name" "Installation successful" "$FG_COLOR_LIGHT_GREEN" "$success_msg\n" | tee -a "$log_file"
 
 		else
@@ -689,4 +690,102 @@ function vm_batch_install_versions {
 			return "$EXIT_FAILURE"
 			;;
 	esac
+}
+
+# install_android_env()
+# Install Android development environment packages using sdkmanager
+# Checks for sdkmanager, sets ANDROID_HOME, fetches latest versions, and installs essential packages
+function install_android_env {
+
+	# Refresh tools version manager environment (for java detection)
+	_init_version_manager bash
+
+	if ! command -v sdkmanager &> /dev/null; then
+		print_warning "sdkmanager not found. Skipping Android environment setup."
+		return "$EXIT_FAILURE"
+	fi
+
+	# Check for Java (required by sdkmanager)
+	if ! command -v java &> /dev/null; then
+		print_warning "Java not found. Android SDK requires Java."
+		return "$EXIT_FAILURE"
+	fi
+
+	# Define installation location
+	if [[ -z "$ANDROID_HOME" ]]; then
+		local default_android_root="$HOME/Library/Android/sdk"
+
+		# Colors
+		local color_yellow=$(txt_attr "$FG_COLOR_YELLOW")
+		local color_red=$(txt_attr "$FG_COLOR_RED")
+		local color_bold=$(txt_attr "$ATTR_BOLD")
+
+		print_warning "ANDROID_HOME is not set."
+		print_warning "Default installation location is: ${color_bold}$default_android_root${reset_all}"
+
+		# Prompt user for confirmation
+		while true; do
+			echo -en "${color_yellow}Do you want to install Android SDK to the default location? (y/n): ${reset_all}"
+			read -r yn
+			case $yn in
+				[Yy]* )
+					android_sdk_root="$default_android_root"
+					break;;
+				[Nn]* )
+					echo -e "${color_red}Installation aborted by user.${reset_all}"
+					return "$EXIT_FAILURE";;
+				* ) echo "Please answer yes or no.";;
+			esac
+		done
+	else
+		android_sdk_root="$ANDROID_HOME"
+	fi
+
+	echo "Using Android SDK Root: $android_sdk_root"
+
+	# Determine latest versions
+	echo "Determining latest Android SDK versions..."
+
+	# Get list of all available packages
+	# Note: --sdk_root is passed to ensure we list packages relevant to our target or generic ones correctly
+	local sdk_list=$(sdkmanager --list --sdk_root="$android_sdk_root" 2>/dev/null)
+
+	if [[ -z "$sdk_list" ]]; then
+		print_warning "Failed to fetch SDK list (sdkmanager --list returned empty)."
+	fi
+
+	# Find latest build-tools
+	local latest_build_tools=$(echo "$sdk_list" | grep -o "build-tools;[0-9.]*" | sort -V | tail -1)
+	if [[ -z "$latest_build_tools" ]]; then
+		latest_build_tools="build-tools;36.1.0" # Fallback
+		print_warning "Could not detect latest build-tools, using fallback: $latest_build_tools"
+	else
+		echo "Latest build-tools detected: $latest_build_tools"
+	fi
+
+	# Find latest platform
+	local latest_platform=$(echo "$sdk_list" | grep -o "platforms;android-[0-9]*" | sort -V | tail -1)
+	if [[ -z "$latest_platform" ]]; then
+		latest_platform="platforms;android-36" # Fallback
+		print_warning "Could not detect latest platform, using fallback: $latest_platform"
+	else
+		echo "Latest platform detected: $latest_platform"
+	fi
+
+	# Install essential Android SDK packages
+	echo "Installing Android SDK packages to $android_sdk_root..."
+	# yes | handles license acceptance
+	# cmdline-tools handled by homebrew (install leads to duplicate)
+	if ! yes | sdkmanager --sdk_root="$android_sdk_root" \
+		"platform-tools" \
+		"$latest_build_tools" \
+		"$latest_platform" \
+		"emulator" > /dev/null 2>&1; then
+		print_warning "Error: Failed to install Android SDK packages."
+		return "$EXIT_FAILURE"
+	fi
+
+	# Accept any remaining licenses
+	echo "Accepting licenses..."
+	yes | sdkmanager --licenses --sdk_root="$android_sdk_root" > /dev/null 2>&1
 }

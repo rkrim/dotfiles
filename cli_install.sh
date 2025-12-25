@@ -140,7 +140,7 @@ echo
 print_title "Install developer cli tools\n"
 developer_tools=(
 	"ack"
-	"android-commandlinetools"	# Android command line tools
+	"android-commandlinetools"	# Android Command-line tools for building and debugging apps
 	"ansifilter"								# Strip or convert ANSI codes into HTML, (La)Tex, RTF, or BBCode
 	"asdf"											# Extendable version manager
 	"boost"
@@ -465,6 +465,15 @@ echo
 print_title "Brew packages installation DONE!\n"
 
 echo
+print_title "Refreshing brew environment variables...\n"
+# From shell.utils: Refresh brew environment variables (specifically ANDROID_HOME)
+if _export_brew_packages_environment 2> /dev/null; then
+	echo "Environment variables refreshed successfully."
+else
+	echo "Error: Failed to refresh environment variables."
+fi
+
+echo
 print_title "Dotfiles installation\n"
 dotfiles_symlink "home_files"
 
@@ -525,6 +534,10 @@ else
 	)
 	vm_batch_install_versions vm_versions[@]
 fi
+
+echo
+print_title "Install Android Development Environment\n"
+install_android_env
 
 echo
 print_title "Install Mac AppStore Apps\n"

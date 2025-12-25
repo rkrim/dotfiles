@@ -4,6 +4,14 @@
 #
 # Shell Standard utilities
 
+# Prevent multiple sourcing
+if [ -n "$SHELL_SOURCED_STD" ]; then
+	# shellcheck disable=SC2317
+	return 0 2> /dev/null || true
+fi
+# Mark as sourced in current session (don't export to child processes)
+SHELL_SOURCED_STD=1
+
 # Exit status for return functions
 EXIT_SUCCESS=0
 EXIT_FAILURE=1

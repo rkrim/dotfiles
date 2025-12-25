@@ -36,15 +36,14 @@ _export_brew_shell_environment() {
 	BREW_CMD_PATH=$(_brew_command_path)
 	if [[ -z $BREW_CMD_PATH ]]; then
 		echo >&2 "Brew not found in preferred location, please check: https://docs.brew.sh/Installation"
-		echo >&2 "No brew environment variable to export."
 		return 1
-	else
-		# Export brew environment paths
-		eval "$("$BREW_CMD_PATH" shellenv)"
-		export HOMEBREW_NO_INSTALL_CLEANUP=TRUE
-		export HOMEBREW_NO_AUTO_UPDATE=TRUE
-		export HOMEBREW_EDITOR="code"
 	fi
+
+	# Export brew environment paths
+	eval "$("$BREW_CMD_PATH" shellenv)"
+	export HOMEBREW_NO_INSTALL_CLEANUP=TRUE
+	export HOMEBREW_NO_AUTO_UPDATE=TRUE
+	export HOMEBREW_EDITOR="code"
 }
 
 # Export Homebrew Packages Environment
@@ -71,8 +70,11 @@ _export_brew_packages_environment() {
 
 	# Android development
 	if [[ -d "$HOMEBREW_PREFIX/share/android-commandlinetools" ]]; then
-		export ANDROID_SDK_ROOT="$HOMEBREW_PREFIX/share/android-commandlinetools"
-		export PATH="$ANDROID_SDK_ROOT/emulator:$ANDROID_SDK_ROOT/tools:$ANDROID_SDK_ROOT/tools/bin:$ANDROID_SDK_ROOT/platform-tools:$ANDROID_SDK_ROOT/ndk-bundle:$PATH"
+		export ANDROID_HOME="$HOMEBREW_PREFIX/share/android-commandlinetools"
+		export PATH="$ANDROID_HOME/cmdline-tools/latest/bin:$PATH"
+		export PATH="$ANDROID_HOME/platform-tools:$PATH"
+		export PATH="$ANDROID_HOME/tools:$PATH"
+		export PATH="$ANDROID_HOME/emulator:$PATH"
 	fi
 
 	# SQLite
@@ -262,12 +264,12 @@ _init_asdf() {
 	# ASDF_DIR should always point to ~/.asdf for data (plugins, shims, etc.)
 	export ASDF_DIR="$HOME/.asdf"
 	local ASDF_BREW_PREFIX="$(brew --prefix asdf 2> /dev/null)"
-	if [[ -n "$ASDF_BREW_PREFIX" ]]; then
-		[ -s "$ASDF_BREW_PREFIX/libexec/asdf.sh" ] && source "$ASDF_BREW_PREFIX/libexec/asdf.sh"
-		[[ -n "$BASH_VERSION" ]] && [ -s "$ASDF_BREW_PREFIX/etc/bash_completion.d/asdf" ] && source "$ASDF_BREW_PREFIX/etc/bash_completion.d/asdf"
-	else
+	if [[ -z "$ASDF_BREW_PREFIX" ]]; then
 		echo >&2 "Warning: asdf init files not foud"
+		return 1
 	fi
+	[ -s "$ASDF_BREW_PREFIX/libexec/asdf.sh" ] && source "$ASDF_BREW_PREFIX/libexec/asdf.sh"
+	[[ -n "$BASH_VERSION" ]] && [ -s "$ASDF_BREW_PREFIX/etc/bash_completion.d/asdf" ] && source "$ASDF_BREW_PREFIX/etc/bash_completion.d/asdf"
 }
 
 # Initialize mise version manager
@@ -275,9 +277,10 @@ _init_asdf() {
 # mise must be initialized after Homebrew but before other tools
 # mise automatically manages PATH for mise-managed tools
 _init_mise() {
-	if command -v mise &> /dev/null; then
-		eval "$(mise activate "$1")"
+	if ! command -v mise &> /dev/null; then
+		return 1
 	fi
+	eval "$(mise activate "$1")"
 }
 
 # Initialize version manager (mise takes precedence over asdf)
@@ -291,70 +294,76 @@ _init_version_manager() {
 # Initialize atuin shell history
 # @param1 required, shell name (bash, zsh, fish, etc.)
 _init_atuin() {
-	if command -v atuin &> /dev/null; then
-		eval "$(atuin init "$1")"
+	if ! command -v atuin &> /dev/null; then
+		return 1
 	fi
+	eval "$(atuin init "$1")"
 }
 
 # Initialize bat (cat replacement)
 _init_bat() {
-	if command -v bat &> /dev/null; then
-		export BAT_THEME=Coldark-Dark
-		alias cat="bat -n"
+	if ! command -v bat &> /dev/null; then
+		return 1
 	fi
+	export BAT_THEME=Coldark-Dark
+	alias cat="bat -n"
 }
 
 # Initialize carapace completion
 # @param1 required, shell name (bash, zsh, nu, etc.)
 # See: https://carapace-sh.github.io/carapace-bin/setup.html
 _init_carapace() {
-	if command -v carapace &> /dev/null; then
-		export CARAPACE_BRIDGES='zsh,fish,bash,inshellisense'
-		case "$1" in
-			bash)
-				source <(carapace _carapace)
-				;;
-			zsh)
-				zstyle ':completion:*' format $'\e[2;37mCompleting %d\e[m'
-				source <(carapace _carapace)
-				;;
-			*)
-				# Fallback: try to initialize with shell name
-				source <(carapace _carapace 2> /dev/null) || echo >&2 "Warning: carapace initialization for shell '$1' may not be supported"
-				;;
-		esac
+	if ! command -v carapace &> /dev/null; then
+		return 1
 	fi
+
+	export CARAPACE_BRIDGES='zsh,fish,bash,inshellisense'
+	case "$1" in
+		bash)
+			source <(carapace _carapace)
+			;;
+		zsh)
+			zstyle ':completion:*' format $'\e[2;37mCompleting %d\e[m'
+			source <(carapace _carapace)
+			;;
+		*)
+			# Fallback: try to initialize with shell name
+			source <(carapace _carapace 2> /dev/null) || echo >&2 "Warning: carapace initialization for shell '$1' may not be supported"
+			;;
+	esac
 }
 
 # Initialize fuzzy finder (fzf)
 # @param1 required, shell name (bash, zsh, fish, etc.)
 # Theme Configurator: https://vitormv.github.io/fzf-themes/
 _init_fzf() {
-	if command -v fzf &> /dev/null; then
-		case "$1" in
-			bash)
-				eval "$(fzf --bash)"
-				;;
-			zsh)
-				source <(fzf --zsh)
-				;;
-			*)
-				# Fallback to eval for other shells that might support it
-				eval "$(fzf --"$1" 2> /dev/null)" || echo >&2 "Warning: fzf initialization for shell '$1' may not be supported"
-				;;
-		esac
-
-		export FZF_DEFAULT_COMMAND="fd --type f --hidden --follow --exclude .git"
-		export FZF_DEFAULT_OPTS="--layout=reverse --height 95% --preview 'bat --color=always --style=numbers --paging=never --line-range :500 {}' --preview-window=right:65%:wrap"
-		export FZF_COMPLETION_TRIGGER='**'
-		export FZF_COMPLETION_OPTS="--height 60% --info=inline --preview-window=right:55%:wrap"
-		export FZF_COMPLETION_PATH_OPTS='--walker file,dir,follow,hidden'
-		export FZF_COMPLETION_DIR_OPTS='--walker dir,follow'
-		export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
-		export FZF_CTRL_T_OPTS="$FZF_DEFAULT_OPTS"
-		export FZF_ALT_C_COMMAND='fd --type d --hidden --follow --exclude .git'
-		export FZF_ALT_C_OPTS="--preview 'tree -C {}' --preview-window=right:60%:wrap"
+	if ! command -v fzf &> /dev/null; then
+		return 1
 	fi
+
+	case "$1" in
+		bash)
+			eval "$(fzf --bash)"
+			;;
+		zsh)
+			source <(fzf --zsh)
+			;;
+		*)
+			# Fallback to eval for other shells that might support it
+			eval "$(fzf --"$1" 2> /dev/null)" || echo >&2 "Warning: fzf initialization for shell '$1' may not be supported"
+			;;
+	esac
+
+	export FZF_DEFAULT_COMMAND="fd --type f --hidden --follow --exclude .git"
+	export FZF_DEFAULT_OPTS="--layout=reverse --height 95% --preview 'bat --color=always --style=numbers --paging=never --line-range :500 {}' --preview-window=right:65%:wrap"
+	export FZF_COMPLETION_TRIGGER='**'
+	export FZF_COMPLETION_OPTS="--height 60% --info=inline --preview-window=right:55%:wrap"
+	export FZF_COMPLETION_PATH_OPTS='--walker file,dir,follow,hidden'
+	export FZF_COMPLETION_DIR_OPTS='--walker dir,follow'
+	export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
+	export FZF_CTRL_T_OPTS="$FZF_DEFAULT_OPTS"
+	export FZF_ALT_C_COMMAND='fd --type d --hidden --follow --exclude .git'
+	export FZF_ALT_C_OPTS="--preview 'tree -C {}' --preview-window=right:60%:wrap"
 }
 
 _fzf_comprun() {
@@ -373,26 +382,30 @@ _fzf_comprun() {
 # Initialize starship prompt
 # @param1 required, shell name (bash, zsh, fish, etc.)
 _init_starship() {
-	if command -v starship &> /dev/null; then
-		export STARSHIP_CONFIG=~/.config/starship/starship.toml
-		eval "$(starship init "$1")"
+	if ! command -v starship &> /dev/null; then
+		return 1
 	fi
+	export STARSHIP_CONFIG=~/.config/starship/starship.toml
+	eval "$(starship init "$1")"
 }
 
 # Initialize zoxide navigation
 _init_zoxide() {
-	if command -v zoxide &> /dev/null; then
-		eval "$(zoxide init "$1")"
+	if ! command -v zoxide &> /dev/null; then
+		return 1
 	fi
+	eval "$(zoxide init "$1")"
 }
 
 # Initialize zellij terminal multiplexer
 # @param1 required, shell name (bash, zsh, fish, etc.)
 _init_zellij() {
-	if command -v zellij &> /dev/null; then
-		if [[ "${ZELLIJ_AUTO_START:-false}" == "true" ]]; then
-			eval "$(zellij setup --generate-auto-start "$1")"
-		fi
+	if ! command -v zellij &> /dev/null; then
+		return 1
+	fi
+
+	if [[ "${ZELLIJ_AUTO_START:-false}" == "true" ]]; then
+		eval "$(zellij setup --generate-auto-start "$1")"
 	fi
 }
 

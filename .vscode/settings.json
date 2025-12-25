@@ -31,5 +31,12 @@
 	"[jsonc]": {
 		"editor.defaultFormatter": "esbenp.prettier-vscode"
 	},
-	"cSpell.words": ["gemrc", "Ghostty", "nanorc", "screenrc", "wezterm"]
+	"cSpell.words": [
+		"gemrc",
+		"Ghostty",
+		"nanorc",
+		"screenrc",
+		"sdkmanager",
+		"wezterm"
+	]
 }
