@@ -1,9 +1,13 @@
 # shellcheck shell=bash
-# ~/.bash_profile:
 # cspell:disable
+# ~/.bash_profile
 #
-# Sourced by the command interpreter for login shells.
-# Order of sourcing: /etc/profile, ~/.bash_profile, ~/.bash_login, ~/.profile
+# Role     : Login bash entry point; unifies login + interactive config
+# Loaded   : LOGIN bash shells — /etc/profile, then the FIRST that exists of
+#            ~/.bash_profile, ~/.bash_login, ~/.profile (macOS terms are login)
+# Order    : /etc/profile → ❯ .bash_profile → .bashrc
+# Sources  : ~/.shell.environment (guarded), ~/.bashrc
+# Notes    : Sources ~/.bashrc so login & non-login shells share one config
 
 # Source shell.environment if exist
 if [ -f ~/.shell.environment ]; then

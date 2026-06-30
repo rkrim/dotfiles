@@ -1,8 +1,9 @@
 # shellcheck shell=bash
-# ~/.aliases
 # cspell:disable
+# ~/.aliases
 #
-# Common shell aliases
+# Role     : Common shell aliases
+# Loaded   : Sourced from ~/.bashrc and ~/.zshrc
 
 # Navigation
 alias cd..="cd .."

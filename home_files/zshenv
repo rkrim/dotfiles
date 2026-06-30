@@ -1,7 +1,11 @@
-# ~/.zshenv
 # cspell:disable
+# ~/.zshenv
 #
-# sourced by zsh(1) always at first, used to export environment variables.
+# Role     : Per-invocation zsh environment bootstrap
+# Loaded   : EVERY zsh invocation — interactive, non-interactive, and scripts
+# Order    : ❯ .zshenv → [.zprofile] → [.zshrc] → [.zlogin]
+# Sources  : ~/.shell.environment (guarded)
+# Notes    : Runs for everything incl. scripts — keep minimal, no output here
 
 # Source shell.environment if exist
 if [ -f ~/.shell.environment ]; then

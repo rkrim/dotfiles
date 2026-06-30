@@ -1,8 +1,14 @@
 # shellcheck shell=bash
-# ~/.bashrc
 # cspell:disable
+# ~/.bashrc
 #
-# sourced by bash(1) for non-login shells.
+# Role     : Common interactive bash config — aliases, tokens, tool init
+# Loaded   : INTERACTIVE non-login bash automatically, AND from ~/.bash_profile
+#            for login shells. Not read by non-interactive scripts.
+# Order    : [.bash_profile →] ❯ .bashrc
+# Sources  : ~/.shell.environment (guarded), ~/.aliases, ~/.shell_tokens,
+#            _load_common_commands
+# Notes    : Effectively the shared interactive config for all bash sessions
 
 # Source shell.environment if exist
 if [ -f ~/.shell.environment ]; then

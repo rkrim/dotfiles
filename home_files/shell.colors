@@ -1,8 +1,9 @@
-# ~/.shell.colors
 # cspell:disable
+# ~/.shell.colors
 #
-# Configuration file for dircolors, a utility to help you set the
-# LS_COLORS environment variable used by GNU ls with the --color option.
+# Role     : dircolors database defining LS_COLORS for GNU ls --color
+# Loaded   : Read by `dircolors` from _export_session_ls_colors (shell.utils)
+# Notes    : Not shell code — dircolors syntax; color-code legend below
 #
 # One can use codes for 256 or more colors supported by modern terminals.
 # The default color codes use the capabilities of an 8 color terminal

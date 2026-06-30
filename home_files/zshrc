@@ -1,11 +1,20 @@
-# ~/.zshrc
 # cspell:disable
+# ~/.zshrc
 #
-# sourced by zsh(1) for interactive shells,
+# Role     : Interactive zsh setup — history, completion, keybindings, tool init
+# Loaded   : INTERACTIVE zsh shells only
+# Order    : .zshenv → [.zprofile] → ❯ .zshrc → [.zlogin]
+# Sources  : ~/.shell.environment (guarded), ~/.aliases, _load_common_commands
+# Notes    : Interactive-only — safe to print output / configure the TTY
 
 # Source shell.environment if exist
 if [ -f ~/.shell.environment ]; then
 	source ~/.shell.environment
+fi
+
+# Source Aliases file
+if [ -f ~/.aliases ]; then
+	source ~/.aliases
 fi
 
 # Lines configured by zsh-newuser-install

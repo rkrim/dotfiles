@@ -1,7 +1,10 @@
 # shellcheck shell=bash
 # ~/.shell.environment
 #
-# Common environment variables for shells
+# Role     : Shared cross-shell environment — language, Homebrew, PATH, common vars
+# Loaded   : Sourced once per session by .zshenv (zsh) and .bash_profile/.bashrc (bash)
+# Sources  : ~/.shell.utils, then runs the _export_* functions
+# Notes    : Guarded by $SHELL_SOURCED_ENVIRONMENT — first source wins, rest no-op
 
 # Prevent multiple sourcing
 if [ -n "$SHELL_SOURCED_ENVIRONMENT" ]; then

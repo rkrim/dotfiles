@@ -1,6 +1,8 @@
-# ~/.zprofile
 # cspell:disable
+# ~/.zprofile
 #
-# sourced by zsh(1) for login shells, before .zshrc.
-# Note: shell.environment is already sourced by .zshenv, so this file is kept for any
-# zsh login-specific configuration if needed in the future.
+# Role     : Login-time zsh setup (placeholder — nothing here yet)
+# Loaded   : LOGIN zsh shells only
+# Order    : .zshenv → ❯ .zprofile → [.zshrc] → [.zlogin]
+# Notes    : shell.environment is already loaded by .zshenv; reserved for
+#            zsh login-specific config

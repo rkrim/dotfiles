@@ -1,8 +1,11 @@
 # shellcheck shell=bash
-# ~/.shell.utils
 # cspell:disable
+# ~/.shell.utils
 #
-# Shell common utilities
+# Role     : Shared function library (_export_*, _init_*, _load_common_commands)
+# Loaded   : Sourced once from ~/.shell.environment
+# Notes    : Defines functions only — no side effects at source time;
+#            guarded by $SHELL_SOURCED_UTILS
 
 # Prevent multiple sourcing
 if [ -n "$SHELL_SOURCED_UTILS" ]; then
