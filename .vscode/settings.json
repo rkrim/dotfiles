@@ -14,7 +14,8 @@
 		"zprofile": "shellscript",
 		"zshenv": "shellscript",
 		"zshrc": "shellscript",
-		"**/ghostty/config": "properties"
+		"**/ghostty/config": "properties",
+		"**/zed/**/*.json": "jsonc"
 	},
 	"shfmt.executablePath": "/opt/homebrew/bin/shfmt",
 	"shfmt.executableArgs": ["-i", "0", "-bn", "-ci", "-sr"],

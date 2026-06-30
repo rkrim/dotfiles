@@ -1,4 +1,5 @@
 // Zed settings
+// cspell:disable
 //
 // For information on how to configure Zed, see the Zed
 // documentation: https://zed.dev/docs/configuring-zed
@@ -7,6 +8,65 @@
 // custom settings, run `zed: open default settings` from the
 // command palette (cmd-shift-p / ctrl-shift-p)
 {
+	"cli_default_open_behavior": "new_window",
+ "outline_panel": {
+  "dock": "right"
+ },
+ "edit_predictions": {
+		"provider": "copilot"
+	},
+	"on_last_window_closed": "platform_default",
+	"when_closing_with_no_tabs": "keep_window_open",
+	"agent_servers": {
+		"gemini": {
+   "type": "registry"
+  },
+  "codex-acp": {
+   "type": "registry"
+  },
+  "claude-acp": {
+			"type": "registry",
+			"default_config_options": {
+				"model": "opus",
+    "mode": "plan"
+			},
+			"favorite_config_option_values": {
+				"model": [
+     "default",
+     "opus"
+    ],
+    "mode": ["plan"]
+			}
+		},
+		"opencode": {
+			"favorite_models": ["opencode/kimi-k2.5-free"],
+			"type": "registry"
+		}
+	},
+	"context_servers": {
+		"browser-tools-context-server": {
+   "enabled": true,
+			"remote": false,
+			"settings": {}
+		},
+		"next-devtools": {
+   "command": "npx",
+			"args": ["-y", "next-devtools-mcp@latest"],
+			"env": {}
+		},
+		"shadcn": {
+   "enabled": true,
+			"command": "npx",
+			"args": ["shadcn@latest", "mcp"]
+		},
+		"posthog": {
+   "enabled": true,
+			"url": "https://mcp.posthog.com/mcp",
+			"headers": {
+				"Authorization": "Bearer undefined"
+			}
+		}
+	},
 	"theme": {
 		"mode": "dark",
 		"light": "One Light",
@@ -30,8 +90,8 @@
 		"coloring": "indent_aware"
 	},
 	"title_bar": {
-		"show_menus": true,
-		"show_branch_icon": true
+		"show_branch_status_icon": true,
+  "show_menus": true
 	},
 	"tab_bar": {
 		"show": true,
@@ -40,7 +100,7 @@
 	},
 	"tabs": {
 		"show_close_button": "always",
-		"show_diagnostics": "off",
+		"show_diagnostics": "all",
 		"close_position": "right",
 		"file_icons": true,
 		"git_status": true
@@ -53,7 +113,7 @@
 		"quick_actions": true
 	},
 	"project_panel": {
-		"dock": "left",
+		"dock": "right",
 		"folder_icons": true,
 		"file_icons": true,
 		"git_status": true,
@@ -78,11 +138,12 @@
 		}
 	},
 	"git_panel": {
+		"tree_view": true,
 		"collapse_untracked_diff": false,
 		"sort_by_path": false,
 		"status_style": "icon",
 		"default_width": 360.0,
-		"dock": "left",
+		"dock": "right",
 		"button": true
 	},
 	"notification_panel": {
@@ -106,23 +167,61 @@
 	"minimap": {
 		"show": "auto"
 	},
-	"features": {
-		"edit_prediction_provider": "zed"
+	"diagnostics_max_severity": "all",
+	"diagnostics": {
+		"button": true,
+		"inline": {
+			"min_column": 0,
+			"padding": 4,
+			"update_debounce_ms": 150,
+			"enabled": true
+		}
 	},
 	"disable_ai": false,
 	"show_edit_predictions": true,
 	"agent": {
-		"dock": "right",
+		"favorite_models": [
+			{
+				"provider": "openrouter",
+				"model": "anthropic/claude-opus-4.5"
+			}
+		],
+		"default_model": {
+			"provider": "openrouter",
+			"model": "anthropic/claude-opus-4.5"
+		},
+		"show_turn_stats": true,
+		"dock": "left",
 		"button": true,
 		"default_width": 360.0,
 		"message_editor_min_lines": 5,
-		"play_sound_when_agent_done": true,
+		"play_sound_when_agent_done": "always",
 		"notify_when_agent_waiting": "primary_screen",
-		"always_allow_tool_actions": false,
 		"model_parameters": []
 	},
 	"collaboration_panel": {
-		"button": false
+		"dock": "right",
+  "button": false
+	},
+	"format_on_save": "off",
+	"prettier": {
+		"allowed": true
+	},
+	"formatter": {
+		"external": {
+			"command": "prettier",
+			"arguments": ["--stdin-filepath", "{buffer_path}"]
+		}
+	},
+	"languages": {
+		"JSON": {
+			"formatter": {
+				"external": {
+					"command": "prettier",
+					"arguments": ["--stdin-filepath", "{buffer_path}", "--parser", "json"]
+				}
+			}
+		}
 	},
 	"telemetry": {
 		"diagnostics": false,

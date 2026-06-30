@@ -1,0 +1,29 @@
+// Zed keymap
+// cspell:disable
+//
+// For information on binding keys, see the Zed
+// documentation: https://zed.dev/docs/key-bindings
+//
+// To see the default key bindings run `zed: open default keymap`
+// from the command palette.
+[
+	{
+		"context": "Editor",
+		"use_key_equivalents": false,
+		"bindings": {
+			"cmd-shift-/": "editor::ToggleComments"
+		}
+	},
+	{
+		"context": "Editor",
+		"bindings": {
+			"alt-escape": "editor::ShowCompletions"
+		}
+	},
+	{
+		"context": "Workspace",
+		"bindings": {
+			"cmd-shift-g": "git_panel::ToggleFocus"
+		}
+	}
+]
