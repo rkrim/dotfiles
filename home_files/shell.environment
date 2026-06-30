@@ -27,3 +27,5 @@ _export_session_ls_colors
 export NU_CONFIG_PATH="$HOME/.config/nushell/config.nu"
 export NU_ENV_PATH="$HOME/.config/nushell/env.nu"
 
+# GPG Configuration
+export GPG_TTY=$(tty)

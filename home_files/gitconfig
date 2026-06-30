@@ -220,3 +220,5 @@
 
 [includeIf "gitdir:~/Developer/yassir/"]
 	path = ~/.gitconfig.yassir
+[gpg]
+	program = /opt/homebrew/bin/gpg
