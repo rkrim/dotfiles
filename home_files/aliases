@@ -10,6 +10,9 @@ alias cd2="cd ../.."
 alias cd3="cd ../../.."
 alias cd4="cd ../../../.."
 
+# search
+alias grep="grep --color=auto"
+
 # Display
 # shellcheck disable=SC2139
 alias path="echo -e '${PATH//:/\\n}'" # Print each PATH entry on a separate line
@@ -23,18 +26,24 @@ alias screen="screen -U -T screen-256color"
 alias gti="git"
 alias quit="exit"
 
-# -A List all entries except . & ..
-# -a Include directory entries whose names begin with a dot (.)
-# -h Use unit suffixes: Byte, Kilobyte, Megabyte, Gigabyte, Terabyte and Petabyte
-# -F Display '/' after directory, '*' after executable, '@' after symbolic link,
-# '=' after socket, '%' after whiteout, '|' after a FIFO.
-# shellcheck disable=SC2139
-alias ls="ls -h ${LS_COLOR_FLAG} ${LS_DIRECTORY_FIRST_FLAG}"
-# shellcheck disable=SC2139
-alias l="ls -lF ${LS_COLOR_FLAG}"
-# shellcheck disable=SC2139
-alias la="ls -laF ${LS_COLOR_FLAG}"
-alias lsd="ls -Al | grep '^d'"
+# Conditional aliases for eza (modern ls replacement)
+if command -v eza &> /dev/null; then
+	alias ls="eza --icons --group-directories-first"
+	alias l="eza --icons --group-directories-first -l"
+	alias la="eza --icons --group-directories-first -la"
+	alias lsd="eza --icons --group-directories-first -lD"
+	alias lt="eza --icons --group-directories-first --tree"
+else
+	# -A List all entries except . & ..
+	# -a Include directory entries whose names begin with a dot (.)
+	# -h Use unit suffixes: Byte, Kilobyte, Megabyte, Gigabyte, Terabyte and Petabyte
+	# -F Display '/' after directory, '*' after executable, '@' after symbolic link,
+	# '=' after socket, '%' after whiteout, '|' after a FIFO.
+	alias ls='ls -h ${LS_COLOR_FLAG} ${LS_DIRECTORY_FIRST_FLAG}'
+	alias l='ls -lF ${LS_COLOR_FLAG}'
+	alias la='ls -laF ${LS_COLOR_FLAG}'
+	alias lsd="ls -Al | grep '^d'"
+fi
 
 ### GUI Apps
 alias finder="open -a Finder"
