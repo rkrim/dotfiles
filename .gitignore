@@ -75,12 +75,14 @@ Desktop.ini
 ######## Config Files #######
 #############################
 home_files/android/*
+home_files/claude/*
 home_files/gnupg/*
 home_files/config/*
 home_files/config/ghostty/ghostty-shaders
 home_files/config/zed/conversations
 home_files/config/zed/prompts
 home_files/config/zed/themes
+
 !home_files/android/repositories.cfg
 !home_files/gnupg/gpg-agent.conf
 !home_files/config/atuin

@@ -112,9 +112,11 @@
 	prune-tags = !git tag -l | xargs git tag -d && git fetch -t
 	reset-upstream = !git reset --hard origin/$(git rev-parse --abbrev-ref HEAD)
 	delete-local-merged = !git branch --merged | egrep -wv "$(git config init.defaultBranch || echo 'main|master')" | xargs git branch -d
-	ls-alias = !git config --get-regexp alias    # list available aliases
-	ls-local-commits = "!git short @{push}.."    # list non-pushed commits
-	who = shortlog -sne                          # stats
+	ls-alias = !git config --get-regexp alias		# list available aliases
+	ls-local-commits = "!git short @{push}.."		# list non-pushed commits
+	who = shortlog -sne								# stats
+	wt = worktree									# worktrees command
+	wtl = worktree list								# list worktrees
 
 [status]
 	# traverse untracked directories to display contents
