@@ -83,6 +83,20 @@ _export_brew_packages_environment() {
 	[[ -d "$SQLITE_PREFIX/lib" ]] && export LDFLAGS="-L$SQLITE_PREFIX/lib $LDFLAGS"
 	[[ -d "$SQLITE_PREFIX/include" ]] && export CPPFLAGS="-I$SQLITE_PREFIX/include $CPPFLAGS"
 	[[ -d "$SQLITE_PREFIX/lib/pkgconfig" ]] && export PKG_CONFIG_PATH="$SQLITE_PREFIX/lib/pkgconfig:$PKG_CONFIG_PATH"
+
+	# User-local binaries (uv, pipx, etc.)
+	[[ -d "$HOME/.local/bin" ]] && export PATH="$HOME/.local/bin:$PATH"
+
+	# LM Studio CLI (lms)
+	local LMSTUDIO_PATH="$HOME/.lmstudio/bin"
+	[[ -d "$LMSTUDIO_PATH" ]] && export PATH="$PATH:$LMSTUDIO_PATH"
+
+	# pnpm (global package bin)
+	export PNPM_HOME="$HOME/Library/pnpm"
+	case ":$PATH:" in
+		*":$PNPM_HOME/bin:"*) ;;
+		*) export PATH="$PNPM_HOME/bin:$PATH" ;;
+	esac
 }
 
 # Export session ls colors
