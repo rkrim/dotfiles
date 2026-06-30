@@ -74,6 +74,7 @@ shells=(
 	"bash"
 	"bash-completion@2"
 	"bash-preexec"					# Bash pre-execution hook for Zsh-like 'precmd' functionality
+	"nushell"
 	"zsh"
 )
 brew_batch_install shells[@]
@@ -136,6 +137,28 @@ cli_tools=(
 	"zoxide"										# Shell extension to navigate filesystem faster
 )
 brew_batch_install cli_tools[@]
+
+# Generate atuin nushell init file (sourced by ~/.config/nushell/config.nu)
+echo
+print_title "Generate atuin nushell init file\n"
+mkdir -p "$HOME/.local/share/atuin"
+if command -v atuin &>/dev/null; then
+	atuin init nu > "$HOME/.local/share/atuin/init.nu"
+	echo "✓ Generated ~/.local/share/atuin/init.nu"
+else
+	touch "$HOME/.local/share/atuin/init.nu"
+	echo "⚠ atuin not found — created empty stub at ~/.local/share/atuin/init.nu"
+fi
+
+# Generate zoxide nushell init file (sourced by ~/.config/nushell/config.nu)
+mkdir -p "$HOME/.local/share/zoxide"
+if command -v zoxide &>/dev/null; then
+	zoxide init nushell --cmd cd > "$HOME/.local/share/zoxide/init.nu"
+	echo "✓ Generated ~/.local/share/zoxide/init.nu"
+else
+	touch "$HOME/.local/share/zoxide/init.nu"
+	echo "⚠ zoxide not found — created empty stub at ~/.local/share/zoxide/init.nu"
+fi
 
 echo
 print_title "Install developer cli tools\n"

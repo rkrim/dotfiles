@@ -63,3 +63,9 @@ if command -v asdf &> /dev/null; then
 	# Example alias:
 	# alias java_11='asdf shell java temurin-11.0.21+9 && java --version'
 fi
+
+### Nushell
+# Always start Nushell with dotfiles-managed config and env files
+if command -v nu &> /dev/null; then
+	alias nu='command nu --config "$HOME/.config/nushell/config.nu" --env-config "$HOME/.config/nushell/env.nu"'
+fi

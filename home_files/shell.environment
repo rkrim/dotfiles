@@ -22,3 +22,8 @@ _export_language
 _export_brew_shell_environment
 _export_brew_packages_environment
 _export_session_ls_colors
+
+# Make Nushell use dotfiles-managed config paths by default
+export NU_CONFIG_PATH="$HOME/.config/nushell/config.nu"
+export NU_ENV_PATH="$HOME/.config/nushell/env.nu"
+
