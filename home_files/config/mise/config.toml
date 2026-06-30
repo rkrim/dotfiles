@@ -22,5 +22,14 @@ asdf_compat = true  # Enable asdf compatibility mode
 # rust = "latest"
 # java = "21"
 
+dotnet = "latest"
+java = "temurin-21.0.11+10.0.LTS"
+node = "lts"
+pnpm = "latest"
+python = "latest"
+supabase = "latest"
+uv = "latest"
+yarn = "latest"
+
 [plugins]
 # Custom plugin configurations can go here
