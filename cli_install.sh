@@ -97,6 +97,7 @@ cli_tools=(
 	"fd"												# Simple, fast and user-friendly alternative to find
 	"ffmpeg"										# Audio/Video converter and manipulator
 	"findutils"
+	"folderify"									# Create macOS styled folder with icon
 	"fzf"												# Command-line fuzzy finder written in Go
 	"gawk"
 	"gnu-indent"
@@ -139,6 +140,9 @@ brew_batch_install cli_tools[@]
 echo
 print_title "Install developer cli tools\n"
 developer_tools=(
+	"beekeeper-studio"					# SQL editor and database manager
+	"navicat-premium-lite"			# Database development and administration tool
+	"tableplus"									# Modern, native tool for relational databases
 	"ack"
 	"android-commandlinetools"	# Android Command-line tools for building and debugging apps
 	"ansifilter"								# Strip or convert ANSI codes into HTML, (La)Tex, RTF, or BBCode
@@ -146,17 +150,19 @@ developer_tools=(
 	"boost"
 	"carthage"
 	"chisel"
-	"cocoapods"
 	"composer"
 	"dex2jar"
 	"diffutils"
 	"docker"										# Pack, ship and run any application as a lightweight container
 	"file-formula"
+	"firebase-cli"							# Firebase command line tools
+	"flutter"										# UI toolkit for building applications for mobile, web and desktop
 	"gh"												# GitHub command-line tool
 	"git"
 	"git-delta"									# A viewer for git and diff output
 	"git-extras"								# Small git utilities
 	"git-filter-repo"						# Rewrite git repository history
+	"gitleaks"									# Audit git repos for secrets
 	"git-lfs"
 	"git-quick-stats"
 	"gnutls"
@@ -166,22 +172,28 @@ developer_tools=(
 	"jq"
 	"mise"											# Polyglot runtime manager (asdf rust clone)
 	"mitmproxy"
+	"mkcert"										# Simple tool to make locally-trusted development certificates
+	"nss"												# Libraries for security-enabled client and server applications
 	"ocaml"
 	"gradle"
 	"podman"										# Tool for managing OCI containers and pods
 	"perl"
 	"ruby"
+	"scrcpy"										# Display and control Android devices
+	"semgrep"										# Static analysis tool for finding bugs and security vulnerabilities
 	"sonar-scanner"
 	"swift-format"							# Formatting technology for Swift source code
 	"swiftlint"									# Tool to enforce Swift style and conventions
 	"svn"
 	"tig"
 	"tuist"											# Manage Xcode projects
+	"uv"												# Extremely fast Python package installer and resolver
 	"vim"
 	"watch"
 	"watchman"
 	"wdiff"
 	"wget"
+	"worktrunk"									# Git worktree manager for multi-task workflows
 	"xcbeautify"								# Little beautifier tool for xcodebuild
 	"xcode-build-server"				# Build server for integrating Xcode with sourcekit-lsp
 	"xcodegen"									# Generate Xcode project from a spec file
@@ -335,13 +347,14 @@ ui_apps=(
 	"react-native-debugger"
 	"rectangle"
 	"rocket"										# Emoji picker
-	"sloth"
 	"signal"
 	"silentknight"
 	"sloth"
 	"sourcetree"
 	"spacedrive"								# Open-source cross-platform file explorer
 	"spotify"
+	"sw33tlie/macshot/macshot"	# Screenshot tool
+	"rustdesk"									# Remote desktop software
 	"tempbox"										# Disposable email client
 	"thorium"										# Epub reader
 	"thunderbird"								# Email client
@@ -357,6 +370,7 @@ ui_apps=(
 	"wwdc"
 	"xattred"
 	"xcodes-app"								# CLI to Manage multiple versions of Xcode
+	"xykong/tap/flux-markdown"	# Markdown previewer
 	"zed"												# Multiplayer code editor
 	"zeplin"
 )
@@ -553,3 +567,6 @@ install_android_env
 echo
 print_title "Install Mac AppStore Apps\n"
 ./mas_installer.sh
+
+
+brew install tw93/tap/mole
