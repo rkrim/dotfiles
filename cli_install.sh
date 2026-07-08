@@ -50,6 +50,7 @@ fi
 # "jd-gui"            // Unidentified developer (signature), no permission
 # "openssh"           // OpenSSH does not support 'UseKeychain' option introduced in macOS 10.12.2+
 #                     // To use this version, add "IgnoreUnknown UseKeychain" in config file before using it.
+# "opera"             // Using alternative: Zen
 # "quicklookapk"      // Disabled: Discontinued upstream
 # "realm-studio"      // Deprecated legacy software since acquisition by MongoDB
 # "slack"             // Installed via mas
@@ -262,7 +263,6 @@ cask_browsers=(
 	"firefox"										# Mozilla Web Browser
 	"helium-browser"						# Chromium-based web browser (Privacy Focus)
 	"microsoft-edge"						# Microsoft Web Browser
-	"opera"											# Opera Web Browser
 	"responsively"							# Responsive web development Browser (Electron based)
 	"thebrowsercompany-dia"			# Chromium based web browser (AI Focused, The Browser Company)
 	"tor-browser"								# Web Browser focusing on Security
