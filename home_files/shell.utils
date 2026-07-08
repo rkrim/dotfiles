@@ -431,16 +431,19 @@ _init_zellij() {
 # Note:
 # The order of initialization matters for some tools
 # - atuin must be initialized after starship
+# - carapace must be initialized LAST: fzf (and other tools) register their own
+#   `complete` bindings, so carapace has to run afterwards to own TAB completion.
+#   fzf's CTRL-T/CTRL-R/ALT-C key bindings are unaffected by this ordering.
 _load_common_commands() {
 	local shell_name="$1"
 	_init_version_manager "$shell_name"
 	_init_bat
-	_init_carapace "$shell_name"
 	_init_starship "$shell_name"
 	_init_atuin "$shell_name"
 	_init_fzf "$shell_name"
 	_init_zoxide "$shell_name"
 	_init_zellij "$shell_name"
+	_init_carapace "$shell_name"
 }
 
 ### Helper functions ##########################################################

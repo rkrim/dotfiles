@@ -1,0 +1,27 @@
+# cspell:disable
+# ~/.inputrc
+#
+# Role     : Readline (GNU) configuration — TAB completion behavior & display
+# Loaded   : Every readline program (bash, python REPL, etc.) at startup
+# Notes    : Improves the bash completion UX so carapace candidates list on a
+#            single TAB, are colorized, and match case-insensitively.
+
+# List all matches on the first TAB instead of requiring a second press
+set show-all-if-ambiguous on
+
+# Cycle straight into the menu without an extra TAB when matches are ambiguous
+set show-all-if-unmodified on
+
+# Colorize completion candidates (by file type) and highlight the typed prefix
+set colored-stats on
+set colored-completion-prefix on
+
+# Case- and hyphen/underscore-insensitive matching (che → checkout, foo_bar → foo-bar)
+set completion-ignore-case on
+set completion-map-case on
+
+# When menu-completing, keep the common prefix visible while cycling
+set menu-complete-display-prefix on
+
+# Don't ask before showing a large list of completions
+set completion-query-items 200
