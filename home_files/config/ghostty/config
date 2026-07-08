@@ -35,7 +35,10 @@ custom-shader-animation = true
 cursor-style = block
 
 # Scrollback
-scrollback-limit = 50000
+# NOTE: scrollback-limit is measured in BYTES of memory per terminal, NOT lines.
+# 5 MB = 5 * 1000 * 1000 = 5000000 bytes. Assuming ~100 bytes per line on average,
+# this holds roughly ~50,000 lines of history before old lines are discarded.
+scrollback-limit = 5000000
 
 # Bell - disable audible bell, keep visual
 bell-features = no-audio,attention,title,border
