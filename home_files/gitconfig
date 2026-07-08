@@ -5,7 +5,7 @@
 # Add any personal global config to ~/.gitconfig.user
 
 [core]
-	editor = code --wait
+	editor = agy-ide --wait
 
 	# Convert line endings to CRLF on checkout (useful only under windows)
 	# Change this in ~/.gitconfig.user or per repository if needed
