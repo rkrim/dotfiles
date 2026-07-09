@@ -274,12 +274,10 @@ echo
 print_title "Install AI Apps (Cask)\n"
 ai_apps=(
 	"antigravity"								# Google Antigravity — agent orchestration platform
-	"antigravity-cli"						# Antigravity CLI — terminal interface for agents (agy)
 	"antigravity-ide"						# Antigravity IDE — AI coding agent IDE (agy-ide)
 	"anythingllm"								# Chat with any LLM
 	"claude"										# Anthropic's official Claude AI desktop app
 	"claude-code"								# Anthropic's Terminal-based AI coding assistant
-	"gemini-cli"								# Google Gemini AI models from the command-line
 	"jan"												# Offline AI chat tool
 	"lm-studio"									# Discover, download, and run local LLMs
 	"ollama-app"								# Discover, download, and run local LLMs
@@ -288,12 +286,21 @@ ai_apps=(
 	"opencode"									# Open-Source AI coding assistant
 	"opencode-desktop"					# Open-Source AI coding assistant (Electron based)
 	"openusage"									# AI usage tracker for Claude Code, Cursor, Codex, Copilot and more
-	"pi-coding-agent"						# AI agent toolkit / coding agent from the command-line
 	"github-copilot-for-xcode"	# GitHub Copilot for Xcode
 	"trae"											# AI code editor
 	"void"											# Open-Source AI code editor
 )
 brew_batch_install ai_apps[@]
+
+echo
+print_title "Install AI Tools (CLI)\n"
+ai_tools=(
+	"antigravity-cli"						# Antigravity CLI — terminal interface for agents (agy)
+	"gemini-cli"								# Google Gemini AI models from the command-line
+	"pi-coding-agent"						# AI agent toolkit / coding agent from the command-line
+	"skills"										# Open agent skills ecosystem CLI (skills.sh)
+)
+brew_batch_install ai_tools[@]
 
 echo
 print_title "Install Applications (Cask)\n"
