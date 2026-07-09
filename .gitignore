@@ -76,6 +76,7 @@ Desktop.ini
 #############################
 home_files/android/*
 home_files/claude/*
+home_files/pi/*
 home_files/gnupg/*
 home_files/config/*
 home_files/config/ghostty/ghostty-shaders
@@ -97,3 +98,13 @@ home_files/config/zed/themes
 !home_files/config/zed
 !home_files/config/zellij
 !home_files/config/iterm2/com.googlecode.iterm2.plist
+
+# pi: track settings and extensions, keep secrets/sessions ignored
+!home_files/pi/agent/
+!home_files/pi/agents/
+!home_files/pi/agent/settings.json
+!home_files/pi/extensions/
+!home_files/pi/extensions/*.ts
+home_files/pi/agent/auth.json
+home_files/pi/agent/skills/
+home_files/pi/agent/sessions/
