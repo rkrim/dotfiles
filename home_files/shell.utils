@@ -315,6 +315,20 @@ _init_atuin() {
 		return 1
 	fi
 	eval "$(atuin init "$1")"
+
+	# Keep history_desktop.db in sync with history.db for atuin-desktop (0.2.20),
+	# stripping the newer migration (20260224000100) so that it doesn't crash on startup.
+	# We unset ATUIN_DB_PATH for this interactive shell session so that the CLI uses the original history.db.
+	unset ATUIN_DB_PATH
+	if [[ "$1" == "bash" || "$1" == "zsh" ]]; then
+		launchctl setenv ATUIN_DB_PATH "$HOME/.local/share/atuin/history_desktop.db" &>/dev/null
+		if [[ -f "$HOME/.local/share/atuin/history.db" ]]; then
+			(
+				cp "$HOME/.local/share/atuin/history.db" "$HOME/.local/share/atuin/history_desktop.db" 2>/dev/null
+				/usr/bin/sqlite3 "$HOME/.local/share/atuin/history_desktop.db" "delete from _sqlx_migrations where version = 20260224000100" 2>/dev/null
+			) &>/dev/null & disown
+		fi
+	fi
 }
 
 # Initialize bat (cat replacement)

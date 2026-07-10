@@ -29,9 +29,51 @@ fi
 _bash_init_environment
 
 # Initialize bash-preexec (must be early, before other tools that use preexec hooks)
+__bp_delay_install=1
 _bash_init_preexec
 
 # Load common commands (starship, bat, zoxide, etc.) for interactive shells
 if [[ $- =~ i ]]; then
 	_load_common_commands bash
 fi
+
+# Complete bash-preexec installation after all other prompt commands are registered.
+# This ensures bash-preexec is at the end of PROMPT_COMMAND, preventing the first
+# command in a new session from not being recorded by atuin.
+if [[ $- =~ i ]]; then
+	# Source terminal shell integrations here so their hooks are registered
+	# before we finalize bash-preexec.
+	if [[ -n "$GHOSTTY_RESOURCES_DIR" && -f "$GHOSTTY_RESOURCES_DIR/shell-integration/bash/ghostty.bash" ]]; then
+		source "$GHOSTTY_RESOURCES_DIR/shell-integration/bash/ghostty.bash"
+	fi
+
+	# If PROMPT_COMMAND is an array, join its elements into a single string.
+	# This prevents tools from appending hooks as separate array elements,
+	# which would bypass our ordering and execute after bash-preexec's hook.
+	if [[ $(builtin declare -p PROMPT_COMMAND 2>/dev/null) == "declare -a "* ]]; then
+		__bp_tmp_pc=""
+		for __bp_pc_element in "${PROMPT_COMMAND[@]}"; do
+			if [[ -n "$__bp_pc_element" ]]; then
+				[[ "$__bp_pc_element" =~ \;[[:space:]]*$ ]] || __bp_pc_element+=";"
+				__bp_tmp_pc+="$__bp_pc_element"
+			fi
+		done
+		unset PROMPT_COMMAND
+		PROMPT_COMMAND="$__bp_tmp_pc"
+		unset __bp_tmp_pc __bp_pc_element
+	fi
+
+	# Clean up any spaces around __ghostty_hook so Ghostty's check matches it exactly.
+	# Ghostty appends " __ghostty_hook", but checks for ";__ghostty_hook;".
+	PROMPT_COMMAND="${PROMPT_COMMAND//;[[:space:]]*__ghostty_hook/;__ghostty_hook}"
+
+	# Add a trailing semicolon so that Ghostty's checks detect it was already loaded
+	[[ "${PROMPT_COMMAND}" =~ \;[[:space:]]*$ ]] || PROMPT_COMMAND+=";"
+
+	if declare -f __bp_install &>/dev/null; then
+		# Append the installation string manually to bypass __bp_sanitize_string
+		# stripping our trailing semicolon.
+		PROMPT_COMMAND+=$'\n'"__bp_trap_string=\"\$(trap -p DEBUG)\""$'\n'"trap - DEBUG"$'\n'"__bp_install"
+	fi
+fi
+unset __bp_delay_install
