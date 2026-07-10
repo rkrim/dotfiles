@@ -36,6 +36,7 @@ else
 fi
 
 ### NOGO APPS/TOOLS & WHY ###
+# "arc"               // Using alternative: Zen
 # "atom"              // Using alternative: VSCode
 # "brackets"          // Using alternative: VSCode
 # "brave-browser"     // Using alternative: Zen
@@ -257,7 +258,6 @@ echo
 print_title "Install Browsers (Cask)\n"
 cask_browsers=(
 	"alex313031-thorium"				# Chromium based web browser (Performance & Privacy Focus)
-	"arc"												# Chromium based web browser (The Browser Company)
 	"blisk"											# Chromium based web browser (Developer-oriented browser)
 	"chatgpt-atlas"							# OpenAI's Web Browser with ChatGPT built
 	"firefox"										# Mozilla Web Browser
