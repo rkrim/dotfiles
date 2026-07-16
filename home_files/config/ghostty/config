@@ -45,6 +45,7 @@ bell-features = no-audio,attention,title,border
 
 # Behavior
 mouse-hide-while-typing = false
+shell-integration-features = ssh-env,ssh-terminfo
 
 # Left Option → Alt, Right Option → macOS chars
 macos-option-as-alt = left
