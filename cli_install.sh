@@ -316,6 +316,7 @@ ai_apps=(
 	"opencode-desktop"					# Open-Source AI coding assistant (Electron based)
 	"openusage"									# AI usage tracker for Claude Code, Cursor, Codex, Copilot and more
 	"perplexity"								# AI-powered answer engine with Personal Computer agent
+	"stablyai/orca/orca"				# Agentic IDE for orchestrating parallel coding agents
 	"github-copilot-for-xcode"	# GitHub Copilot for Xcode
 	"trae"											# AI code editor
 	"void"											# Open-Source AI code editor
