@@ -532,6 +532,7 @@ fi
 echo
 print_title "Dotfiles installation\n"
 dotfiles_symlink "home_files"
+vscode_family_keybindings_symlink
 
 echo
 print_title "Update user default Shell (Requires Password):\n"

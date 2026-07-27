@@ -93,6 +93,7 @@ home_files/config/zed/themes
 !home_files/config/starship.toml
 !home_files/config/spicetify
 !home_files/config/spicetify/config-xpui.ini
+!home_files/config/vscode
 !home_files/config/zed
 !home_files/config/zellij
 !home_files/config/iterm2/com.googlecode.iterm2.plist

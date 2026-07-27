@@ -49,4 +49,5 @@ shell-integration-features = ssh-env,ssh-terminfo
 
 # Left Option → Alt, Right Option → macOS chars
 macos-option-as-alt = left
-keybind = shift+enter=text:\x1b\r
+# Send a line feed (LF) on Shift+Enter for multiline terminal input.
+keybind = shift+enter=text:\x0a

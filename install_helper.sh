@@ -252,6 +252,43 @@ function dotfiles_symlink {
 	return "$EXIT_SUCCESS"
 }
 
+# vscode_family_keybindings_symlink()
+# Link VS Code-compatible macOS user keybindings to the tracked configuration.
+# Existing files are preserved beside the original path with a .bak suffix.
+function vscode_family_keybindings_symlink {
+	local source_path
+
+	source_path="$(pwd)/home_files/config/vscode/keybindings.json"
+
+	if [[ ! -f "$source_path" ]]; then
+		print_warning "${FUNCNAME[0]}() :: Source file not found: '$source_path'"
+		return "$EXIT_FAILURE"
+	fi
+
+	local target_path
+	for target_path in \
+		"$HOME/Library/Application Support/Code/User/keybindings.json" \
+		"$HOME/Library/Application Support/Antigravity IDE/User/keybindings.json"; do
+		local backup_path="$target_path.bak"
+
+		mkdir -p "$(dirname "$target_path")"
+
+		if [[ -L "$target_path" && "$(readlink "$target_path")" == "$source_path" ]]; then
+			continue
+		fi
+
+		if [[ -e "$target_path" || -L "$target_path" ]]; then
+			if [[ -e "$backup_path" || -L "$backup_path" ]]; then
+				print_warning "${FUNCNAME[0]}() :: Backup already exists: '$backup_path'"
+				return "$EXIT_FAILURE"
+			fi
+			mv "$target_path" "$backup_path" || return "$EXIT_FAILURE"
+		fi
+
+		ln -s "$source_path" "$target_path" || return "$EXIT_FAILURE"
+	done
+}
+
 ### Version manager (mise/asdf)
 
 # vm_plugin_install()
