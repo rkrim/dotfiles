@@ -192,6 +192,7 @@ developer_tools=(
 	"git-quick-stats"
 	"gnutls"
 	"grc"												# Colorize logfiles and command output
+	"hunk"											# Git hunks with syntax highlighting
 	"httpie"
 	"ios-deploy"								# CLI to Install and debug iPhone apps
 	"jq"
