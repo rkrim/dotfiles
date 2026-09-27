@@ -48,6 +48,7 @@ fi
 # "diff-so-fancy"     // Using alternative: git-delta
 # "dozer"             // Using alternative: Hidden Bar - from mas as this is not native Apple Silicon
 # "flux"              // Using alternative: Night Shift built into macOS 10.12.4+ (Sierra +)
+# "gemini-cli"        // Using alternative: antigravity-cli
 # "google-chrome"     // Using alternative: Zen
 # "impactor"          // Disabled: Discontinued upstream
 # "jd-gui"            // Unidentified developer (signature), no permission
@@ -72,6 +73,8 @@ fi
 echo
 print_title "Register Brew Taps:\n"
 taps=(
+	"agentwrapper/tap"
+	"can1357/tap"
 	"openai/tools"
 	"slp/krunkit"
 	"sw33tlie/macshot"
@@ -284,12 +287,17 @@ brew_batch_install cask_browsers[@] --cask
 echo
 print_title "Install AI Apps (Cask)\n"
 ai_apps=(
+	"agent-orchestrator"				# Orchestrator for running parallel coding agents
 	"antigravity"								# Google Antigravity — agent orchestration platform
 	"antigravity-ide"						# Antigravity IDE — AI coding agent IDE (agy-ide)
 	"anythingllm"								# Chat with any LLM
 	"claude"										# Anthropic's official Claude AI desktop app
 	"claude-code"								# Anthropic's Terminal-based AI coding assistant
+	"cmux"											# Ghostty-based terminal for AI coding agents
+	"conductor"									# Claude code parallelisation
+	"google-gemini"							# Google's official Gemini AI desktop app
 	"jan"												# Offline AI chat tool
+	"kimi"											# AI chat assistant from Moonshot
 	"lm-studio"									# Discover, download, and run local LLMs
 	"ollama-app"								# Discover, download, and run local LLMs
 	"onlook"										# Open-Source AI-First Design tool
@@ -297,6 +305,7 @@ ai_apps=(
 	"opencode"									# Open-Source AI coding assistant
 	"opencode-desktop"					# Open-Source AI coding assistant (Electron based)
 	"openusage"									# AI usage tracker for Claude Code, Cursor, Codex, Copilot and more
+	"perplexity"								# AI-powered answer engine with Personal Computer agent
 	"github-copilot-for-xcode"	# GitHub Copilot for Xcode
 	"trae"											# AI code editor
 	"void"											# Open-Source AI code editor
@@ -307,7 +316,8 @@ echo
 print_title "Install AI Tools (CLI)\n"
 ai_tools=(
 	"antigravity-cli"						# Antigravity CLI — terminal interface for agents (agy)
-	"gemini-cli"								# Google Gemini AI models from the command-line
+	"herdr"											# Agent multiplexer that lives in your terminal
+	"omp"												# Coding agent with the IDE wired in
 	"pi-coding-agent"						# AI agent toolkit / coding agent from the command-line
 	"skills"										# Open agent skills ecosystem CLI (skills.sh)
 )
