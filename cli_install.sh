@@ -40,7 +40,7 @@ fi
 # "atom"              // Using alternative: VSCode
 # "brackets"          // Using alternative: VSCode
 # "brave-browser"     // Using alternative: Zen
-# "cakebrew"          // Disabled: Discontinued upstream
+# "cakebrew"          // Using alternative: applite
 # "cheatsheet"        // Using alternative: Keyclu
 # "dash3"             // No more available in repo
 # "diff-so-fancy"     // Using alternative: git-delta
@@ -49,6 +49,8 @@ fi
 # "google-chrome"     // Using alternative: Zen
 # "impactor"          // Disabled: Discontinued upstream
 # "jd-gui"            // Unidentified developer (signature), no permission
+# "macdown"           // Using alternative: macdown-3000
+# "neofetch"          // Using alternative: fastfetch (neofetch discontinued upstream)
 # "openssh"           // OpenSSH does not support 'UseKeychain' option introduced in macOS 10.12.2+
 #                     // To use this version, add "IgnoreUnknown UseKeychain" in config file before using it.
 # "opera"             // Using alternative: Zen
@@ -100,6 +102,7 @@ cli_tools=(
 	"ed"
 	"exiftool"									# Read and write EXIF metadata
 	"eza"												# ls replacement
+	"fastfetch"									# Fast and customizable system info tool (written in C)
 	"fd"												# Simple, fast and user-friendly alternative to find
 	"ffmpeg"										# Audio/Video converter and manipulator
 	"findutils"
@@ -120,7 +123,6 @@ cli_tools=(
 	"mas"
 	"media-info"								# Display information about media files
 	"mpv"												# Media player
-	"neofetch"									# Customisable system info script
 	"neovim"										# Vim-fork focused on extensibility and agility
 	"rclone"										# Rsync for cloud storage
 	"rg"												# Search tool, rg stands for ripgrep
@@ -313,6 +315,7 @@ ui_apps=(
 	"angry-ip-scanner"
 	"anydesk"
 	"appcleaner"
+	"applite"										# User-friendly GUI app for Homebrew
 	"asset-catalog-tinkerer"
 	"atuin-desktop"							# A modern, easy-to-use shell history manager
 	"balenaetcher"							# Flash OS images to SD cards and USB drives
@@ -359,6 +362,7 @@ ui_apps=(
 	"logseq"										# Open-source & Privacy-first platform for knowledge sharing and management
 	"lulu"											# Open-source firewall to block unknown outgoing connections
 	"maccy"
+	"macdown-3000"							# Markdown editor with live preview and syntax highlighting
 	"maciasl"
 	"messenger"									# Facebook Messenger
 	"miro"											# Realtime collaborative whiteboard app
@@ -491,7 +495,6 @@ arch_rosetta_compat=(
 	"charles"
 	"gas-mask"
 	"geektool"
-	"macdown"
 	"mkvtoolnix-app"									# Create, alter and inspect Matroska files (MKV)
 	"mkvtools"												# Create and edit Matroska files (MKV)
 	"openemu"
