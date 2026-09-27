@@ -38,6 +38,7 @@ fi
 ### NOGO APPS/TOOLS & WHY ###
 # "arc"               // Using alternative: Zen
 # "atom"              // Using alternative: VSCode
+# "bluesnooze"        // Using alternative: vorssaint
 # "brackets"          // Using alternative: VSCode
 # "brave-browser"     // Using alternative: Zen
 # "cakebrew"          // Using alternative: applite
@@ -49,7 +50,9 @@ fi
 # "google-chrome"     // Using alternative: Zen
 # "impactor"          // Disabled: Discontinued upstream
 # "jd-gui"            // Unidentified developer (signature), no permission
+# "keepingyouawake"   // Using alternative: vorssaint
 # "macdown"           // Using alternative: macdown-3000
+# "monitorcontrol"    // Using alternative: vorssaint
 # "neofetch"          // Using alternative: fastfetch (neofetch discontinued upstream)
 # "openssh"           // OpenSSH does not support 'UseKeychain' option introduced in macOS 10.12.2+
 #                     // To use this version, add "IgnoreUnknown UseKeychain" in config file before using it.
@@ -321,7 +324,6 @@ ui_apps=(
 	"balenaetcher"							# Flash OS images to SD cards and USB drives
 	"beeper"										# Universal chat app powered by Matrix
 	"blobsaver"									# GUI for automatically saving SHSH blobs
-	"bluesnooze"								# Prevents sleeping computer from connecting to Bluetooth accessories
 	"calibre"										# E-book reader and manager
 	"charles"										# Web debugging Proxy application
 	"clickup"										# Productivity platform for tasks, docs, goals, and chat
@@ -335,6 +337,7 @@ ui_apps=(
 	"discord"										# Chat and messaging app
 	"easyfind"									# Find files and folders quickly
 	"figma"
+	"finetune"									# Per-application volume mixer and audio router
 	"flixtools"
 	"fluidvoice"								# Offline voice-to-text dictation app with AI enhancement
 	"fork"
@@ -352,7 +355,6 @@ ui_apps=(
 	"itsycal"										# Menu bar calendar
 	"jdownloader"								# Download manager
 	"jordanbaird-ice"						# Menu bar manager
-	"keepingyouawake"
 	"keka"											# File archiver
 	"keycastr"
 	"keyclu"
@@ -367,7 +369,6 @@ ui_apps=(
 	"messenger"									# Facebook Messenger
 	"miro"											# Realtime collaborative whiteboard app
 	"mist"											# Utility to downloads macOS firmwares and installers
-	"monitorcontrol"
 	"ngrok"											# Reverse proxy, secure introspectable tunnels to localhost
 	"notion"
 	"obsidian"
@@ -403,6 +404,7 @@ ui_apps=(
 	"virtualbuddy"							# Virtualization tool for macOS and Linux
 	"visual-studio-code"				# Microsoft VS Code
 	"vlc"
+	"vorssaint"										# Menu bar toolkit (keep-awake, system monitor, volume mixer)
 	"wezterm"										# GPU-accelerated cross-platform terminal emulator and multiplexer
 	"whatsapp"									# WhatsApp Messenger
 	"whisky"										# Wine wrapper for macOS
