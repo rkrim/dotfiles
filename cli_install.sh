@@ -375,7 +375,6 @@ ui_apps=(
 	"obsidian"
 	"onyx"											# System maintenance and more
 	"openmtp"										# Android file transfer
-	"oversight"									# Monitors computer mic and webcam
 	"pearcleaner"								# Remove apps & leftover files
 	"pinentry-mac"
 	"podman-desktop"						# Desktop interface for Podman
@@ -464,7 +463,9 @@ brew_batch_install unidentified[@] --cask
 echo
 print_title "Install Cask packages with user action required\n"
 action_required=(
+	"docker-desktop"									# Requires Password | App to build and share containerised applications
 	"karabiner-elements"							# Requires Password | Keyboard customizer for macOS
+	"oversight"											# Requires Password | Monitors computer mic and webcam
 	"sdformatter"											# Requires Password | Formatter for SD cards
 	"sf-symbols"											# Requires Password | Apple SF Symbols app
 )
