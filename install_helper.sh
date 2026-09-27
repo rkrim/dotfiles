@@ -26,7 +26,7 @@ brew_export_shell_environment() {
 }
 
 # brew_register_taps()
-# Register Homebrew taps
+# Register Homebrew taps and trust them for Homebrew tap-trust security
 brew_register_taps() {
 	if [[ $# -ne 1 || -z "$1" ]]; then
 		echo "${FUNCNAME[0]}() :: bad_arguments"
@@ -43,6 +43,9 @@ brew_register_taps() {
 
 	for tap in "${taps[@]}"; do
 		brew tap "$tap"
+		if brew trust --help &> /dev/null; then
+			brew trust "$tap"
+		fi
 	done
 }
 
@@ -104,6 +107,14 @@ function brew_package_install {
 		print_package_status "$package_name" "Already Installed" "$FG_COLOR_LIGHT_GREEN" "Version $package_version\n" | tee -a $log_file
 	else
 		print_package_status "$package_name" "Processing" "$FG_COLOR_YELLOW" "Not Installed, installing..."
+
+		# If installing from a third-party tap (e.g. user/repo/package), ensure tap is trusted
+		if [[ "$package_name" =~ ^([^/]+/[^/]+)/.+ ]]; then
+			local tap_name="${BASH_REMATCH[1]}"
+			if brew trust --help &> /dev/null; then
+				brew trust "$tap_name" >> "$log_file" 2>&1 || true
+			fi
+		fi
 
 		if $brew_command install "$package_name" >> "$log_file" 2>&1; then
 			clear_line

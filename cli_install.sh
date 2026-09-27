@@ -67,6 +67,9 @@ print_title "Register Brew Taps:\n"
 taps=(
 	"cirruslabs/cli"
 	"slp/krunkit"
+	"sw33tlie/macshot"
+	"vitorgalvao/tiny-scripts"
+	"xykong/tap"
 )
 brew_register_taps taps[@]
 
