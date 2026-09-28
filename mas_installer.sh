@@ -48,6 +48,7 @@ mas_apps=(
 	"1450874784" # Transporter
 	"1287239339" # ColorSlurp
 	"1499227284" # Push Hero - Test Notifications
+	"1625396347" # ntfy
 	"6737813684" # DataScout for SwiftData
 	"6475956137" # Grab2Text
 	"899247664"  # TestFlight
@@ -61,13 +62,16 @@ mas_apps=(
 	"409203825"  # Numbers
 	"409201541"  # Pages
 	"1278508951" # Trello (rosetta)
+	"6469021132" # PDFgear - PDF Editor & Reader
 
 	# Reference
 	"430255202" # MacTracker
 	"302584613" # Amazon Kindle
+	"1615798039" # ReadKit
 
 	# Communication
 	"1176895641" # Spark – Email App by Readdle
+	"747648890"  # Telegram
 
 	# Media
 	"408981434"  # iMovie
