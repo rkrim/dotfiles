@@ -52,29 +52,80 @@ brew_register_taps() {
 # is_brew_package_installed()
 # Check if a brew package is already installed
 # brew command must be installed
-# @param1 required, Package name
-# @return: The versoin number of the package if its installed
+# @param1 required, Package name, or package name with flags
+# @param2+ optional, additional brew flags (e.g. --cask or --formula)
+# @return: The version number of the package if its installed
 function is_brew_package_installed {
-	if [[ $# -ne 1 || -z "$1" ]]; then
+	if [[ $# -lt 1 || -z "$1" ]]; then
 		echo "${FUNCNAME[0]}() :: bad_arguments"
 		false
 		return "$EXIT_FAILURE"
 	fi
 
-	local package_tokens=("$1")
-	package_name=${package_tokens[0]}
+	local -a package_tokens
+	read -r -a package_tokens <<< "$1"
+	package_tokens+=("${@:2}")
+	local is_cask=0
+	local is_formula=0
+	local target_name=""
+
+	for token in "${package_tokens[@]}"; do
+		if [[ "$token" == "--cask" ]]; then
+			is_cask=1
+		elif [[ "$token" == "--formula" ]]; then
+			is_formula=1
+		elif [[ "$token" != -* ]]; then
+			target_name="$token"
+		fi
+	done
+
+	if [[ -z "$target_name" ]]; then
+		false
+		return 1
+	fi
+
+	# If the package is under homebrew/cask/..., treat as cask
+	if [[ "$target_name" =~ ^homebrew/cask/ ]]; then
+		is_cask=1
+	fi
+
+	# For checking installed versions, Homebrew list expects the token (basename)
+	local check_name="${target_name##*/}"
+
 	brew_command="brew"
 
+	# If --cask is explicitly specified or implied, check cask only
+	if [[ $is_cask -eq 1 ]]; then
+		if result=$($brew_command list --cask --versions "$check_name" 2> /dev/null); then
+			echo "$result" | head -n 1 | cut -d " " -f2
+			true
+			return 0
+		fi
+		false
+		return 1
+	fi
+
+	# If --formula is explicitly specified, check formula only
+	if [[ $is_formula -eq 1 ]]; then
+		if result=$($brew_command list --formula --versions "$check_name" 2> /dev/null); then
+			echo "$result" | head -n 1 | cut -d " " -f2
+			true
+			return 0
+		fi
+		false
+		return 1
+	fi
+
 	# Check if it's a formula
-	if result=$($brew_command list --versions "$package_name" 2> /dev/null); then
-		echo "$result" | cut -d " " -f2
+	if result=$($brew_command list --versions "$check_name" 2> /dev/null); then
+		echo "$result" | head -n 1 | cut -d " " -f2
 		true
 		return 0
 	fi
 
 	# Check if it's a cask
-	if result=$($brew_command list --cask --versions "$package_name" 2> /dev/null); then
-		echo "$result" | cut -d " " -f2
+	if result=$($brew_command list --cask --versions "$check_name" 2> /dev/null); then
+		echo "$result" | head -n 1 | cut -d " " -f2
 		true
 		return 0
 	fi
@@ -86,20 +137,34 @@ function is_brew_package_installed {
 
 # brew_package_install()
 # Install a Brew package after Checking if already installed
-# @param1 required, Package name, or package name with installation aruments
+# @param1 required, Package name, or package name with installation arguments
+# @param2+ optional, additional brew install flags (e.g. --cask)
 function brew_package_install {
-	if [[ $# -ne 1 || -z "$1" ]]; then
+	if [[ $# -lt 1 || -z "$1" ]]; then
 		echo "${FUNCNAME[0]}() :: bad_arguments"
 		return "$EXIT_FAILURE"
 	fi
 
 	brew_command="brew"
 	package_name=$1
+	shift
+	local extra_flags=("$@")
 	log_file="output.file"
+
+	local -a package_tokens
+	read -r -a package_tokens <<< "$package_name"
+	package_tokens+=("${extra_flags[@]}")
+	local target_name=""
+	for token in "${package_tokens[@]}"; do
+		if [[ "$token" != -* ]]; then
+			target_name="$token"
+			break
+		fi
+	done
 
 	print_package_status "$package_name" "Processing" "$FG_COLOR_YELLOW" "Checking if already installed..."
 
-	package_version=$(is_brew_package_installed "$package_name" 2> /dev/null)
+	package_version=$(is_brew_package_installed "$package_name" "${extra_flags[@]}" 2> /dev/null)
 	package_version_status=$?
 
 	clear_line
@@ -109,18 +174,19 @@ function brew_package_install {
 		print_package_status "$package_name" "Processing" "$FG_COLOR_YELLOW" "Not Installed, installing..."
 
 		# If installing from a third-party tap (e.g. user/repo/package), ensure tap is trusted
-		if [[ "$package_name" =~ ^([^/]+/[^/]+)/.+ ]]; then
+		# Skip official taps like homebrew/cask
+		if [[ "$target_name" =~ ^([^/]+/[^/]+)/.+ && "$target_name" != homebrew/* ]]; then
 			local tap_name="${BASH_REMATCH[1]}"
 			if brew trust --help &> /dev/null; then
 				brew trust "$tap_name" >> "$log_file" 2>&1 || true
 			fi
 		fi
 
-		if $brew_command install "$package_name" >> "$log_file" 2>&1; then
+		if $brew_command install "${package_tokens[@]}" >> "$log_file" 2>&1; then
 			clear_line
 
 			local success_msg=""
-			if package_version=$(is_brew_package_installed "$package_name" 2> /dev/null); then
+			if package_version=$(is_brew_package_installed "$package_name" "${extra_flags[@]}" 2> /dev/null); then
 				success_msg="Version $package_version"
 			fi
 
@@ -135,17 +201,20 @@ function brew_package_install {
 
 # brew_batch_install()
 # Install a list of Brew packages
-# @param1 required, an array of brew packages, or list of brew packages with installtion aruments
+# @param1 required, an array of brew packages, or list of brew packages with installation arguments
+# @param2+ optional, additional brew flags to pass to every package (e.g. --cask)
 function brew_batch_install {
-	if [[ $# -ne 1 || -z "$1" ]]; then
+	if [[ $# -lt 1 || -z "$1" ]]; then
 		echo "${FUNCNAME[0]}() :: bad_arguments"
 		return "$EXIT_FAILURE"
 	fi
 
 	declare -a packages=("${!1}")
+	shift
+	local extra_flags=("$@")
 
 	for package in "${packages[@]}"; do
-		brew_package_install "$package"
+		brew_package_install "$package" "${extra_flags[@]}"
 	done
 }
 

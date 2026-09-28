@@ -272,7 +272,7 @@ cask_browsers=(
 	"tor-browser"								# Web Browser focusing on Security
 	"zen"												# Zen Browser
 )
-brew_batch_install cask_browsers[@]
+brew_batch_install cask_browsers[@] --cask
 
 echo
 print_title "Install AI Apps (Cask)\n"
@@ -294,7 +294,7 @@ ai_apps=(
 	"trae"											# AI code editor
 	"void"											# Open-Source AI code editor
 )
-brew_batch_install ai_apps[@]
+brew_batch_install ai_apps[@] --cask
 
 echo
 print_title "Install AI Tools (CLI)\n"
@@ -408,7 +408,7 @@ ui_apps=(
 	"zed"												# Multiplayer code editor
 	"zeplin"
 )
-brew_batch_install ui_apps[@]
+brew_batch_install ui_apps[@] --cask
 
 echo
 print_title "Install QuickLook Plugin (Cask)\n"
@@ -421,7 +421,7 @@ ql_plugins=(
 	"provisionql"
 	"syntax-highlight"					# Syntax highlighting for QuickLook
 )
-brew_batch_install ql_plugins[@]
+brew_batch_install ql_plugins[@] --cask
 
 echo
 print_title "Install ScreenSavers (Cask)\n"
@@ -429,7 +429,7 @@ screensavers=(
 	"aerial"													# Apple TV Aerial screensaver
 	"fliqlo"													# Flip clock screensaver
 )
-brew_batch_install screensavers[@]
+brew_batch_install screensavers[@] --cask
 
 echo
 print_title "Install Fonts (Cask)\n"
@@ -444,7 +444,7 @@ fonts=(
 	"font-lilex-nerd-font"						# Lilex Nerd Font + Mono/Propo
 	"font-ubuntu-mono-nerd-font"			# UbuntuMono Nerd Font + Mono/Propo
 )
-brew_batch_install fonts[@]
+brew_batch_install fonts[@] --cask
 
 echo
 print_title "Install packages from 'Unidentified Developer' (Cask)\n"
@@ -452,7 +452,7 @@ echo "Requires open authorization in 'System Preferences > Security & Privacy > 
 unidentified=(
 	"oclint"
 )
-brew_batch_install unidentified[@]
+brew_batch_install unidentified[@] --cask
 
 echo
 print_title "Install Cask packages with user action required\n"
@@ -461,14 +461,14 @@ action_required=(
 	"sdformatter"											# Requires Password | Formatter for SD cards
 	"sf-symbols"											# Requires Password | Apple SF Symbols app
 )
-brew_batch_install action_required[@]
+brew_batch_install action_required[@] --cask
 
 echo
 print_title "Drivers and other Hardware apps (Cask)\n"
 drivers=(
 	"logi-options+"										# Logitech Options+
 )
-brew_batch_install drivers[@]
+brew_batch_install drivers[@] --cask
 
 ### ARCH TARGET APPS/TOOLS ###
 echo
