@@ -96,6 +96,7 @@ mas_apps=(
 	"1453273600" # Data Jar
 	"6444050820" # Draw Things: Offline AI Art
 	"6738511300" # Microsoft Copilot
+	"6787279954" # Kassis – Dictée vocale
 )
 mas_batch_install mas_apps[@]
 

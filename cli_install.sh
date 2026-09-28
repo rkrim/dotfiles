@@ -324,6 +324,14 @@ ai_tools=(
 brew_batch_install ai_tools[@]
 
 echo
+print_title "Install Speech & Voice Apps (Cask)\n"
+speech_apps=(
+	"fluidvoice"								# Offline voice-to-text dictation app with AI enhancement
+	"typewhisper"								# Speech-to-text and AI text processing
+)
+brew_batch_install speech_apps[@] --cask
+
+echo
 print_title "Install Applications (Cask)\n"
 ui_apps=(
 	"android-studio"
@@ -350,7 +358,6 @@ ui_apps=(
 	"figma"
 	"finetune"									# Per-application volume mixer and audio router
 	"flixtools"
-	"fluidvoice"								# Offline voice-to-text dictation app with AI enhancement
 	"fork"
 	"ghostty"										# Modern, lightweight, and fast terminal emulator
 	"gitbutler"									# Git client for simultaneous branches
