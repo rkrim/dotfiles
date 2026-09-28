@@ -36,6 +36,7 @@ else
 fi
 
 ### NOGO APPS/TOOLS & WHY ###
+# "android-file-transfer" // Using alternative: OpenMTP / AndroidFileSync
 # "arc"               // Using alternative: Zen
 # "atom"              // Using alternative: VSCode
 # "bluesnooze"        // Using alternative: vorssaint
@@ -76,6 +77,7 @@ taps=(
 	"agentwrapper/tap"
 	"can1357/tap"
 	"openai/tools"
+	"santosh7017/androidfilesync"
 	"slp/krunkit"
 	"sw33tlie/macshot"
 	"vitorgalvao/tiny-scripts"
@@ -182,6 +184,7 @@ developer_tools=(
 	"navicat-premium-lite"			# Database development and administration tool
 	"tableplus"									# Modern, native tool for relational databases
 	"ack"
+	"android-cli"								# CLI for Android app development with AI agents
 	"android-commandlinetools"	# Android Command-line tools for building and debugging apps
 	"ansifilter"								# Strip or convert ANSI codes into HTML, (La)Tex, RTF, or BBCode
 	"asdf"											# Extendable version manager
@@ -335,12 +338,14 @@ echo
 print_title "Install Applications (Cask)\n"
 ui_apps=(
 	"android-studio"
+	"androidfilesync"						# Android file transfer and management over WiFi or USB
 	"angry-ip-scanner"
 	"anydesk"
 	"appcleaner"
 	"applite"										# User-friendly GUI app for Homebrew
 	"asset-catalog-tinkerer"
 	"atuin-desktop"							# A modern, easy-to-use shell history manager
+	"aya"												# Android ADB desktop app
 	"balenaetcher"							# Flash OS images to SD cards and USB drives
 	"beeper"										# Universal chat app powered by Matrix
 	"calibre"										# E-book reader and manager
@@ -366,6 +371,7 @@ ui_apps=(
 	"handbrake-app"							# Open-source video transcoder
 	"hiddenbar"									# Customizable menu bar for macOS
 	"iina"											# Media player
+	"iloader"										# iOS sideloading companion
 	"imageoptim"								# Image optimizer to a smaller size
 	"intellij-idea-ce"
 	"ios-app-signer"						# Signing iOS apps with a developer account
@@ -510,7 +516,6 @@ arch_x86_64_only=(
 	"sonar-completion"								# Runs with sonarqube
 )
 arch_rosetta_compat=(
-	"android-file-transfer"
 	"caption"
 	"charles"
 	"gas-mask"
