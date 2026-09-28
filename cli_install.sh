@@ -69,7 +69,6 @@ fi
 # "the-unarchiver"		// Using mas
 # "vagrant"           // On demand
 # "vagrant-manager"   // Runs with Vagrant
-# "warp"							// Not yet usable (too early alpha stage)
 
 echo
 print_title "Register Brew Taps:\n"
@@ -379,6 +378,7 @@ ui_apps=(
 	"imageoptim"								# Image optimizer to a smaller size
 	"intellij-idea-ce"
 	"ios-app-signer"						# Signing iOS apps with a developer account
+	"iptvnator"									# Open-source IPTV, m3u and m3u8 player
 	"iterm2"
 	"itsycal"										# Menu bar calendar
 	"jdownloader"								# Download manager
@@ -433,13 +433,16 @@ ui_apps=(
 	"visual-studio-code"				# Microsoft VS Code
 	"vlc"
 	"vorssaint"										# Menu bar toolkit (keep-awake, system monitor, volume mixer)
+	"warp"												# Rust-based terminal
 	"wezterm"										# GPU-accelerated cross-platform terminal emulator and multiplexer
 	"whatsapp"									# WhatsApp Messenger
 	"whisky"										# Wine wrapper for macOS
 	"wwdc"
 	"xattred"
 	"xcodes-app"								# CLI to Manage multiple versions of Xcode
+	"xnconvert"									# Image-converter and resizer tool
 	"xykong/tap/flux-markdown"	# Markdown previewer
+	"yaak"											# REST, GraphQL and gRPC client
 	"zed"												# Multiplayer code editor
 	"zeplin"
 )
