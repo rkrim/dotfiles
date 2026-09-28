@@ -142,6 +142,7 @@ cli_tools=(
 	"spicetify-cli"							# Take control of the Spotify client
 	"sshs"											# Graphical command-line client for SSH
 	"starship"									# Cross-shell prompt for astronauts
+	"syncthing"									# Open-source continuous file synchronization application
 	"tart"											# macOS and Linux VMs on Apple Silicon
 	"tlrc"											# Official tldr , Simplified and community-driven man pages
 	"tmux"											# Terminal multiplexer
@@ -416,6 +417,7 @@ ui_apps=(
 	"spotify"
 	"sw33tlie/macshot/macshot"	# Screenshot tool
 	"rustdesk"									# Remote desktop software
+	"syncthing-app"							# Real-time continuous file synchronization GUI
 	"tempbox"										# Disposable email client
 	"thorium"										# Epub reader
 	"thunderbird"								# Email client
