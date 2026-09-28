@@ -65,7 +65,7 @@ fi
 echo
 print_title "Register Brew Taps:\n"
 taps=(
-	"cirruslabs/cli"
+	"openai/tools"
 	"slp/krunkit"
 	"sw33tlie/macshot"
 	"vitorgalvao/tiny-scripts"
@@ -130,7 +130,7 @@ cli_tools=(
 	"spicetify-cli"							# Take control of the Spotify client
 	"sshs"											# Graphical command-line client for SSH
 	"starship"									# Cross-shell prompt for astronauts
-	"cirruslabs/cli/tart"
+	"tart"											# macOS and Linux VMs on Apple Silicon
 	"tlrc"											# Official tldr , Simplified and community-driven man pages
 	"tmux"											# Terminal multiplexer
 	"tpm"												# Plugin manager for tmux
@@ -396,6 +396,7 @@ ui_apps=(
 	"transnomino"								# Batch rename utility
 	"Upscayl"										# AI image upscaler
 	"utm"												# Virtual machines
+	"virtualbuddy"							# Virtualization tool for macOS and Linux
 	"visual-studio-code"				# Microsoft VS Code
 	"vlc"
 	"wezterm"										# GPU-accelerated cross-platform terminal emulator and multiplexer
