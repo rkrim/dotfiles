@@ -209,10 +209,12 @@ developer_tools=(
 	"git-quick-stats"
 	"gnutls"
 	"grc"												# Colorize logfiles and command output
+	"harper"										# Grammar checker for developers
 	"hunk"											# Git hunks with syntax highlighting
 	"httpie"
 	"ios-deploy"								# CLI to Install and debug iPhone apps
 	"jq"
+	"languagetool"							# Style and grammar checker
 	"mise"											# Polyglot runtime manager (asdf rust clone)
 	"mitmproxy"
 	"mkcert"										# Simple tool to make locally-trusted development certificates
@@ -370,6 +372,7 @@ ui_apps=(
 	"gitup-app"									# Git interface focused on visual interaction
 	"hammerspoon"								# macOS automation tool
 	"handbrake-app"							# Open-source video transcoder
+	"harper-desktop"						# Grammar checker for developers
 	"hiddenbar"									# Customizable menu bar for macOS
 	"iina"											# Media player
 	"iloader"										# iOS sideloading companion
@@ -384,6 +387,7 @@ ui_apps=(
 	"keycastr"
 	"keyclu"
 	"kid3"											# Audio tagger focusing on efficiency
+	"languagetool-desktop"			# Grammar, spelling and style suggestions
 	"latest"										# Shows latest app updates
 	"localsend"									# Open-source cross-platform alternative to AirDrop
 	"logseq"										# Open-source & Privacy-first platform for knowledge sharing and management
