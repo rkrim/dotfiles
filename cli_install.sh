@@ -36,39 +36,39 @@ else
 fi
 
 ### NOGO APPS/TOOLS & WHY ###
-# "android-file-transfer" // Using alternative: OpenMTP / AndroidFileSync
-# "arc"               // Using alternative: Zen
-# "atom"              // Using alternative: VSCode
-# "bluesnooze"        // Using alternative: vorssaint
-# "blobsaver"         // Deprecated: saving blobs is obsolete on modern iOS & disabled in Homebrew
-# "brackets"          // Using alternative: VSCode
-# "brave-browser"     // Using alternative: Zen
-# "cakebrew"          // Using alternative: applite
-# "cheatsheet"        // Using alternative: Keyclu
-# "dash3"             // No more available in repo
-# "diff-so-fancy"     // Using alternative: git-delta
-# "dozer"             // Using alternative: Hidden Bar - from mas as this is not native Apple Silicon
-# "flux"              // Using alternative: Night Shift built into macOS 10.12.4+ (Sierra +)
-# "gemini-cli"        // Using alternative: antigravity-cli
-# "google-chrome"     // Using alternative: Zen
-# "impactor"          // Disabled: Discontinued upstream
-# "jd-gui"            // Unidentified developer (signature), no permission
-# "keepingyouawake"   // Using alternative: vorssaint
-# "macdown"           // Using alternative: macdown-3000
-# "monitorcontrol"    // Using alternative: vorssaint
-# "neofetch"          // Using alternative: fastfetch (neofetch discontinued upstream)
-# "openssh"           // OpenSSH does not support 'UseKeychain' option introduced in macOS 10.12.2+
-#                     // To use this version, add "IgnoreUnknown UseKeychain" in config file before using it.
-# "opera"             // Using alternative: Zen
-# "quicklookapk"      // Disabled: Discontinued upstream
-# "realm-studio"      // Deprecated legacy software since acquisition by MongoDB
-# "rectangle"         // Using alternative: Window tiling built into macOS 15+ (Sequoia +)
-# "slack"             // Installed via mas
-# "swiftlint"         // Requires Xcode App
-# "tftpserver"        // No more available in repo
-# "the-unarchiver"		// Using mas
-# "vagrant"           // On demand
-# "vagrant-manager"   // Runs with Vagrant
+# "android-file-transfer"   // Using alternative: OpenMTP / AndroidFileSync
+# "arc"                     // Using alternative: Zen
+# "atom"                    // Using alternative: VSCode
+# "bluesnooze"              // Using alternative: vorssaint
+# "blobsaver"               // Deprecated: saving blobs is obsolete on modern iOS & disabled in Homebrew
+# "brackets"                // Using alternative: VSCode
+# "brave-browser"           // Using alternative: Zen
+# "cakebrew"                // Using alternative: applite
+# "cheatsheet"              // Using alternative: Keyclu
+# "dash3"                   // No more available in repo
+# "diff-so-fancy"           // Using alternative: git-delta
+# "dozer"                   // Using alternative: Hidden Bar - from mas as this is not native Apple Silicon
+# "flux"                    // Using alternative: Night Shift built into macOS 10.12.4+ (Sierra +)
+# "gemini-cli"              // Using alternative: antigravity-cli
+# "google-chrome"           // Using alternative: Zen
+# "impactor"                // Disabled: Discontinued upstream
+# "jd-gui"                  // Unidentified developer (signature), no permission
+# "keepingyouawake"         // Using alternative: vorssaint
+# "macdown"                 // Using alternative: macdown-3000
+# "monitorcontrol"          // Using alternative: vorssaint
+# "neofetch"                // Using alternative: fastfetch (neofetch discontinued upstream)
+# "openssh"                 // OpenSSH does not support 'UseKeychain' option introduced in macOS 10.12.2+
+#                           // To use this version, add "IgnoreUnknown UseKeychain" in config file before using it.
+# "opera"                   // Using alternative: Zen
+# "quicklookapk"            // Disabled: Discontinued upstream
+# "realm-studio"            // Deprecated legacy software since acquisition by MongoDB
+# "rectangle"               // Using alternative: Window tiling built into macOS 15+ (Sequoia +)
+# "slack"                   // Installed via mas
+# "swiftlint"               // Requires Xcode App
+# "tftpserver"              // No more available in repo
+# "the-unarchiver"          // Using mas
+# "vagrant"                 // On demand
+# "vagrant-manager"         // Runs with Vagrant
 
 echo
 print_title "Register Brew Taps:\n"
@@ -89,7 +89,7 @@ print_title "Install Shells:\n"
 shells=(
 	"bash"
 	"bash-completion@2"
-	"bash-preexec"					# Bash pre-execution hook for Zsh-like 'precmd' functionality
+	"bash-preexec"							# Bash pre-execution hook for Zsh-like 'precmd' functionality
 	"nushell"
 	"zsh"
 )
@@ -436,8 +436,8 @@ ui_apps=(
 	"virtualbuddy"							# Virtualization tool for macOS and Linux
 	"visual-studio-code"				# Microsoft VS Code
 	"vlc"
-	"vorssaint"										# Menu bar toolkit (keep-awake, system monitor, volume mixer)
-	"warp"												# Rust-based terminal
+	"vorssaint"									# Menu bar toolkit (keep-awake, system monitor, volume mixer)
+	"warp"											# Rust-based terminal
 	"wezterm"										# GPU-accelerated cross-platform terminal emulator and multiplexer
 	"whatsapp"									# WhatsApp Messenger
 	"whisky"										# Wine wrapper for macOS
@@ -501,7 +501,7 @@ print_title "Install Cask packages with user action required\n"
 action_required=(
 	"docker-desktop"									# Requires Password | App to build and share containerised applications
 	"karabiner-elements"							# Requires Password | Keyboard customizer for macOS
-	"oversight"											# Requires Password | Monitors computer mic and webcam
+	"oversight"												# Requires Password | Monitors computer mic and webcam
 	"sdformatter"											# Requires Password | Formatter for SD cards
 	"sf-symbols"											# Requires Password | Apple SF Symbols app
 )
