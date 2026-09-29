@@ -39,6 +39,7 @@ fi
 # "arc"               // Using alternative: Zen
 # "atom"              // Using alternative: VSCode
 # "bluesnooze"        // Using alternative: vorssaint
+# "blobsaver"         // Deprecated: saving blobs is obsolete on modern iOS & disabled in Homebrew
 # "brackets"          // Using alternative: VSCode
 # "brave-browser"     // Using alternative: Zen
 # "cakebrew"          // Using alternative: applite
@@ -46,7 +47,7 @@ fi
 # "dash3"             // No more available in repo
 # "diff-so-fancy"     // Using alternative: git-delta
 # "dozer"             // Using alternative: Hidden Bar - from mas as this is not native Apple Silicon
-# "flux"              // Using alternative: macOS Night Shift
+# "flux"              // Using alternative: Night Shift built into macOS 10.12.4+ (Sierra +)
 # "google-chrome"     // Using alternative: Zen
 # "impactor"          // Disabled: Discontinued upstream
 # "jd-gui"            // Unidentified developer (signature), no permission
@@ -59,6 +60,7 @@ fi
 # "opera"             // Using alternative: Zen
 # "quicklookapk"      // Disabled: Discontinued upstream
 # "realm-studio"      // Deprecated legacy software since acquisition by MongoDB
+# "rectangle"         // Using alternative: Window tiling built into macOS 15+ (Sequoia +)
 # "slack"             // Installed via mas
 # "swiftlint"         // Requires Xcode App
 # "tftpserver"        // No more available in repo
@@ -323,7 +325,6 @@ ui_apps=(
 	"atuin-desktop"							# A modern, easy-to-use shell history manager
 	"balenaetcher"							# Flash OS images to SD cards and USB drives
 	"beeper"										# Universal chat app powered by Matrix
-	"blobsaver"									# GUI for automatically saving SHSH blobs
 	"calibre"										# E-book reader and manager
 	"charles"										# Web debugging Proxy application
 	"clickup"										# Productivity platform for tasks, docs, goals, and chat
@@ -384,7 +385,6 @@ ui_apps=(
 	"rapidapi"									# HTTP client that helps testing and describing APIs
 	"raycast"										# Spotlight replacement
 	"react-native-debugger"
-	"rectangle"
 	"rocket"										# Emoji picker
 	"signal"
 	"silentknight"
