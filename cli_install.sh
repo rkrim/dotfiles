@@ -128,9 +128,11 @@ cli_tools=(
 	"gzip"
 	"krunkit"										# Start macOS Hypervisor framework virtual machines using the libkrun platform
 	"librsvg"										# SVG rendering library
+	"mac-cleanup-go"						# Cleanup macOS caches and temporary files using TUI
 	"mailsy"										# Generate temporary email address
 	"mas"
 	"media-info"								# Display information about media files
+	"mole"											# Deep clean and optimize your Mac
 	"mpv"												# Media player
 	"neovim"										# Vim-fork focused on extensibility and agility
 	"rclone"										# Rsync for cloud storage
@@ -145,6 +147,7 @@ cli_tools=(
 	"tart"											# macOS and Linux VMs on Apple Silicon
 	"tlrc"											# Official tldr , Simplified and community-driven man pages
 	"tmux"											# Terminal multiplexer
+	"topgrade"									# Upgrade all the things
 	"tpm"												# Plugin manager for tmux
 	"tree"
 	"vitorgalvao/tiny-scripts/cask-repair"
@@ -408,6 +411,7 @@ ui_apps=(
 	"podman-desktop"						# Desktop interface for Podman
 	"postman"										# API platform for building and using APIs
 	"proxyman"
+	"puremac"										# Application manager and system cleaner
 	"raindropio"								# All-in-one bookmark manager
 	"rapidapi"									# HTTP client that helps testing and describing APIs
 	"raycast"										# Spotlight replacement
@@ -640,6 +644,3 @@ install_android_env
 echo
 print_title "Install Mac AppStore Apps\n"
 ./mas_installer.sh
-
-
-brew install tw93/tap/mole
