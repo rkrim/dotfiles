@@ -88,3 +88,9 @@ fi
 if command -v nu &> /dev/null; then
 	alias nu='command nu --config "$HOME/.config/nushell/config.nu" --env-config "$HOME/.config/nushell/env.nu"'
 fi
+
+### npkill - node_modules cleaner (fallback to npx if binary not in PATH)
+if ! command -v npkill &> /dev/null; then
+	alias npkill="npx npkill"
+fi
+

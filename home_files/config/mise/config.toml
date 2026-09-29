@@ -25,6 +25,7 @@ asdf_compat = true  # Enable asdf compatibility mode
 dotnet = "latest"
 java = "temurin-21.0.12+101.0.LTS"
 node = "24.21.0"
+"npm:npkill" = "latest"
 pnpm = "11.28.2"
 python = "3.14.7"
 ruby = "4.0.7"
